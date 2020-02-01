@@ -1,7 +1,7 @@
 ---
 title: "【教程】Manjaro安装Miniconda"
 date: 2019-07-10 02:27:41
-tags: [ "Manjaro", "Linux", "Conda", "Software" ]
+tags: [ "Manjaro", "Linux", "conda", "Software" ]
 categories: [ "Tutorial" ]
 keywords: ["manjaro", "conda"]
 ---
@@ -63,3 +63,17 @@ unset __conda_setup
 如果你修改了安装位置，那么修改第一行`$CONDA_PATH`的值为你的安装位置即可。
 
 如果是使用pacman/yay安装的，安装路径可能是在`/opt/anaconda/bin`，检查一下路径的正确性然后修改`$CONDA_PATH`的值即可。
+
+## Ubuntu安装Conda
+
+只需要：
+
+**Linux 64-bits**
+```bash
+bash <(curl -s -S -L "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh")
+```
+
+**Linux 32-bits**
+```bash
+bash <(curl -s -S -L "https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86.sh")
+```

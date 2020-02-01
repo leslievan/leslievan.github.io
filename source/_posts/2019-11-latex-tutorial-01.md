@@ -4,7 +4,7 @@ date: 2019-11-20 22:54:40
 mathjax: true
 categories: ["Tutorial"]
 tags: 
-    - "latex"
+    - "LaTeX"
     - "tool"
 ---
 

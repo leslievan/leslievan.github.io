@@ -3,7 +3,7 @@ title: "【教程】LaTeX中不能显示Adobe中文字体"
 date: 2019-11-20 13:29:55
 draft: false
 categories: ["Tutorial"]
-tags: ["latex", "linux", "manjaro", "ubuntu", "tool"]
+tags: ["LaTeX", "Linux", "Manjaro", "Ubuntu", "tool"]
 ---
 
 ![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/11/2019-11-20-latex-cannot-display-adobe-font-01.png)
