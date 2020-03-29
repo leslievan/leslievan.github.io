@@ -4,7 +4,7 @@ date: 2019-06-25 16:26:40
 tags: [ "Linux", "Manjaro", "VMware", "Software" ]
 categories: [ "Tutorial" ]
 ---
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/06/20190625-00-00.jpg)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/06/20190625-00-00.jpg)
 在Ubuntu又一次搞坏了CUDA的驱动之后，我投向了Manjaro的怀抱，重新进入了双系统的状态，VMware还是要安装的，安装的步骤倒是和Ubuntu没有什么不同。Manjaro默认的内核头文件是3.16版本的，我升级到了和内核相匹配的4.19，然后就出问题了，找了几种方法后终于解决，遂记录于此，万一下次还碰到了呢？
 
 <!--more-->

@@ -6,7 +6,7 @@ categories: ["Tutorial"]
 tags: ["LaTeX", "Linux", "Manjaro", "Ubuntu", "tool"]
 ---
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/11/2019-11-20-latex-cannot-display-adobe-font-01.png)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-cannot-display-adobe-font-01.png)
 
 快毕业了，准备用LaTeX写论文，但LaTeX对于中文的支持并不是很好，在配置的过程中碰到了不少问题。
 发行版是TeX Live 2019，参考复旦大学论文模板[fduthesis](https://ctan.math.illinois.edu/macros/latex/contrib/fduthesis/fduthesis.pdf)下载了Adobe的四种字体`宋体`、`黑体`、`仿宋`和`楷体`，足以用来应对绝大多数的中文论文。
@@ -45,7 +45,7 @@ Linux下使用TeX Live编译输出PDF时，编译器不报错，但Adobe Font无
 
 如下图所示：
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/11/2019-11-20-latex-cannot-display-adobe-font-02.jpg)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-cannot-display-adobe-font-02.jpg)
 
 ## 解决方法
 
@@ -63,7 +63,7 @@ sudo pacman -S poppler-data
 
 解决后显示结果如下图所示：
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/11/2019-11-20-latex-cannot-display-adobe-font-03.png)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-cannot-display-adobe-font-03.png)
 
 ## 引用
 

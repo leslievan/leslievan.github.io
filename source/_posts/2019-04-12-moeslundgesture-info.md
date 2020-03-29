@@ -7,7 +7,7 @@ keywords: ["MoeslundGesture", "数据集"]
 
 ---
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/04/20190417-01-00.png)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/04/20190417-01-00.png)
 
 最近在做散射场数据用来直接分类的一个项目，需要一些简单的、和人体姿态或手势姿态有关的数据集，先看了`FGnet`的数据集，发现不太符合我的要求，然后找到了这篇抽取自[Thomas Moeslund's Gesture Recognition](http://www-prima.inrialpes.fr/FGnet/data/12-MoeslundGesture/database.html)的一个叫做`12-MoeslundGesture`的手势数据集，下面简单介绍该数据集的具体参数。
 

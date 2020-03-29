@@ -8,7 +8,7 @@ tags:
     - "tool"
 ---
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-01.png)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-01.png)
 
 {% cq %}
 LaTeX（/ˈlɑːtɛx/，常被读作/ˈlɑːtɛk/或/ˈleɪtɛk/，写作$\LaTeX$），是一种基于TeX的排版系统，由美国计算机科学家莱斯利·兰伯特在20世纪80年代初期开发，利用这种格式系统的处理，即使用户没有排版和程序设计的知识也可以充分发挥由TeX所提供的强大功能，不必一一亲自去设计或校对，能在几天，甚至几小时内生成很多具有书籍质量的印刷品。对于生成复杂表格和数学公式，这一点表现得尤为突出。因此它非常适用于生成高印刷质量的科技和数学、物理文档。这个系统同样适用于生成从简单的信件到完整书籍的所有其他种类的文档。
@@ -152,7 +152,7 @@ LaTeX开发之初并未考虑到中文排版的需求，原生不支持中文输
 
 差别只在于开始的几行代码，具体实现上可以任意套用其中的一种，然后点击菜单栏上的双绿色箭头（或F5）进行编译并显示即可，显示效果如下图所示：
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-02.png)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-02.png)
 
 ## Q & A
 
@@ -162,7 +162,7 @@ LaTeX开发之初并未考虑到中文排版的需求，原生不支持中文输
 
 Question：代码提示`Fatal Package fontspec Error: The fontspec package requires either XeTeX or(fontspec) LuaTeX. \msg_fatal:nn {fontspec} {cannot-use-pdftex}`，如下：
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-03.png)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-03.png)
 
 Answer：**`fontspec`或`ctex`均只能使用xelatex作为编译命令，需要替换编译引擎为`XeLaTeX`，TeXStudio在`Option > Configure TeXStudio... > Build > Default Compiler`处设置，TeXworks在菜单栏处可以直接选择。**
 

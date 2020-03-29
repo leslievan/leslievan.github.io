@@ -35,7 +35,7 @@ keywords: ["mysql", "ubuntu"]
     将`mysql-apt-config_0.x.x-x_all.deb`置换为你所下载的文件名。
 
 2. 安装过程中将对`mysql-apt-config`进行配置，选择你所需要的MySQL版本，百度云提供的安装包默认版本为`mysql-8.0`，配置过程如下图所示，配置结束后选择`Ok`。
-    ![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/02/2019-02-07-Ubuntu%E9%85%8D%E7%BD%AEMySQL8-1.png)
+    ![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/02/2019-02-07-Ubuntu%E9%85%8D%E7%BD%AEMySQL8-1.png)
 
 3. 打开终端，输入以下命令更新软件仓库：
 

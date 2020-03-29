@@ -7,7 +7,7 @@ keywords: ["Ubuntu","apt","镜像"]
 
 ---
 
-![](https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2019/03/2019-03-24-8376b517-0.jpg)
+![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-24-8376b517-0.jpg)
 
 使用OPSX镜像站为APT进行加速。
 
