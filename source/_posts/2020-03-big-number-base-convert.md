@@ -2,7 +2,7 @@
 title: 【算法】大数任意进制转换
 date: 2020-03-29 15:48:47
 tags: ["Alogorithm", "big-number"]
-categories: ["Note"]
+categories: ["Problem"]
 mathjax: true
 ---
 
@@ -19,13 +19,13 @@ mathjax: true
 
 输入为(M, m, n):
 
-- M: m进制大数$M_m$，用字符串类型`string`储存
+- M: m进制整数$M_m$，用字符串类型`string`储存
 - m: 大数基数m
 - n: 大数目的基数n
 
 输出为N：
 
-- N: n进制大数$N_n$，用字符串类型`string`储存
+- N: n进制整数$N_n$，用字符串类型`string`储存
 
 ## 数学原理
 
