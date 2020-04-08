@@ -1,10 +1,9 @@
 ---
 title: "【笔记】Ubuntu美化装机全步骤"
 date: 2019-04-17 00:32:48
-tags: [ "Ubuntu", "tool"]
-categories: [ "Note" ]
+tags: [ "Ubuntu", "Software", "Gnome"]
+categories: [ "笔记" ]
 keywords: [ "Ubuntu", "装机", "美化" ]
-
 ---
 
 Ubuntu重装了太多太多次，这次因为安装CUDA，结果把显卡驱动弄坏了，折腾了半小时没救回来，遂重装了事，记录下一系列的步骤，步骤仅供我自己参考，~~如有按图索骥然后弄崩系统的，概不负责~~，有兴趣参考的可以邮件给我或在下方评论。

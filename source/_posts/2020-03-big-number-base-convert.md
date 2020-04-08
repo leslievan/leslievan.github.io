@@ -1,8 +1,8 @@
 ---
 title: 【算法】大数任意进制转换
 date: 2020-03-29 15:48:47
-tags: ["Alogorithm", "big-number"]
-categories: ["Problem"]
+tags: ["大数问题", "算法"]
+categories: ["问题", "算法"]
 mathjax: true
 ---
 

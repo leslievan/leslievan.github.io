@@ -2,9 +2,8 @@
 title: "【教程】Ubuntu配置MySQL 8.0"
 date: 2019-02-07 15:59:14
 tags: [ "Linux", "Ubuntu", "Software" ]
-categories: [ "Tutorial" ]
+categories: [ "教程" ]
 keywords: ["mysql", "ubuntu"]
-
 ---
 
 翻译自官方教程：https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/

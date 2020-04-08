@@ -1,10 +1,9 @@
 ---
 title: "【教程】加速git（push/clone速度慢）"
-tags: [ "git", "tool" ]
-categories: [ "Tutorial" ]
+tags: [ "Git", "Software" ]
+categories: [ "教程" ]
 date: 2019-04-04 14:22:33
 keywords: ["git", "proxy"]
-
 ---
 
 作为一名CS专业的学生，我们大部分时候都在和代码打交道，那么就不得不知道`git`和[`GitHub`](https://github.com)了，`git`最基本的命令就是使用`git clone`从代码托管平台下载代码以及使用`git push`将本地更改推送到远程仓库，然而由于众所周知的原因，世界上最大的代码托管平台`GitHub`在国内访问的速度实在堪忧，这里提供一些网络加速的方法。

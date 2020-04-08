@@ -2,10 +2,8 @@
 title: "【LaTeX快速指南】（一）安装与配置中文环境"
 date: 2019-11-20 22:54:40
 mathjax: true
-categories: ["Tutorial"]
-tags: 
-    - "LaTeX"
-    - "tool"
+categories: [ "教程" ]
+tags: ["LaTeX", "Software"]
 ---
 
 ![](https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-01.png)

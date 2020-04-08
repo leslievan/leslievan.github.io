@@ -1,11 +1,7 @@
 ---
 title: 【机器学习】PyTorch构建自己的数据集
-tags:
-  - deep-learning
-  - machine-learning
-  - PyTorch
-categories:
-  - Note
+tags: ["机器学习", "PyTorch"]
+categories: ["笔记"]
 date: 2019-12-04 23:38:48
 ---
 

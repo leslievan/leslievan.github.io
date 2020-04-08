@@ -1,7 +1,7 @@
 ---
 title: "【教程】安装&加速Rust"
-tags: [ "Rust", "tool", "Linux" ]
-categories: [ "Tutorial" ]
+tags: [ "Rust", "Software", "Linux", "加速"]
+categories: [ "教程" ]
 date: 2019-04-04 18:13:19
 keywords: ["rust", "Linux"]
 ---

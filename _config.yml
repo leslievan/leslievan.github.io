@@ -104,9 +104,9 @@ deploy:
 # hexo-generator-searchdb
 search:
   path: search.xml
-  field: page
-  content: true
+  field: post
   format: html
+  limit: 10000
 
 # hexo-generator-indexed
 index_generator:

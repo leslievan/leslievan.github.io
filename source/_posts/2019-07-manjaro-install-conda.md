@@ -1,8 +1,8 @@
 ---
 title: "【教程】Manjaro安装Miniconda"
 date: 2019-07-10 02:27:41
-tags: [ "Manjaro", "Linux", "conda", "Software" ]
-categories: [ "Tutorial" ]
+tags: [ "Manjaro", "Linux", "Conda", "Software" ]
+categories: [ "教程" ]
 keywords: ["manjaro", "conda"]
 ---
 

@@ -2,7 +2,8 @@
 title: "【教程】Ubuntu使用IPv6拨号连接"
 date: 2019-04-24 22:18:29
 tags: ["Ubuntu", "DNS", "Network"]
-categories: ["Tutorial"]
+categories: [ "教程" ]
+keywords: ["ipv6", "network", "ubuntu", "dns", "linux"]
 ---
 
 > **IPv6**是下一版本的互联网协议，也可以说是下一代互联网的协议，它的提出最初是因为随着互联网的迅速发展，**IPv4**定义的有限地址空间将被耗尽，地址空间的不足必将妨碍互联网的进一步发展。 为了扩大地址空间，拟通过**IPv6**重新定义地址空间。**IPv6**采用128位地址长度，几乎可以不受限制地提供地址。

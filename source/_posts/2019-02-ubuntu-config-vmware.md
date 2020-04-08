@@ -2,9 +2,8 @@
 title: "【教程】Ubuntu配置VMware Workstation"
 tags: [ "Linux", "Ubuntu", "Software", "VMware" ]
 date: 2019-02-02 14:31:36
-categories: [ "Tutorial" ]
+categories: [ "教程" ]
 keywords: ["vmware", "虚拟机"]
-
 ---
 
 VMware Workstation是VMware公司推出的一款桌面虚拟计算软件，具有Windows、Linux 版本。此软件可以提供虚拟机功能，使计算机可以同时运行多个不同操作系统。

@@ -1,7 +1,7 @@
 ---
 title: "【教程】加速apt（apt-get速度慢）"
-tags: [ "Linux", "Ubuntu", "Software" ]
-categories: [ "Tutorial" ]
+tags: [ "Linux", "Ubuntu", "Software", "加速" ]
+categories: [ "教程" ]
 date: 2019-03-24 16:05:36
 keywords: ["Ubuntu","apt","镜像"]
 

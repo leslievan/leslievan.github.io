@@ -1,7 +1,7 @@
 ---
 title: "【教程】VMware Workstation中创建Ubuntu虚拟机"
 tags: [ "Linux", "Ubuntu", "Software", "VMware" ]
-categories: [ "Tutorial" ]
+categories: [ "教程" ]
 date: 2019-03-05 14:40:08
 keywords: ["vmware", "虚拟机"]
 

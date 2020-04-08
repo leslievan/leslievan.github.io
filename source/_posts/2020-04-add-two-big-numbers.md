@@ -1,8 +1,8 @@
 ---
 title: 【算法】大数加法
 date: 2020-04-03 16:22:44
-tags: ["Algorithm", "big-number"]
-categories: ["Problem"]
+tags: ["大数问题", "算法"]
+categories: ["问题", "算法"]
 mathjax: true
 ---
 
