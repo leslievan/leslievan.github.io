@@ -1,0 +1,673 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-16x16.png">
+  <link rel="mask-icon" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon.ico" color="#222">
+  <link rel="manifest" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/site.webmanifest">
+  <meta name="msapplication-config" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/browserconfig.xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Source Han Serif:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&amp;display=swap&amp;subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"imwjc.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LaTeX（/ˈlɑːtɛx/，常被读作/ˈlɑːtɛk/或/ˈleɪtɛk/，写作LaTeX\LaTeXLATE​X），是一种基于TeX的排版系统，由美国计算机科学家莱斯利·兰伯特在20世纪80年代初期开发，利用这种格式系统的处理，即使用户没有排版和程序设计的知识也可以充分发挥由TeX所提供的强大功能，不必一一亲自去设计或校对，能在几天，甚至">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【LaTeX快速指南】（一）安装与配置中文环境">
+<meta property="og:url" content="https://imwjc.xyz/2019/11/latex-tutorial-01/index.html">
+<meta property="og:site_name" content="咸鱼的自留地">
+<meta property="og:description" content="LaTeX（/ˈlɑːtɛx/，常被读作/ˈlɑːtɛk/或/ˈleɪtɛk/，写作LaTeX\LaTeXLATE​X），是一种基于TeX的排版系统，由美国计算机科学家莱斯利·兰伯特在20世纪80年代初期开发，利用这种格式系统的处理，即使用户没有排版和程序设计的知识也可以充分发挥由TeX所提供的强大功能，不必一一亲自去设计或校对，能在几天，甚至">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-01.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-02.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-03.png!on_blog">
+<meta property="article:published_time" content="2019-11-20T14:54:40.000Z">
+<meta property="article:modified_time" content="2019-11-20T14:54:40.000Z">
+<meta property="article:author" content="十一">
+<meta property="article:tag" content="Software">
+<meta property="article:tag" content="LaTeX">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-01.png!on_blog">
+
+<link rel="canonical" href="https://imwjc.xyz/2019/11/latex-tutorial-01/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【LaTeX快速指南】（一）安装与配置中文环境 | 咸鱼的自留地</title>
+  
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-137357431-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-137357431-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">咸鱼的自留地</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/leslievan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://imwjc.xyz/2019/11/latex-tutorial-01/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+      <meta itemprop="name" content="十一">
+      <meta itemprop="description" content="一个小房间，装下我所有的自己。">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="咸鱼的自留地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【LaTeX快速指南】（一）安装与配置中文环境
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-20 22:54:40" itemprop="dateCreated datePublished" datetime="2019-11-20T22:54:40+08:00">2019-11-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/11/latex-tutorial-01/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/11/latex-tutorial-01/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-01.png!on_blog" alt=""></p>
+<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>LaTeX（/ˈlɑːtɛx/，常被读作/ˈlɑːtɛk/或/ˈleɪtɛk/，写作<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mtext>LaTeX</mtext></mrow><annotation encoding="application/x-tex">\LaTeX</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.89883em;vertical-align:-0.2155em;"></span><span class="mord text"><span class="mord textrm">L</span><span class="mspace" style="margin-right:-0.36em;"></span><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.68333em;"><span style="top:-2.904999em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord text"><span class="mord textrm sizing reset-size6 size3">A</span></span></span></span></span></span><span class="mspace" style="margin-right:-0.15em;"></span><span class="mord text"><span class="mord textrm">T</span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.46782999999999997em;"><span style="top:-2.7845em;"><span class="pstrut" style="height:3em;"></span><span class="mord text"><span class="mord textrm">E</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2155em;"><span></span></span></span></span><span class="mspace" style="margin-right:-0.125em;"></span><span class="mord textrm">X</span></span></span></span></span></span>），是一种基于TeX的排版系统，由美国计算机科学家莱斯利·兰伯特在20世纪80年代初期开发，利用这种格式系统的处理，即使用户没有排版和程序设计的知识也可以充分发挥由TeX所提供的强大功能，不必一一亲自去设计或校对，能在几天，甚至几小时内生成很多具有书籍质量的印刷品。对于生成复杂表格和数学公式，这一点表现得尤为突出。因此它非常适用于生成高印刷质量的科技和数学、物理文档。这个系统同样适用于生成从简单的信件到完整书籍的所有其他种类的文档。</p>
+<p>——维基百科<em><a href="https://zh.wikipedia.org/wiki/LaTeX" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/LaTeX</a></em></p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+<a id="more"></a>
+<p>相比于常见的Word和WPS等所见即所得的文字处理软件，LaTeX更像是一个极客手中的玩具，许多人想要上手却因为它的学习曲线陡峭望而却步，事实上「会用」却并不难。这篇入门教程的初衷便是提供一个简洁明了的上手教程，降低入门难度。如果有使用Markdown的经验，那么LaTeX会让你有一种熟悉感。</p>
+<p><strong>本人能力有限，水平一般，错漏难免，欢迎指正。</strong></p>
+<h2 id="安装latex环境" class="heading-control"><a class="heading-anchor" href="#安装latex环境" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#安装latex环境"></a> 安装LaTeX环境</h2>
+<p>安装LaTeX需要两步：</p>
+<ol>
+<li>
+<p>安装TeX发行版：</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>TeX Distribution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td><a href="https://www.tug.org/texlive/" target="_blank" rel="noopener">TeX Live</a>, <a href="http://www.ctex.org/HomePage" target="_blank" rel="noopener">CTeX</a>, <a href="https://mixtex.org" target="_blank" rel="noopener">MiKTeX</a></td>
+</tr>
+<tr>
+<td>Linux</td>
+<td><a href="https://www.tug.org/texlive/" target="_blank" rel="noopener">TeX Live</a></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><a href="https://tug.org/mactex/" target="_blank" rel="noopener">MacTeX</a>, <a href="https://www.tug.org/texlive/" target="_blank" rel="noopener">TeX Live</a></td>
+</tr>
+</tbody>
+</table>
+<p>其中TeX Live是唯一支持全平台的发行版，Linux和Windows下都建议使用TeX Live，一键式安装，方便快捷，功能完善，少有bug。官网下载速度较慢，下附TeX Live的镜像下载地址。</p>
+<blockquote>
+<p>感谢TUNA协会对开源社区的支持！</p>
+<p>TeX Live 2019 下载地址：</p>
+<p><a href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/texlive2019-20190410.iso" target="_blank" rel="noopener">https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/texlive2019-20190410.iso</a></p>
+</blockquote>
+<p>下载后解压，双击<code>install-tl-windows.bat</code>后在GUI里点击安装即可。</p>
+</li>
+<li>
+<p>安装TeX编辑器：<br>
+TeX发行版和TeX编辑器的关系可以类比浏览器和Sublime/VSCode等编辑器的关系，浏览器负责对网页文件进行解析和渲染，VSCode则是用来编辑网页文件。后者不是必需的（甚至可以只用notepad），但一个好的编辑器可以极大地提升编辑体验和简化排版过程，推荐使用TeXStudio，另TeXLive自带了TeXworks，也可以直接使用。</p>
+<blockquote>
+<p>TeXStudio下载地址：</p>
+<p><a href="http://texstudio.sourceforge.net/#download" target="_blank" rel="noopener">http://texstudio.sourceforge.net/#download</a></p>
+</blockquote>
+<p>选择与操作系统对应版本的安装包即可。</p>
+</li>
+</ol>
+<h2 id="latex中文支持" class="heading-control"><a class="heading-anchor" href="#latex中文支持" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#latex中文支持"></a> LaTeX中文支持</h2>
+<p>LaTeX开发之初并未考虑到中文排版的需求，原生不支持中文输入，为此一群大佬开发了CTeX，虽然在三年前便停止了更新，但对于初学者而言，它仍是开箱即用的不二选择。</p>
+<p>如果有自定义字体的需求，则可以使用xeCJK。</p>
+<p>打开TeXStudio后使用<code>Ctrl+N</code>新建一个tex文件，键入：</p>
+<div class="tabs" id="tex_code"><ul class="nav-tabs"><li class="tab active"><a href="#tex_code-1">ctex</a></li><li class="tab"><a href="#tex_code-2">xelatex</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tex_code-1"><figure class="highlight tex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 文章类型</span></span><br><span class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">{article}</span></span></span><br><span class="line"><span class="comment">% 导入包</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">{ctex}</span></span></span><br><span class="line"><span class="comment">% --------------------------------------- %</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 文章信息</span></span><br><span class="line"><span class="tag">\<span class="name">title</span><span class="string">{ctex+xelatex中文支持}</span></span></span><br><span class="line"><span class="tag">\<span class="name">author</span><span class="string">{十一}</span></span></span><br><span class="line"><span class="tag">\<span class="name">date</span><span class="string">{\today}</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 文章内容</span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">{document}</span></span></span><br><span class="line"><span class="tag">\<span class="name">maketitle</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 摘要</span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">{abstract}</span></span></span><br><span class="line">	这是一个测试用的摘要. <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	This is a abstract for test.</span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">{abstract}</span></span></span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">section</span><span class="string">{节1}</span></span></span><br><span class="line">这是一个测试用的节</span><br><span class="line"><span class="tag">\<span class="name">subsection</span><span class="string">{节1.1}</span></span></span><br><span class="line">这是一个测试用的小节</span><br><span class="line"><span class="tag">\<span class="name">subsection</span><span class="string">{节1.2}</span></span></span><br><span class="line">这是一个测试用的小节</span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">{document}</span></span></span><br></pre></td></tr></tbody></table></figure></div><div class="tab-pane" id="tex_code-2"><figure class="highlight tex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 文章类型</span></span><br><span class="line"><span class="comment">% 文章类型</span></span><br><span class="line"><span class="tag">\<span class="name">documentclass</span><span class="string">{article}</span></span></span><br><span class="line"><span class="comment">% 导入包</span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">{fontspec, xunicode, xltxtra}</span></span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">[slantfont,boldfont]</span><span class="string">{xeCJK}</span></span></span><br><span class="line"><span class="tag">\<span class="name">usepackage</span><span class="string">{lmodern}</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 字体映射</span></span><br><span class="line"><span class="tag">\<span class="name">defaultfontfeatures</span><span class="string">{Mapping=tex-text}</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 中文缩进</span></span><br><span class="line"><span class="tag">\<span class="name">XeTeXlinebreaklocale</span></span> "zh"</span><br><span class="line"><span class="tag">\<span class="name">XeTeXlinebreakskip</span> = <span class="number">0pt</span></span> plus 1pt minus 0.1pt</span><br><span class="line"></span><br><span class="line"><span class="comment">% 中文字体设置</span></span><br><span class="line"><span class="comment">% 这里字体可以自行替换，对应的分别是全局字体、无衬线字体和等宽字体</span></span><br><span class="line"><span class="comment">% 但要确保是系统中已有的字体</span></span><br><span class="line"><span class="tag">\<span class="name">setCJKmainfont</span><span class="string">{宋体}</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKsansfont</span><span class="string">{微软雅黑}</span></span></span><br><span class="line"><span class="tag">\<span class="name">setCJKmonofont</span><span class="string">{仿宋}</span></span></span><br><span class="line"><span class="comment">%\setCJKmainfont{Adobe Song Std}</span></span><br><span class="line"><span class="comment">%\setCJKsansfont{Adobe Heiti Std}</span></span><br><span class="line"><span class="comment">%\setCJKmonofont{Adobe Fangsong Std}</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 文章信息</span></span><br><span class="line"><span class="tag">\<span class="name">title</span><span class="string">{ctex+xelatex中文支持}</span></span></span><br><span class="line"><span class="tag">\<span class="name">author</span><span class="string">{十一}</span></span></span><br><span class="line"><span class="tag">\<span class="name">date</span><span class="string">{\today}</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 文章内容</span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">{document}</span></span></span><br><span class="line"><span class="tag">\<span class="name">maketitle</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 摘要</span></span><br><span class="line"><span class="tag">\<span class="name">begin</span><span class="string">{abstract}</span></span></span><br><span class="line">	这是一个测试用的摘要. <span class="tag">\<span class="name">\</span></span></span><br><span class="line">	This is a abstract for test.</span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">{abstract}</span></span></span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">section</span><span class="string">{节1}</span></span></span><br><span class="line">这是一个测试用的节</span><br><span class="line"><span class="tag">\<span class="name">subsection</span><span class="string">{节1.1}</span></span></span><br><span class="line">这是一个测试用的小节</span><br><span class="line"><span class="tag">\<span class="name">subsection</span><span class="string">{节1.2}</span></span></span><br><span class="line">这是一个测试用的小节</span><br><span class="line"></span><br><span class="line"><span class="tag">\<span class="name">end</span><span class="string">{document}</span></span></span><br></pre></td></tr></tbody></table></figure></div></div></div>
+<p>差别只在于开始的几行代码，具体实现上可以任意套用其中的一种，然后点击菜单栏上的双绿色箭头（或F5）进行编译并显示即可，显示效果如下图所示：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-02.png!on_blog" alt=""></p>
+<h2 id="q-a" class="heading-control"><a class="heading-anchor" href="#q-a" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#q-a"></a> Q &amp; A</h2>
+<div class="note danger">
+            <p><strong>Fatal Package fontspec Error</strong></p><p>Question：代码提示<code>Fatal Package fontspec Error: The fontspec package requires either XeTeX or(fontspec) LuaTeX. \msg_fatal:nn {fontspec} {cannot-use-pdftex}</code>，如下：</p><p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-03.png!on_blog" alt=""></p><p>Answer：<strong><code>fontspec</code>或<code>ctex</code>均只能使用xelatex作为编译命令，需要替换编译引擎为<code>XeLaTeX</code>，TeXStudio在<code>Option &gt; Configure TeXStudio... &gt; Build &gt; Default Compiler</code>处设置，TeXworks在菜单栏处可以直接选择。</strong></p>
+          </div>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>十一
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://imwjc.xyz/2019/11/latex-tutorial-01/" title="【LaTeX快速指南】（一）安装与配置中文环境">https://imwjc.xyz/2019/11/latex-tutorial-01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Software/" rel="tag"><i class="fa fa-tag"></i> Software</a>
+              <a href="/tags/LaTeX/" rel="tag"><i class="fa fa-tag"></i> LaTeX</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/latex-cannot-display-adobe-font/" rel="prev" title="【教程】LaTeX中不能显示Adobe中文字体">
+      <i class="fa fa-chevron-left"></i> 【教程】LaTeX中不能显示Adobe中文字体
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/pytorch-tutorial-01/" rel="next" title="【机器学习】PyTorch构建自己的数据集">
+      【机器学习】PyTorch构建自己的数据集 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装latex环境"><span class="nav-number">1.</span> <span class="nav-text"> 安装LaTeX环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#latex中文支持"><span class="nav-number">2.</span> <span class="nav-text"> LaTeX中文支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#q-a"><span class="nav-number">3.</span> <span class="nav-text"> Q &amp; A</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="十一" src="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+  <p class="site-author-name" itemprop="name">十一</p>
+  <div class="site-description" itemprop="description">一个小房间，装下我所有的自己。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/leslievan" title="GitHub → https://github.com/leslievan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:viruswjc@gmail.com" title="E-Mail → mailto:viruswjc@gmail.com" rel="noopener" target="_blank"><i class="far fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/13400294" title="Bilibili → https://space.bilibili.com/13400294" rel="noopener" target="_blank"><i class="fas fa-video fa-fw"></i>Bilibili</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="/2019/04/os-lab/" title="2019/04/os-lab/">OS 实验</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  © 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">十一</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> &amp; <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0/dist/katex.min.css">
+  <script src="//cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.js"></script>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/katex@0/dist/contrib/copy-tex.min.css">
+
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  
+
+
+
+
+
+
+<script src="/bundle.js"></script><script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  ;
+
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://imwjc.xyz/2019/11/latex-tutorial-01/',]
+      });
+      });
+  ;
+
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'pMMeGvSgJkbkIklnGYzAKRXn-gzGzoHsz',
+      appKey     : 'vMEYMAMjiA7pmdmNJS8Hm2zi',
+      placeholder: "在这写下你的评论吧",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script></body></html>

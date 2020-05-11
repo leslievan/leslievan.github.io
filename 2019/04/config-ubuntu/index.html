@@ -1,0 +1,699 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-16x16.png">
+  <link rel="mask-icon" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon.ico" color="#222">
+  <link rel="manifest" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/site.webmanifest">
+  <meta name="msapplication-config" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/browserconfig.xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Source Han Serif:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&amp;display=swap&amp;subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"imwjc.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Ubuntu重装了太多太多次，这次因为安装CUDA，结果把显卡驱动弄坏了，折腾了半小时没救回来，遂重装了事，记录下一系列的步骤，步骤仅供我自己参考，如有按图索骥然后弄崩系统的，概不负责，有兴趣参考的可以邮件给我或在下方评论。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【笔记】Ubuntu美化装机全步骤">
+<meta property="og:url" content="https://imwjc.xyz/2019/04/config-ubuntu/index.html">
+<meta property="og:site_name" content="咸鱼的自留地">
+<meta property="og:description" content="Ubuntu重装了太多太多次，这次因为安装CUDA，结果把显卡驱动弄坏了，折腾了半小时没救回来，遂重装了事，记录下一系列的步骤，步骤仅供我自己参考，如有按图索骥然后弄崩系统的，概不负责，有兴趣参考的可以邮件给我或在下方评论。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-16T16:32:48.000Z">
+<meta property="article:modified_time" content="2019-04-16T16:32:48.000Z">
+<meta property="article:author" content="十一">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="装机">
+<meta property="article:tag" content="美化">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://imwjc.xyz/2019/04/config-ubuntu/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【笔记】Ubuntu美化装机全步骤 | 咸鱼的自留地</title>
+  
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-137357431-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-137357431-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">咸鱼的自留地</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/leslievan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://imwjc.xyz/2019/04/config-ubuntu/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+      <meta itemprop="name" content="十一">
+      <meta itemprop="description" content="一个小房间，装下我所有的自己。">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="咸鱼的自留地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【笔记】Ubuntu美化装机全步骤
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-17 00:32:48" itemprop="dateCreated datePublished" datetime="2019-04-17T00:32:48+08:00">2019-04-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/config-ubuntu/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/config-ubuntu/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Ubuntu重装了太多太多次，这次因为安装CUDA，结果把显卡驱动弄坏了，折腾了半小时没救回来，遂重装了事，记录下一系列的步骤，步骤仅供我自己参考，<s>如有按图索骥然后弄崩系统的，概不负责</s>，有兴趣参考的可以邮件给我或在下方评论。</p>
+<a id="more"></a>
+<h2 id="theme" class="heading-control"><a class="heading-anchor" href="#theme" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#theme"></a> Theme</h2>
+<h3 id="font-icon-cursor" class="heading-control"><a class="heading-anchor" href="#font-icon-cursor" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#font-icon-cursor"></a> Font &amp; Icon &amp; Cursor</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> fonts</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir .fonts</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp themes/fonts/* .fonts</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkfontscale &amp;&amp; mkfontdir &amp;&amp; <span class="built_in">fc</span>-cache -fv</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> icon</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo dpkg -i install themes/papirus-icon-theme_*.deb</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> cursor</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir .icons</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> cp themes/icons/* .icons</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> shell color theme</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> themes</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./gosh.sh</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="theme-2" class="heading-control"><a class="heading-anchor" href="#theme-2" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#theme-2"></a> Theme</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install gnome-tweak-tool gnome-shell-extensions</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo /etc/init.d/gdm3 restart</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/vinceliuice/vimix-gtk-themes.git vimix</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> vimix</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./vimix-installer</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="time-language" class="heading-control"><a class="heading-anchor" href="#time-language" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#time-language"></a> Time Language</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> vim /etc/default/locale</span></span><br><span class="line">:%s/zh_CN/en_US/g</span><br><span class="line">:x</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="driver" class="heading-control"><a class="heading-anchor" href="#driver" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#driver"></a> Driver</h2>
+<h3 id="display" class="heading-control"><a class="heading-anchor" href="#display" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#display"></a> Display</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install nvidia-361</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> reboot</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="printer" class="heading-control"><a class="heading-anchor" href="#printer" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#printer"></a> Printer</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> hp-setup -i</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="software" class="heading-control"><a class="heading-anchor" href="#software" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#software"></a> Software</h2>
+<h3 id="fcitx-sogoupinyin" class="heading-control"><a class="heading-anchor" href="#fcitx-sogoupinyin" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#fcitx-sogoupinyin"></a> Fcitx &amp; SogouPinyin</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install fcitx</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo dpkg -i sogoupinyin_2.2.0.0108_amd64.deb</span></span><br><span class="line">Selecting previously unselected package sogoupinyin.</span><br><span class="line">(Reading database ... 150921 files and directories currently installed.)</span><br><span class="line">Preparing to unpack .../sogoupinyin_2.2.0.0108_amd64.deb ...</span><br><span class="line">Unpacking sogoupinyin (2.2.0.0108) ...</span><br><span class="line">dpkg: dependency problems prevent configuration of sogoupinyin:</span><br><span class="line"> sogoupinyin depends on libfcitx-qt0 | fcitx-libs-qt; however:</span><br><span class="line">  Package libfcitx-qt0 is not installed.</span><br><span class="line">  Package fcitx-libs-qt is not installed.</span><br><span class="line"> sogoupinyin depends on libopencc2 | libopencc1; however:</span><br><span class="line">  Package libopencc2 is not installed.</span><br><span class="line">  Package libopencc1 is not installed.</span><br><span class="line"> sogoupinyin depends on fcitx-libs (&gt;= 4.2.7); however:</span><br><span class="line">  Package fcitx-libs is not installed.</span><br><span class="line"> sogoupinyin depends on libqtwebkit4 (&gt;= 2.1.0~2011week13); however:</span><br><span class="line">  Package libqtwebkit4 is not installed.</span><br><span class="line"></span><br><span class="line">dpkg: error processing package sogoupinyin (--install):</span><br><span class="line"> dependency problems - leaving unconfigured</span><br><span class="line">Processing triggers for mime-support (3.60ubuntu1) ...</span><br><span class="line">Processing triggers for libglib2.0-0:amd64 (2.56.3-0ubuntu0.18.04.1) ...</span><br><span class="line">No such key 'Gtk/IMModule' in schema 'org.gnome.settings-daemon.plugins.xsettings' as specified in override file '/usr/share/glib-2.0/schemas/50_sogoupinyin.gschema.override'; ignoring override for this key.</span><br><span class="line">Processing triggers for gnome-menus (3.13.3-11ubuntu1.1) ...</span><br><span class="line">Processing triggers for desktop-file-utils (0.23-1ubuntu3.18.04.2) ...</span><br><span class="line">Processing triggers for shared-mime-info (1.9-2) ...</span><br><span class="line">Processing triggers for hicolor-icon-theme (0.17-2) ...</span><br><span class="line">Errors were encountered while processing:</span><br><span class="line"> sogoupinyin</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get -f install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> reboot</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="vmware" class="heading-control"><a class="heading-anchor" href="#vmware" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#vmware"></a> VMware</h3>
+<h3 id="typora" class="heading-control"><a class="heading-anchor" href="#typora" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#typora"></a> Typora</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> or run:</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span></span><br><span class="line">wget -qO - https://typora.io/linux/public-key.asc | sudo apt-key add -</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> add Typora<span class="string">'s repository</span></span></span><br><span class="line">sudo add-apt-repository 'deb https://typora.io/linux ./'</span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> install typora</span></span><br><span class="line">sudo apt-get install typora</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="network" class="heading-control"><a class="heading-anchor" href="#network" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#network"></a> Network</h3>
+<p><strong>Shadowsocks &amp;&amp; Privoxy</strong></p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install privoxy shadowsocks</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Config</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo vim /etc/shadowsocks/config.json</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo vim /etc/privoxy/config</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Start</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sslocal -c /etc/shadowsocks/config</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> service privoxy start</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="hugo" class="heading-control"><a class="heading-anchor" href="#hugo" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#hugo"></a> Hugo</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git <span class="built_in">clone</span> https://github.com/gohugoio/hugo.git <span class="variable">$GOPATH</span>/hugo</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/hugo</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> go install</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span></span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="some" class="heading-control"><a class="heading-anchor" href="#some" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#some"></a> Some…</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo dpkg -i opt/deb/*</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get -f install</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="configuration" class="heading-control"><a class="heading-anchor" href="#configuration" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#configuration"></a> Configuration</h2>
+<h3 id="pip-mirror" class="heading-control"><a class="heading-anchor" href="#pip-mirror" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#pip-mirror"></a> pip mirror</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> mkdir .pip</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> touch .pip/pip.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">'[global]\nindex-url = https://pypi.tuna.tsinghua.edu.cn/simple\n[install]\ntrusted-host = pypi.tuna.tsinghua.edu.cn'</span> &gt; .pip/pip.conf</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="apt-mirror" class="heading-control"><a class="heading-anchor" href="#apt-mirror" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#apt-mirror"></a> apt mirror</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 config/oh-my-tuna.py</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="some-2" class="heading-control"><a class="heading-anchor" href="#some-2" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#some-2"></a> Some…</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install zsh zsh-antigen git curl vim silversearcher-ag redshift trash-cli aria2</span></span><br></pre></td></tr></tbody></table></figure>
+<table>
+<thead>
+<tr>
+<th>opt</th>
+<th>function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zsh</td>
+<td>A shell designed for interactive use</td>
+</tr>
+<tr>
+<td>zsh-antigen</td>
+<td>A small set of functions that help you easily manage your shell(zsh) plugins</td>
+</tr>
+<tr>
+<td>git</td>
+<td>A free and open source distributed version control system</td>
+</tr>
+<tr>
+<td>curl</td>
+<td>A command line tool and library for transferring data with URL syntax</td>
+</tr>
+<tr>
+<td>vim</td>
+<td>A greatly improved version of the good old UNIX editor Vi</td>
+</tr>
+<tr>
+<td>silversearcher-ag</td>
+<td>A code searching tool similar to <code>ack</code>, with a focus on speed.</td>
+</tr>
+<tr>
+<td>redshift</td>
+<td>Adjusts the color temperature of your screen according to your surroundings.</td>
+</tr>
+<tr>
+<td>trash-cli</td>
+<td>Command Line Interface to <a href="http://FreeDesktop.org" target="_blank" rel="noopener">FreeDesktop.org</a> Trash.</td>
+</tr>
+<tr>
+<td>aria2</td>
+<td>Aria2 is a lightweight multi-protocol &amp; multi-source command-line download utility.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="shell" class="heading-control"><a class="heading-anchor" href="#shell" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#shell"></a> shell</h4>
+<p>修改默认shell</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> chsh -s /bin/zsh</span></span><br></pre></td></tr></tbody></table></figure>
+<h4 id="aria2" class="heading-control"><a class="heading-anchor" href="#aria2" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#aria2"></a> aria2</h4>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Edit config</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> vim ~/.config/.aria2.conf</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Start aria2c</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> aria2c --conf-path ~/.config/.aria2.conf</span></span><br></pre></td></tr></tbody></table></figure>
+<h4 id="git" class="heading-control"><a class="heading-anchor" href="#git" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#git"></a> git</h4>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.name <span class="string">'username'</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global user.email <span class="string">'useremail'</span></span></span><br></pre></td></tr></tbody></table></figure>
+<h4 id="apt-fast" class="heading-control"><a class="heading-anchor" href="#apt-fast" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#apt-fast"></a> apt-fast</h4>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo add-apt--repository ppa:apt-fast/stable</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get update</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install apt-fast</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> reboot</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="coding" class="heading-control"><a class="heading-anchor" href="#coding" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#coding"></a> Coding</h2>
+<h3 id="jetbrains" class="heading-control"><a class="heading-anchor" href="#jetbrains" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#jetbrains"></a> Jetbrains</h3>
+<p>Install Jetbrains ToolBox.</p>
+<h3 id="python" class="heading-control"><a class="heading-anchor" href="#python" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#python"></a> Python</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install python3-pip python3-opencv</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> pip3 install numpy torch scipy PIL</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="cuda" class="heading-control"><a class="heading-anchor" href="#cuda" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#cuda"></a> CUDA</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> Disable graphical target first.</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl <span class="built_in">set</span>-default multi-user.target</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> reboot</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Login, and install without driver first. Be silent to install driver next.</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo sh cuda_10.1.105_418.39_linux.run --silent --driver</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> Enable graphical target.</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl <span class="built_in">set</span>-default graphical.target</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> reboot</span></span><br></pre></td></tr></tbody></table></figure>
+<h3 id="go" class="heading-control"><a class="heading-anchor" href="#go" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#go"></a> Go</h3>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> tar -C /usr/<span class="built_in">local</span> -xzf go1.12.4.linux-amd64.tar.gz</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/go/bin</span></span><br></pre></td></tr></tbody></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>十一
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://imwjc.xyz/2019/04/config-ubuntu/" title="【笔记】Ubuntu美化装机全步骤">https://imwjc.xyz/2019/04/config-ubuntu/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+              <a href="/tags/Software/" rel="tag"><i class="fa fa-tag"></i> Software</a>
+              <a href="/tags/Gnome/" rel="tag"><i class="fa fa-tag"></i> Gnome</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/os-lab-3-2/" rel="prev" title="【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信">
+      <i class="fa fa-chevron-left"></i> 【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/os-lab/" rel="next" title="【OS】HDU 操作系统实验">
+      【OS】HDU 操作系统实验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#theme"><span class="nav-number">1.</span> <span class="nav-text"> Theme</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#font-icon-cursor"><span class="nav-number">1.1.</span> <span class="nav-text"> Font &amp; Icon &amp; Cursor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#theme-2"><span class="nav-number">1.2.</span> <span class="nav-text"> Theme</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#time-language"><span class="nav-number">1.3.</span> <span class="nav-text"> Time Language</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#driver"><span class="nav-number">2.</span> <span class="nav-text"> Driver</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#display"><span class="nav-number">2.1.</span> <span class="nav-text"> Display</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#printer"><span class="nav-number">2.2.</span> <span class="nav-text"> Printer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#software"><span class="nav-number">3.</span> <span class="nav-text"> Software</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#fcitx-sogoupinyin"><span class="nav-number">3.1.</span> <span class="nav-text"> Fcitx &amp; SogouPinyin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vmware"><span class="nav-number">3.2.</span> <span class="nav-text"> VMware</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#typora"><span class="nav-number">3.3.</span> <span class="nav-text"> Typora</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#network"><span class="nav-number">3.4.</span> <span class="nav-text"> Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hugo"><span class="nav-number">3.5.</span> <span class="nav-text"> Hugo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#some"><span class="nav-number">3.6.</span> <span class="nav-text"> Some…</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#configuration"><span class="nav-number">4.</span> <span class="nav-text"> Configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pip-mirror"><span class="nav-number">4.1.</span> <span class="nav-text"> pip mirror</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#apt-mirror"><span class="nav-number">4.2.</span> <span class="nav-text"> apt mirror</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#some-2"><span class="nav-number">4.3.</span> <span class="nav-text"> Some…</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#shell"><span class="nav-number">4.3.1.</span> <span class="nav-text"> shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#aria2"><span class="nav-number">4.3.2.</span> <span class="nav-text"> aria2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git"><span class="nav-number">4.3.3.</span> <span class="nav-text"> git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apt-fast"><span class="nav-number">4.3.4.</span> <span class="nav-text"> apt-fast</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#coding"><span class="nav-number">5.</span> <span class="nav-text"> Coding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jetbrains"><span class="nav-number">5.1.</span> <span class="nav-text"> Jetbrains</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">5.2.</span> <span class="nav-text"> Python</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cuda"><span class="nav-number">5.3.</span> <span class="nav-text"> CUDA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#go"><span class="nav-number">5.4.</span> <span class="nav-text"> Go</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="十一" src="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+  <p class="site-author-name" itemprop="name">十一</p>
+  <div class="site-description" itemprop="description">一个小房间，装下我所有的自己。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/leslievan" title="GitHub → https://github.com/leslievan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:viruswjc@gmail.com" title="E-Mail → mailto:viruswjc@gmail.com" rel="noopener" target="_blank"><i class="far fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/13400294" title="Bilibili → https://space.bilibili.com/13400294" rel="noopener" target="_blank"><i class="fas fa-video fa-fw"></i>Bilibili</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="/2019/04/os-lab/" title="2019/04/os-lab/">OS 实验</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  © 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">十一</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> &amp; <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  
+
+
+
+
+
+
+<script src="/bundle.js"></script><script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  ;
+
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://imwjc.xyz/2019/04/config-ubuntu/',]
+      });
+      });
+  ;
+
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'pMMeGvSgJkbkIklnGYzAKRXn-gzGzoHsz',
+      appKey     : 'vMEYMAMjiA7pmdmNJS8Hm2zi',
+      placeholder: "在这写下你的评论吧",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script></body></html>

@@ -1,0 +1,631 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-16x16.png">
+  <link rel="mask-icon" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon.ico" color="#222">
+  <link rel="manifest" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/site.webmanifest">
+  <meta name="msapplication-config" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/browserconfig.xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Source Han Serif:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&amp;display=swap&amp;subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"imwjc.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="IPv6是下一版本的互联网协议，也可以说是下一代互联网的协议，它的提出最初是因为随着互联网的迅速发展，IPv4定义的有限地址空间将被耗尽，地址空间的不足必将妨碍互联网的进一步发展。 为了扩大地址空间，拟通过IPv6重新定义地址空间。IPv6采用128位地址长度，几乎可以不受限制地提供地址。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【教程】Ubuntu使用IPv6拨号连接">
+<meta property="og:url" content="https://imwjc.xyz/2019/04/ubuntu-ipv6-config/index.html">
+<meta property="og:site_name" content="咸鱼的自留地">
+<meta property="og:description" content="IPv6是下一版本的互联网协议，也可以说是下一代互联网的协议，它的提出最初是因为随着互联网的迅速发展，IPv4定义的有限地址空间将被耗尽，地址空间的不足必将妨碍互联网的进一步发展。 为了扩大地址空间，拟通过IPv6重新定义地址空间。IPv6采用128位地址长度，几乎可以不受限制地提供地址。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-24T14:18:29.000Z">
+<meta property="article:modified_time" content="2019-04-24T14:18:29.000Z">
+<meta property="article:author" content="十一">
+<meta property="article:tag" content="ipv6">
+<meta property="article:tag" content="network">
+<meta property="article:tag" content="ubuntu">
+<meta property="article:tag" content="dns">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://imwjc.xyz/2019/04/ubuntu-ipv6-config/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【教程】Ubuntu使用IPv6拨号连接 | 咸鱼的自留地</title>
+  
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-137357431-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-137357431-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">咸鱼的自留地</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/leslievan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://imwjc.xyz/2019/04/ubuntu-ipv6-config/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+      <meta itemprop="name" content="十一">
+      <meta itemprop="description" content="一个小房间，装下我所有的自己。">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="咸鱼的自留地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【教程】Ubuntu使用IPv6拨号连接
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-24 22:18:29" itemprop="dateCreated datePublished" datetime="2019-04-24T22:18:29+08:00">2019-04-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/04/ubuntu-ipv6-config/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/04/ubuntu-ipv6-config/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p><strong>IPv6</strong>是下一版本的互联网协议，也可以说是下一代互联网的协议，它的提出最初是因为随着互联网的迅速发展，<strong>IPv4</strong>定义的有限地址空间将被耗尽，地址空间的不足必将妨碍互联网的进一步发展。 为了扩大地址空间，拟通过<strong>IPv6</strong>重新定义地址空间。<strong>IPv6</strong>采用128位地址长度，几乎可以不受限制地提供地址。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="use-ipv6" class="heading-control"><a class="heading-anchor" href="#use-ipv6" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#use-ipv6"></a> Use IPv6</h2>
+<p>拨号连接默认不使用<code>IPv6</code>，但提供了简单的操作让我们去设置<code>IPv6</code>，使用<code>man pppd | grep ipv6</code>可以看到：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> man pppd | grep ipv6</span></span><br><span class="line">       +ipv6  Enable the IPv6CP and IPv6 protocols.</span><br><span class="line">       ipv6 <local_interface_identifier>,<remote_interface_identifier></remote_interface_identifier></local_interface_identifier></span><br><span class="line">              ipv6cp-use-ipaddr option is given, the local identifier  is  the</span><br><span class="line">              MAC address, ipv6cp-use-persistent option can be used to replace</span><br><span class="line">              the ipv6 <local>,<remote> option. Otherwise  the  identifier  is</remote></local></span><br><span class="line">       ipv6cp-accept-local</span><br><span class="line">       ipv6cp-accept-remote</span><br><span class="line">       ipv6cp-max-configure n</span><br><span class="line">       ipv6cp-max-failure n</span><br><span class="line">       ipv6cp-max-terminate n</span><br><span class="line">       ipv6cp-restart n</span><br><span class="line">       noipv6 Disable  IPv6CP  negotiation and IPv6 communication. This option</span><br><span class="line">       /etc/ppp/ipv6-up</span><br><span class="line">       /etc/ppp/ipv6-down</span><br><span class="line">              with the same parameters as the ipv6-up script.</span><br></pre></td></tr></tbody></table></figure>
+<p>第一行就提供了一个参数，用以支持<code>IPv6</code>，我们只需要在配置文件<code>/etc/ppp/peers/dsl-provider</code>中添加一行<code>+ipv6</code>即可：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo <span class="built_in">echo</span> <span class="string">"+ipv6"</span> &gt;&gt; /etc/ppp/peers/dsl-provider</span></span><br></pre></td></tr></tbody></table></figure>
+<h2 id="set-dns" class="heading-control"><a class="heading-anchor" href="#set-dns" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#set-dns"></a> Set DNS</h2>
+<p>Ubuntu 18.04使用<code>systemd-resolved</code>管理DNS。</p>
+<blockquote>
+<p>有三种处理 /etc/resolv.conf 文件(参见 resolv.conf(5)) 的方式：</p>
+<ul>
+<li>创建 /etc/resolv.conf 软连接，并将其指向 /usr/lib/systemd/resolv.conf 文件(其中仅设置了单独一个 127.0.0.53 DNS服务器)。 这是推荐的首选方式。</li>
+<li>创建 /etc/resolv.conf 软连接， 并将其指向由 systemd-resolved 实时更新的 /run/systemd/resolve/resolv.conf 文件。 注意，此文件中只包含所有已知的全局DNS服务器，而不包含针对特定网络接口设置的DNS服务器。 注意，应用程序不应该直接使用 /run/systemd/resolve/resolv.conf 文件， 而是应该继续使用 /etc/resolv.conf 文件。 使用这种方式，所有绕过本地 DNS API 的客户端也将同样绕开 systemd-resolved 服务， 直接使用已知的DNS服务器。</li>
+<li>由其他软件包或系统管理员维护 /etc/resolv.conf 的内容。 在这种情况下， systemd-resolved 将会从中读取全局DNS配置。 也就是说，systemd-resolved 只是一个读取 /etc/resolv.conf 配置文件的使用者， 而非此文件的提供者。</li>
+</ul>
+</blockquote>
+<p>注意，上述三种处理方式是自动感知的(不需要特别的配置)，完全取决于 /etc/resolv.conf 是否为软连接， 以及软连接指向的目标。</p>
+<p>在这里我们使用最后一种方法，在<code>Home</code>目录下创建一个配置文件，填入我们想要使用的DNS地址，然后将其软链接到<code>/etc/resolv.conf</code>。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> ~</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> touch .resolv.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">echo</span> <span class="string">"nameserver 240c::6666\nnameserver 240c::6644"</span> &gt;&gt; ~/.resolv.conf</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo rm /etc/resolv.conf &amp;&amp; sudo ln -s ~/.resolv.conf /etc/resolv.conf</span></span><br></pre></td></tr></tbody></table></figure>
+<p>执行完以上命令你可以使用<code>systemd-resolve --status</code>，使用键盘上的<span class="emoji" alias="arrow_down" style="" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2b07.png?v8">⬇</span>滚动输出，找到拨号连接（一般是<code>ppp*</code>），即可查看当前的DNS设置是否生效。</p>
+<h2 id="reference" class="heading-control"><a class="heading-anchor" href="#reference" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#reference"></a> Reference</h2>
+<ol>
+<li><a href="https://dns.icoa.cn/ipv6/" target="_blank" rel="noopener">IPv6 DNS 免费公共服务器地址大全Public IPv6 DNS Server - DNS …</a></li>
+<li><a href="http://www.jinbuguo.com/systemd/systemd-resolved.service.html" target="_blank" rel="noopener">systemd-resolved.service 中文手册 [金步国]</a></li>
+<li><a href="https://groups.google.com/forum/#!topic/xidian_linux/p3XW0jJz4Wo" target="_blank" rel="noopener">IPv6 Over PPPoE - Google 网上论坛</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>十一
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://imwjc.xyz/2019/04/ubuntu-ipv6-config/" title="【教程】Ubuntu使用IPv6拨号连接">https://imwjc.xyz/2019/04/ubuntu-ipv6-config/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+              <a href="/tags/DNS/" rel="tag"><i class="fa fa-tag"></i> DNS</a>
+              <a href="/tags/Network/" rel="tag"><i class="fa fa-tag"></i> Network</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/os-lab/" rel="prev" title="【OS】HDU 操作系统实验">
+      <i class="fa fa-chevron-left"></i> 【OS】HDU 操作系统实验
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/06/manjaro-cannot-open-vmware-after-upgrade/" rel="next" title="【教程】Manjaro升级内核后无法打开VMware">
+      【教程】Manjaro升级内核后无法打开VMware <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#use-ipv6"><span class="nav-number">1.</span> <span class="nav-text"> Use IPv6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#set-dns"><span class="nav-number">2.</span> <span class="nav-text"> Set DNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">3.</span> <span class="nav-text"> Reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="十一" src="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+  <p class="site-author-name" itemprop="name">十一</p>
+  <div class="site-description" itemprop="description">一个小房间，装下我所有的自己。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/leslievan" title="GitHub → https://github.com/leslievan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:viruswjc@gmail.com" title="E-Mail → mailto:viruswjc@gmail.com" rel="noopener" target="_blank"><i class="far fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/13400294" title="Bilibili → https://space.bilibili.com/13400294" rel="noopener" target="_blank"><i class="fas fa-video fa-fw"></i>Bilibili</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="/2019/04/os-lab/" title="2019/04/os-lab/">OS 实验</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  © 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">十一</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> &amp; <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  
+
+
+
+
+
+
+<script src="/bundle.js"></script><script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  ;
+
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://imwjc.xyz/2019/04/ubuntu-ipv6-config/',]
+      });
+      });
+  ;
+
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'pMMeGvSgJkbkIklnGYzAKRXn-gzGzoHsz',
+      appKey     : 'vMEYMAMjiA7pmdmNJS8Hm2zi',
+      placeholder: "在这写下你的评论吧",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script></body></html>

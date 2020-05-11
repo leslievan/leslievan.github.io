@@ -1,0 +1,759 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon-16x16.png">
+  <link rel="mask-icon" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/favicon.ico" color="#222">
+  <link rel="manifest" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/site.webmanifest">
+  <meta name="msapplication-config" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/images/browserconfig.xml">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Source Han Serif:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&amp;display=swap&amp;subset=latin,latin-ext">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"imwjc.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="简单描述如何使用VMware Workstation Pro创建一个新的虚拟机。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【教程】VMware Workstation中创建Ubuntu虚拟机">
+<meta property="og:url" content="https://imwjc.xyz/2019/03/vmware-create-vm/index.html">
+<meta property="og:site_name" content="咸鱼的自留地">
+<meta property="og:description" content="简单描述如何使用VMware Workstation Pro创建一个新的虚拟机。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-0.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-1.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-2.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-3.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-4.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-5.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-6.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-7.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-8.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-9.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-10.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-19.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-11.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-12.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-13.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-14.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-15.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-16.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-17.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-18.png!on_blog">
+<meta property="og:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-20.png!on_blog">
+<meta property="article:published_time" content="2019-03-05T06:40:08.000Z">
+<meta property="article:modified_time" content="2019-03-05T06:40:08.000Z">
+<meta property="article:author" content="十一">
+<meta property="article:tag" content="vmware">
+<meta property="article:tag" content="虚拟机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-0.png!on_blog">
+
+<link rel="canonical" href="https://imwjc.xyz/2019/03/vmware-create-vm/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>【教程】VMware Workstation中创建Ubuntu虚拟机 | 咸鱼的自留地</title>
+  
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-137357431-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-137357431-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">咸鱼的自留地</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" placeholder="搜索..." spellcheck="false" type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/leslievan" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://imwjc.xyz/2019/03/vmware-create-vm/">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+      <meta itemprop="name" content="十一">
+      <meta itemprop="description" content="一个小房间，装下我所有的自己。">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="咸鱼的自留地">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【教程】VMware Workstation中创建Ubuntu虚拟机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-05 14:40:08" itemprop="dateCreated datePublished" datetime="2019-03-05T14:40:08+08:00">2019-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">教程</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="far fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/03/vmware-create-vm/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/03/vmware-create-vm/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-0.png!on_blog" alt=""></p>
+<p>简单描述如何使用VMware Workstation Pro创建一个新的虚拟机。</p>
+<a id="more"></a>
+<h1 id="准备工作" class="heading-control"><a class="heading-anchor" href="#准备工作" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#准备工作"></a> 准备工作</h1>
+<p>在开始创建新的虚拟机之前，你需要在本机上安装VMware Workstation，并准备好相应的镜像。</p>
+<p>关于安装VMware Workstation，你可以参考<a href="/2019/02/ubuntu-config-vmware/">这篇文章</a>。</p>
+<p>至于镜像，你可以直接百度搜索官方网站进行下载，但不推荐这种方法，Linux发行版的网站服务器大多都在国外，因此下载速度会很慢，国内有许多镜像站可以用于下载镜像，如阿里的<a href="https://opsx.alibaba.com/" target="_blank" rel="noopener">OSPX</a>，清华的<a href="https://mirrors.tuna.tsinghua.edu.cn" target="_blank" rel="noopener">清华大学开源软件镜像站</a>等，这里提供两个网站的<code>Ubuntu 16.04 LTS</code>和<code>Ubuntu 18.04 LTS</code>的下载地址：</p>
+<p><strong>OSPX</strong></p>
+<ul>
+<li><a href="https://mirrors.aliyun.com/ubuntu-releases/xenial/ubuntu-16.04.6-desktop-amd64.iso" target="_blank" rel="noopener">Ubuntu 16.04</a></li>
+<li><a href="https://mirrors.aliyun.com/ubuntu-releases/releases/18.04.2/ubuntu-18.04.2-desktop-amd64.iso" target="_blank" rel="noopener">Ubuntu 18.04</a></li>
+</ul>
+<p><strong>清华大学开源软件镜像站</strong></p>
+<ul>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/xenial/ubuntu-16.04.6-desktop-amd64.iso" target="_blank" rel="noopener">Ubuntu 16.04</a></li>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/ubuntu-releases/bionic/ubuntu-18.04.2-desktop-amd64.iso" target="_blank" rel="noopener">Ubuntu 18.04</a></li>
+</ul>
+<p>到此，准备工作完成，你拥有了一台安装好<code>VMware Workstation</code>的电脑以及一个名为<code>ubuntu-xx.xx.x-desktop-amd64.iso</code>的镜像文件。</p>
+<h1 id="创建步骤" class="heading-control"><a class="heading-anchor" href="#创建步骤" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#创建步骤"></a> 创建步骤</h1>
+<p>对于诸如Ubuntu、Windows等一些常见的操作系统，VMware Workstation提供了简易安装的方式，免去一些安装步骤，降低用户使用难度，适合新手玩家。</p>
+<h2 id="打开vmware" class="heading-control"><a class="heading-anchor" href="#打开vmware" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#打开vmware"></a> 打开VMware</h2>
+<p>打开VMware，点击<code>Create a New Virtual Machine</code>（中文下应为创建新的虚拟机，之后不再提示）。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-1.png!on_blog" alt=""></p>
+<h2 id="选择安装方式" class="heading-control"><a class="heading-anchor" href="#选择安装方式" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#选择安装方式"></a> 选择安装方式</h2>
+<p>这里我们使用推荐的安装方式，选择<code>Typical</code>，点击<code>Next</code>。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-2.png!on_blog" alt=""></p>
+<hr>
+<p>这里有两种安装方法，<a href="#%E7%AE%80%E6%98%93%E5%AE%89%E8%A3%85">简易安装</a>以及<a href="#%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85">手动安装</a>，简易安装方便快捷，但安装过程中可能会出现一些玄学问题，手动安装稍显麻烦，但好在依据步骤则不会出现问题，而且某种程度上可以学到更多的东西。</p>
+<h2 id="简易安装" class="heading-control"><a class="heading-anchor" href="#简易安装" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#简易安装"></a> 简易安装</h2>
+<p>你可以先创建虚拟机，之后再选择镜像（第三项），类似于你买了电脑，但是里面并没有预先安装任何系统，这里我们选择第二项<code>Use ISO Image</code>，在创建虚拟机之后直接安装系统，点击<code>Browse</code>选择你刚刚下载的镜像文件，然后点击<code>Next</code>。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-3.png!on_blog" alt=""></p>
+<h2 id="指定简易安装信息" class="heading-control"><a class="heading-anchor" href="#指定简易安装信息" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#指定简易安装信息"></a> 指定简易安装信息</h2>
+<p>填写空着的四项内容，点击<code>Next</code>。</p>
+<table>
+<thead>
+<tr>
+<th>简易安装提示</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full name</td>
+<td>所创建客户机的全名，可任意输入。</td>
+</tr>
+<tr>
+<td>User name</td>
+<td>用户名，用户标识符，表明你的身份，配合<code>Password</code>用于登陆Ubuntu。</td>
+</tr>
+<tr>
+<td>Password</td>
+<td>密码，即你创建用户的密码。</td>
+</tr>
+<tr>
+<td>Confirm</td>
+<td>验证密码，重新输入以上的密码。</td>
+</tr>
+</tbody>
+</table>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-4.png!on_blog" alt=""></p>
+<h2 id="指定虚拟机名称和文件位置" class="heading-control"><a class="heading-anchor" href="#指定虚拟机名称和文件位置" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#指定虚拟机名称和文件位置"></a> 指定虚拟机名称和文件位置</h2>
+<p>这里的<code>Name</code>和<code>Location</code>都可以任意选择，我直接使用默认的配置，点击<code>Next</code>。</p>
+<table>
+<thead>
+<tr>
+<th>简易安装提示</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>虚拟机名称，可任意输入。</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>虚拟机文件所在位置，尽量选择一个剩余容量大的磁盘。</td>
+</tr>
+</tbody>
+</table>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-5.png!on_blog" alt=""></p>
+<h2 id="为虚拟机指定磁盘容量" class="heading-control"><a class="heading-anchor" href="#为虚拟机指定磁盘容量" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#为虚拟机指定磁盘容量"></a> 为虚拟机指定磁盘容量</h2>
+<p>注意容量是<code>Maximum disk size</code>而不是你一开始就分配这么多空间，所以你大可以分配一个大一点的空间，**千万别使用推荐配置中的20GB！**这里我直接给了100GB，基本上怎么折腾都足够了，如果你在这里直接选择了20GB，别急，也有补救措施，这篇文章会给你答案。</p>
+<p>至于下面两个选项，一个是以单文件存储，一个是多文件存储，选择单文件存储意味着，最大容量100GB的内容都会存储在一个单独的文件中，而多文件存储则是每使用4GB空间就创建一个新的文件，即你用完100GB空间后，会生成25个文件，我并未比较过两种方式的优劣，但基本不影响我们使用系统，这里直接以默认的多文件存储方式安装。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-6.png!on_blog" alt=""></p>
+<h2 id="自定义虚拟机硬件" class="heading-control"><a class="heading-anchor" href="#自定义虚拟机硬件" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#自定义虚拟机硬件"></a> 自定义虚拟机硬件</h2>
+<p>在这里可以修改默认的硬件设置，包括内存分配、虚拟 CPU 数量、CD/DVD 和软盘驱动器设置以及网络连接类型。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-7.png!on_blog" alt=""></p>
+<p>点击<code>Customize Hardware…</code>进行自定义，可能需要修改的地方有两个。</p>
+<ul>
+<li>内存（Memory）。如果物理机内存在8G以下，建议你只需要按照默认配置分配2G给虚拟机，如果物理机内存在8G及8G以上，则可以分配4G及4G以上的空间，至少需要留出1/2的最大内存以满足物理机运行需要（不会卡顿）。</li>
+<li>处理器（Processors）。处理器影响多线程工作效率，默认为单核心单处理器，这里可以修改为双核心双处理器（2×2）。</li>
+</ul>
+<p>其他属性不建议新手玩家修改，修改完之后点击<code>Close</code>保存配置，返回主界面，然后点击<code>Finish</code>。</p>
+<p>简易安装的步骤到这里就结束了，不过简易安装不一定适用于所有人，可能会出现一些小问题，如果有问题可以在最后留言。</p>
+<h2 id="手动安装" class="heading-control"><a class="heading-anchor" href="#手动安装" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#手动安装"></a> 手动安装</h2>
+<p>手动安装稍显麻烦，前面两个步骤<a href="#%E6%89%93%E5%BC%80VMware">打开VMware</a>和<a href="#%E9%80%89%E6%8B%A9%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F">选择安装方式</a>都和简易安装一样，在选择镜像时才出现差异，这里略去前两步，直接从第三步开始选择第三项<code>I will install the operating system later</code>而不是第二项<code>Use ISO image</code>，然后点击<code>Next</code>。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-8.png!on_blog" alt=""></p>
+<h2 id="创建虚拟机" class="heading-control"><a class="heading-anchor" href="#创建虚拟机" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#创建虚拟机"></a> 创建虚拟机</h2>
+<p>这一步根据你的镜像选择虚拟机类型，之前下载的镜像为<code>Ubuntu 16.04</code>或<code>Ubuntu 18.04</code>，均为64位的Linux发行版（Ubuntu同样提供32位，我们使用的是64位的），选择后点击<code>Next</code>。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-9.png!on_blog" alt=""></p>
+<p>接下来的几个步骤同上面一样，<a href="#%E6%8C%87%E5%AE%9A%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8D%E7%A7%B0%E5%92%8C%E6%96%87%E4%BB%B6%E4%BD%8D%E7%BD%AE">指定虚拟机名称和文件位置</a>-&gt;<a href="#%E4%B8%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%8C%87%E5%AE%9A%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F">为虚拟机指定磁盘容量</a>-&gt;<a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%A1%AC%E4%BB%B6">自定义虚拟机硬件</a>，然后点击<code>Finish</code>，完成创建。</p>
+<h2 id="安装系统" class="heading-control"><a class="heading-anchor" href="#安装系统" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#安装系统"></a> 安装系统</h2>
+<p>虚拟机创建完成后，会跳转到如下图所示的界面：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-10.png!on_blog" alt=""></p>
+<p>双击箭头所示的<code>CD…</code>，在弹窗中选择<code>Use ISO image</code>，选择你想要安装的镜像：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-19.png!on_blog" alt=""></p>
+<p>点击<code>Save</code>后，启动虚拟机：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-11.png!on_blog" alt=""></p>
+<h3 id="选择语言" class="heading-control"><a class="heading-anchor" href="#选择语言" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#选择语言"></a> 选择语言</h3>
+<p>如果镜像没有问题的话，VMware会自动打开镜像，提示选择语言，准备进行安装：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-12.png!on_blog" alt=""></p>
+<h3 id="选择键盘布局" class="heading-control"><a class="heading-anchor" href="#选择键盘布局" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#选择键盘布局"></a> 选择键盘布局</h3>
+<p>使用默认选项即可，直接<code>继续</code>。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-13.png!on_blog" alt=""></p>
+<h3 id="选择安装方式-2" class="heading-control"><a class="heading-anchor" href="#选择安装方式-2" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#选择安装方式-2"></a> 选择安装方式</h3>
+<p>最小安装省略了如LibreOffice之类的办公软件，基本上我们是不会用到的，最小安装可以极大地提升安装速度，推荐选择，当然玩家也可以自行斟酌，选择正常安装也是可以的。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-14.png!on_blog" alt=""></p>
+<h3 id="选择安装类型" class="heading-control"><a class="heading-anchor" href="#选择安装类型" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#选择安装类型"></a> 选择安装类型</h3>
+<p>直接选择第一项就可以了，这里的清除整个磁盘指的不是主机的磁盘，而是虚拟机的磁盘，所以不需要考虑，也可以自行尝试<code>其它选项</code>，点击<code>现在安装</code>：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-15.png!on_blog" alt=""></p>
+<p>点击<code>继续</code>：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-16.png!on_blog" alt=""></p>
+<h3 id="选择地区" class="heading-control"><a class="heading-anchor" href="#选择地区" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#选择地区"></a> 选择地区</h3>
+<p>它会默认检测，如不需要特殊配置直接<code>继续</code>就行：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-17.png!on_blog" alt=""></p>
+<h3 id="指定ubuntu安装信息" class="heading-control"><a class="heading-anchor" href="#指定ubuntu安装信息" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#指定ubuntu安装信息"></a> 指定Ubuntu安装信息</h3>
+<p>这里参考<a href="#%E6%8C%87%E5%AE%9A%E7%AE%80%E6%98%93%E5%AE%89%E8%A3%85%E4%BF%A1%E6%81%AF">指定简易安装信息</a>。</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-18.png!on_blog" alt=""></p>
+<h3 id="重启系统" class="heading-control"><a class="heading-anchor" href="#重启系统" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#重启系统"></a> 重启系统</h3>
+<p>点击<code>继续</code>后，如无特殊事件只需静静等待，直到出现以下界面，选择<code>现在重启</code>：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-05-7e1ef425-20.png!on_blog" alt=""></p>
+<p>有时你可能需要根据提示，按下Enter自行重启。</p>
+<h2 id="vmware-tools配置" class="heading-control"><a class="heading-anchor" href="#vmware-tools配置" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#vmware-tools配置"></a> VMware Tools配置</h2>
+<p>参考另一篇文章：<a href="/2019/02/ubuntu-config-vmware/#%E5%AE%89%E8%A3%85vmware-tools">Ubuntu下配置VMware Workstation</a></p>
+<hr>
+<p>至此，安装完成，你可以开心地使用你的虚拟机了！</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>十一
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://imwjc.xyz/2019/03/vmware-create-vm/" title="【教程】VMware Workstation中创建Ubuntu虚拟机">https://imwjc.xyz/2019/03/vmware-create-vm/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+              <a href="/tags/Software/" rel="tag"><i class="fa fa-tag"></i> Software</a>
+              <a href="/tags/VMware/" rel="tag"><i class="fa fa-tag"></i> VMware</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/02/ubuntu-config-mysql8/" rel="prev" title="【教程】Ubuntu配置MySQL 8.0">
+      <i class="fa fa-chevron-left"></i> 【教程】Ubuntu配置MySQL 8.0
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/apt-use-mirror/" rel="next" title="【教程】加速apt（apt-get速度慢）">
+      【教程】加速apt（apt-get速度慢） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text"> 准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建步骤"><span class="nav-number">2.</span> <span class="nav-text"> 创建步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#打开vmware"><span class="nav-number">2.1.</span> <span class="nav-text"> 打开VMware</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择安装方式"><span class="nav-number">2.2.</span> <span class="nav-text"> 选择安装方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简易安装"><span class="nav-number">2.3.</span> <span class="nav-text"> 简易安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定简易安装信息"><span class="nav-number">2.4.</span> <span class="nav-text"> 指定简易安装信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定虚拟机名称和文件位置"><span class="nav-number">2.5.</span> <span class="nav-text"> 指定虚拟机名称和文件位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为虚拟机指定磁盘容量"><span class="nav-number">2.6.</span> <span class="nav-text"> 为虚拟机指定磁盘容量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义虚拟机硬件"><span class="nav-number">2.7.</span> <span class="nav-text"> 自定义虚拟机硬件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手动安装"><span class="nav-number">2.8.</span> <span class="nav-text"> 手动安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建虚拟机"><span class="nav-number">2.9.</span> <span class="nav-text"> 创建虚拟机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装系统"><span class="nav-number">2.10.</span> <span class="nav-text"> 安装系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择语言"><span class="nav-number">2.10.1.</span> <span class="nav-text"> 选择语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择键盘布局"><span class="nav-number">2.10.2.</span> <span class="nav-text"> 选择键盘布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择安装方式-2"><span class="nav-number">2.10.3.</span> <span class="nav-text"> 选择安装方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择安装类型"><span class="nav-number">2.10.4.</span> <span class="nav-text"> 选择安装类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择地区"><span class="nav-number">2.10.5.</span> <span class="nav-text"> 选择地区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定ubuntu安装信息"><span class="nav-number">2.10.6.</span> <span class="nav-text"> 指定Ubuntu安装信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重启系统"><span class="nav-number">2.10.7.</span> <span class="nav-text"> 重启系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vmware-tools配置"><span class="nav-number">2.11.</span> <span class="nav-text"> VMware Tools配置</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="十一" src="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
+  <p class="site-author-name" itemprop="name">十一</p>
+  <div class="site-description" itemprop="description">一个小房间，装下我所有的自己。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/leslievan" title="GitHub → https://github.com/leslievan" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:viruswjc@gmail.com" title="E-Mail → mailto:viruswjc@gmail.com" rel="noopener" target="_blank"><i class="far fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://space.bilibili.com/13400294" title="Bilibili → https://space.bilibili.com/13400294" rel="noopener" target="_blank"><i class="fas fa-video fa-fw"></i>Bilibili</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="/2019/04/os-lab/" title="2019/04/os-lab/">OS 实验</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  © 2018 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">十一</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> &amp; <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  
+
+
+
+
+
+
+<script src="/bundle.js"></script><script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  ;
+
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://imwjc.xyz/2019/03/vmware-create-vm/',]
+      });
+      });
+  ;
+
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'pMMeGvSgJkbkIklnGYzAKRXn-gzGzoHsz',
+      appKey     : 'vMEYMAMjiA7pmdmNJS8Hm2zi',
+      placeholder: "在这写下你的评论吧",
+      avatar     : 'monsterid',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script></body></html>
