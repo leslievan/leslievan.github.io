@@ -20,13 +20,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"imwjc.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"lsvm.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="Linux内核采用了整体结构，上一个实验体会了编译内核时间的冗长与繁杂，一步错就要重新编译，这虽然提高了效率，但同时也让后续的维护变得困难，在这个基础上，Linux内核引入了动态模块机制加以改进。  视频教程地址： https://www.bilibili.com/video/av47412869/ 源码地址： https://github.com/leslievan/Operator_Syste">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【OS】HDU-OS-Lab2-Linux内核模块编程">
-<meta property="og:url" content="https://imwjc.xyz/2019/03/os-lab2/index.html">
+<meta property="og:url" content="https://lsvm.xyz/2019/03/os-lab2/index.html">
 <meta property="og:site_name" content="咸鱼的自留地">
 <meta property="og:description" content="Linux内核采用了整体结构，上一个实验体会了编译内核时间的冗长与繁杂，一步错就要重新编译，这虽然提高了效率，但同时也让后续的维护变得困难，在这个基础上，Linux内核引入了动态模块机制加以改进。  视频教程地址： https://www.bilibili.com/video/av47412869/ 源码地址： https://github.com/leslievan/Operator_Syste">
 <meta property="og:locale" content="zh_CN">
@@ -47,7 +47,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-03-26-2e80072e-1.svg">
 
-<link rel="canonical" href="https://imwjc.xyz/2019/03/os-lab2/">
+<link rel="canonical" href="https://lsvm.xyz/2019/03/os-lab2/">
 
 
 <script id="page-configurations">
@@ -217,7 +217,7 @@
   
   
   <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://imwjc.xyz/2019/03/os-lab2/">
+    <link itemprop="mainEntityOfPage" href="https://lsvm.xyz/2019/03/os-lab2/">
 
     <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
@@ -356,7 +356,10 @@
 <a href="/2019/01/os-lab1/" title="【OS】HDU-OS-Lab1-Linux内核编译及添加系统调用">【OS】HDU-OS-Lab1-Linux内核编译及添加系统调用</a>
 </li>
 <li>
-<a href="/2019/04/os-lab-3-2/" title="【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信">【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信</a></li>
+<a href="/2019/04/os-lab-3-2/" title="【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信">【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信</a>
+</li>
+<li>
+<a href="/2019/04/os-lab-3-3/" title="【OS】HDU-OS-Lab3-Linux进程管理（三）进程通信">【OS】HDU-OS-Lab3-Linux进程管理（三）进程通信</a></li>
 </ul>
 
     </div>
@@ -373,7 +376,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://imwjc.xyz/2019/03/os-lab2/" title="【OS】HDU-OS-Lab2-Linux内核模块编程">https://imwjc.xyz/2019/03/os-lab2/</a>
+    <a href="https://lsvm.xyz/2019/03/os-lab2/" title="【OS】HDU-OS-Lab2-Linux内核模块编程">https://lsvm.xyz/2019/03/os-lab2/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -476,7 +479,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -533,6 +536,8 @@
         
 
         
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备20017115号 </a>
+  </div>
 
 <div class="copyright">
   
@@ -649,7 +654,7 @@
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://imwjc.xyz/2019/03/os-lab2/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://lsvm.xyz/2019/03/os-lab2/',]
       });
       });
   ;

@@ -20,13 +20,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"imwjc.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"lsvm.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="五题分别为：  已知当前星期，时，分，求指定分钟前的星期，时，分。（日期问题） 有编号1-n的选手，给定出发排列顺序和到达排列顺序，只要存在一个人X，出发时X在Y前，到达时X在Y后，那么Y会受到嘉奖。求能受到嘉奖的总人数。（逆序对） f(x)=∑i=1⌊xki−1⌋f(x)=\sum\limits_{i=1}\lfloor{\frac{x}{k^{i-1}}}\rfloorf(x)=i=1∑​⌊k">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【算法】美团笔试解析(待续)">
-<meta property="og:url" content="https://imwjc.xyz/2020/04/meituan-interview/index.html">
+<meta property="og:url" content="https://lsvm.xyz/2020/04/meituan-interview/index.html">
 <meta property="og:site_name" content="咸鱼的自留地">
 <meta property="og:description" content="五题分别为：  已知当前星期，时，分，求指定分钟前的星期，时，分。（日期问题） 有编号1-n的选手，给定出发排列顺序和到达排列顺序，只要存在一个人X，出发时X在Y前，到达时X在Y后，那么Y会受到嘉奖。求能受到嘉奖的总人数。（逆序对） f(x)=∑i=1⌊xki−1⌋f(x)=\sum\limits_{i=1}\lfloor{\frac{x}{k^{i-1}}}\rfloorf(x)=i=1∑​⌊k">
 <meta property="og:locale" content="zh_CN">
@@ -36,7 +36,7 @@
 <meta property="article:tag" content="笔试">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://imwjc.xyz/2020/04/meituan-interview/">
+<link rel="canonical" href="https://lsvm.xyz/2020/04/meituan-interview/">
 
 
 <script id="page-configurations">
@@ -206,7 +206,7 @@
   
   
   <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://imwjc.xyz/2020/04/meituan-interview/">
+    <link itemprop="mainEntityOfPage" href="https://lsvm.xyz/2020/04/meituan-interview/">
 
     <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
@@ -297,7 +297,7 @@
 </blockquote>
 <details>
 <summary>点击展开代码</summary>
-<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @file 05_DateTranslate.cpp</span></span><br><span class="line"><span class="comment"> * @author leslie</span></span><br><span class="line"><span class="comment"> * @date 2020-04-12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __05_DateTranslate_MAIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __05_DateTranslate_MAIN</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><stdio.h></stdio.h></span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> d, h, m;</span><br><span class="line">    <span class="keyword">int</span> minutes, now, before;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> per_minute = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> per_hour = <span class="number">60</span> * per_minute;</span><br><span class="line">    <span class="keyword">int</span> per_day = <span class="number">24</span> * per_hour;</span><br><span class="line">    <span class="keyword">int</span> per_week = <span class="number">7</span> * per_day;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Input day and time now */</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;d);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d:%d"</span>, &amp;h, &amp;m);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;minutes);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* The starting point is every Monday at 0:00.</span></span><br><span class="line"><span class="comment">     * Minutes longer than a week are meaningless.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    minutes %= per_week;</span><br><span class="line">    now = d * per_day + h * per_hour + m * per_minute;</span><br><span class="line">    before = now - minutes;</span><br><span class="line">    before = before &lt; per_day ? before + per_week : before;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Output day and time before n minutes */</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\t%02d:%02d"</span>, (before / per_day) % <span class="number">7</span>, (before / per_hour) % <span class="number">24</span>, (before / per_minute) % <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight c"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @file 05_DateTranslate.cpp</span></span><br><span class="line"><span class="comment"> * @author leslie</span></span><br><span class="line"><span class="comment"> * @date 2020-04-12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __05_DateTranslate_MAIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __05_DateTranslate_MAIN</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> d, h, m;</span><br><span class="line">    <span class="keyword">int</span> minutes, now, before;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> per_minute = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> per_hour = <span class="number">60</span> * per_minute;</span><br><span class="line">    <span class="keyword">int</span> per_day = <span class="number">24</span> * per_hour;</span><br><span class="line">    <span class="keyword">int</span> per_week = <span class="number">7</span> * per_day;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Input day and time now */</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;d);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d:%d"</span>, &amp;h, &amp;m);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;minutes);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* The starting point is every Monday at 0:00.</span></span><br><span class="line"><span class="comment">     * Minutes longer than a week are meaningless.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    minutes %= per_week;</span><br><span class="line">    now = d * per_day + h * per_hour + m * per_minute;</span><br><span class="line">    before = now - minutes;</span><br><span class="line">    before = before &lt; per_day ? before + per_week : before;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Output day and time before n minutes */</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\t%02d:%02d"</span>, (before / per_day) % <span class="number">7</span>, (before / per_hour) % <span class="number">24</span>, (before / per_minute) % <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 </details>
 
     </div>
@@ -314,7 +314,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://imwjc.xyz/2020/04/meituan-interview/" title="【算法】美团笔试解析(待续)">https://imwjc.xyz/2020/04/meituan-interview/</a>
+    <a href="https://lsvm.xyz/2020/04/meituan-interview/" title="【算法】美团笔试解析(待续)">https://lsvm.xyz/2020/04/meituan-interview/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -416,7 +416,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -473,6 +473,8 @@
         
 
         
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备20017115号 </a>
+  </div>
 
 <div class="copyright">
   
@@ -594,7 +596,7 @@
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://imwjc.xyz/2020/04/meituan-interview/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://lsvm.xyz/2020/04/meituan-interview/',]
       });
       });
   ;

@@ -20,13 +20,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"imwjc.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"lsvm.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"flat"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownBigIn","post_body":"slideDownBigIn","coll_header":"slideLeftBigIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="在Ubuntu又一次搞坏了CUDA的驱动之后，我投向了Manjaro的怀抱，重新进入了双系统的状态，VMware还是要安装的，安装的步骤倒是和Ubuntu没有什么不同。Manjaro默认的内核头文件是3.16版本的，我升级到了和内核相匹配的4.19，然后就出问题了，找了几种方法后终于解决，遂记录于此，万一下次还碰到了呢？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【教程】Manjaro升级内核后无法打开VMware">
-<meta property="og:url" content="https://imwjc.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/index.html">
+<meta property="og:url" content="https://lsvm.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/index.html">
 <meta property="og:site_name" content="咸鱼的自留地">
 <meta property="og:description" content="在Ubuntu又一次搞坏了CUDA的驱动之后，我投向了Manjaro的怀抱，重新进入了双系统的状态，VMware还是要安装的，安装的步骤倒是和Ubuntu没有什么不同。Manjaro默认的内核头文件是3.16版本的，我升级到了和内核相匹配的4.19，然后就出问题了，找了几种方法后终于解决，遂记录于此，万一下次还碰到了呢？">
 <meta property="og:locale" content="zh_CN">
@@ -41,7 +41,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/06/20190625-00-00.jpg!on_blog">
 
-<link rel="canonical" href="https://imwjc.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/">
+<link rel="canonical" href="https://lsvm.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/">
 
 
 <script id="page-configurations">
@@ -211,7 +211,7 @@
   
   
   <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://imwjc.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/">
+    <link itemprop="mainEntityOfPage" href="https://lsvm.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/">
 
     <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://leslie-cloud.oss-accelerate.aliyuncs.com/blogsite/ezgif.com-crop.gif">
@@ -336,7 +336,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://imwjc.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/" title="【教程】Manjaro升级内核后无法打开VMware">https://imwjc.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/</a>
+    <a href="https://lsvm.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/" title="【教程】Manjaro升级内核后无法打开VMware">https://lsvm.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -441,7 +441,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -498,6 +498,8 @@
         
 
         
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">浙ICP备20017115号 </a>
+  </div>
 
 <div class="copyright">
   
@@ -614,7 +616,7 @@
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'https://imwjc.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'https://lsvm.xyz/2019/06/manjaro-cannot-open-vmware-after-upgrade/',]
       });
       });
   ;

@@ -179,6 +179,35 @@
       </tags>
   </entry>
   <entry>
+    <title>【教程】加速git（push/clone速度慢）</title>
+    <url>/2019/04/git-use-proxy/</url>
+    <content><![CDATA[<html><head></head><body><p>作为一名CS专业的学生，我们大部分时候都在和代码打交道，那么就不得不知道<code>git</code>和<a href="https://github.com" target="_blank" rel="noopener"><code>GitHub</code></a>了，<code>git</code>最基本的命令就是使用<code>git clone</code>从代码托管平台下载代码以及使用<code>git push</code>将本地更改推送到远程仓库，然而由于众所周知的原因，世界上最大的代码托管平台<code>GitHub</code>在国内访问的速度实在堪忧，这里提供一些网络加速的方法。</p>
+<a id="more"></a>
+<h1 id="为git使用代理" class="heading-control"><a class="heading-anchor" href="#为git使用代理" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#为git使用代理"></a> 为git使用代理</h1>
+<p>如果你已经拥有了一些代理软件，那么直接为<code>git</code>设置代理是最好的提速方法，这里以<code>ss</code>为例，假设本地代理地址为<code>127.0.0.1：1080</code>，那么你可以使用以下命令为<code>git</code>设置代理：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> http options</span></span><br><span class="line">git config --global http.proxy "socks5h://127.0.0.1:1080"</span><br><span class="line"><span class="meta">#</span><span class="bash"> unknown section name</span></span><br><span class="line">git config --global https.proxy "socks5h://127.0.0.1:1080"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看更改是否成功</span></span><br><span class="line">git config --global --get http.proxy</span><br><span class="line">git config --global --get https.proxys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 取消代理</span></span><br><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></tbody></table></figure>
+<p>这一方法可以加速克隆使用http/https协议进行传输的仓库，使用ssh协议的需要其他设置，这里不加以阐述。</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> http/https协议</span></span><br><span class="line">git clone https://github.com/leslievan/verilog.git</span><br><span class="line"><span class="meta">#</span><span class="bash"> ssh协议</span></span><br><span class="line">git clone git@github.com:leslievan/verilog,git</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="修改host文件" class="heading-control"><a class="heading-anchor" href="#修改host文件" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#修改host文件"></a> 修改host文件</h1>
+<p>在<code>git clone</code>或<code>git push</code>时，实际上并不是直接向<code>github.com</code>发送请求，而是对<code>github.global.ssl.fastly.net</code>发送请求与通信，Fastly公司在中国有着众多的CDN节点，GitHub可能因为成本或者其他原因，并没有在中国搭设自己专属的CDN节点，我们可以通过修改<code>host</code>文件来加速对这个域名的访问。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># windows下修改C:\Windows\System32\drivers\etc\hosts</span><br><span class="line"># Linux/Mac下修改/etc/hosts</span><br><span class="line"># 在最后加上</span><br><span class="line"></span><br><span class="line">151.101.77.194  github.global.ssl.fastly.net</span><br><span class="line">13.229.188.59   github.com</span><br><span class="line">185.199.109.153 assets-cdn.github.com</span><br><span class="line">151.101.76.249  global-ssl.fastly.net</span><br></pre></td></tr></tbody></table></figure>
+<p>然后刷新DNS缓存。</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># windows</span><br><span class="line">ipconfig /flushdns</span><br><span class="line"># linux/mac</span><br><span class="line">sudo /etc/init.d/network-manager restart</span><br></pre></td></tr></tbody></table></figure>
+<p>如果网络没问题的话，修改后的速度一般都能达到<code>MB/s</code>的级别。</p>
+<h1 id="git-shallow-clone" class="heading-control"><a class="heading-anchor" href="#git-shallow-clone" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#git-shallow-clone"></a> git shallow clone</h1>
+<p><code>git clone</code>默认是将整个项目全须全尾地下载到本地，实际上我们大部分时候都只是想要最新的版本，下载整个项目是无用的且花费较大的，这时候我们可以使用：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">git clone --depth=1 https://github.com/leslievan/verilog.git</span><br></pre></td></tr></tbody></table></figure>
+<p>其中，<code>--depth=1</code>代表最新的版本，通过这一参数的限定可以大大减少下载的数据量，如果你的网速较慢且无法改变，无法开源那么不妨尝试节流。</p>
+</body></html>]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>Software</tag>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【笔记】Ubuntu美化装机全步骤</title>
     <url>/2019/04/config-ubuntu/</url>
     <content><![CDATA[<html><head></head><body><p>Ubuntu重装了太多太多次，这次因为安装CUDA，结果把显卡驱动弄坏了，折腾了半小时没救回来，遂重装了事，记录下一系列的步骤，步骤仅供我自己参考，<s>如有按图索骥然后弄崩系统的，概不负责</s>，有兴趣参考的可以邮件给我或在下方评论。</p>
@@ -291,32 +320,34 @@
       </tags>
   </entry>
   <entry>
-    <title>【教程】加速git（push/clone速度慢）</title>
-    <url>/2019/04/git-use-proxy/</url>
-    <content><![CDATA[<html><head></head><body><p>作为一名CS专业的学生，我们大部分时候都在和代码打交道，那么就不得不知道<code>git</code>和<a href="https://github.com" target="_blank" rel="noopener"><code>GitHub</code></a>了，<code>git</code>最基本的命令就是使用<code>git clone</code>从代码托管平台下载代码以及使用<code>git push</code>将本地更改推送到远程仓库，然而由于众所周知的原因，世界上最大的代码托管平台<code>GitHub</code>在国内访问的速度实在堪忧，这里提供一些网络加速的方法。</p>
+    <title>【教程】安装&amp;加速Rust</title>
+    <url>/2019/04/rust-cargo-use-mirror/</url>
+    <content><![CDATA[<html><head></head><body><p>和<code>apt</code>、<code>pip</code>等一样，<code>Rust</code>的源同样也在国外，被GFW拒之门外，速度实在难以言表，这里介绍安装过程以及如何使用中科大的源为<code>Rust</code>和<code>Cargo</code>加速。</p>
 <a id="more"></a>
-<h1 id="为git使用代理" class="heading-control"><a class="heading-anchor" href="#为git使用代理" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#为git使用代理"></a> 为git使用代理</h1>
-<p>如果你已经拥有了一些代理软件，那么直接为<code>git</code>设置代理是最好的提速方法，这里以<code>ss</code>为例，假设本地代理地址为<code>127.0.0.1：1080</code>，那么你可以使用以下命令为<code>git</code>设置代理：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> http options</span></span><br><span class="line">git config --global http.proxy "socks5h://127.0.0.1:1080"</span><br><span class="line"><span class="meta">#</span><span class="bash"> unknown section name</span></span><br><span class="line">git config --global https.proxy "socks5h://127.0.0.1:1080"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看更改是否成功</span></span><br><span class="line">git config --global --get http.proxy</span><br><span class="line">git config --global --get https.proxys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 取消代理</span></span><br><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></tbody></table></figure>
-<p>这一方法可以加速克隆使用http/https协议进行传输的仓库，使用ssh协议的需要其他设置，这里不加以阐述。</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> http/https协议</span></span><br><span class="line">git clone https://github.com/leslievan/verilog.git</span><br><span class="line"><span class="meta">#</span><span class="bash"> ssh协议</span></span><br><span class="line">git clone git@github.com:leslievan/verilog,git</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="修改host文件" class="heading-control"><a class="heading-anchor" href="#修改host文件" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#修改host文件"></a> 修改host文件</h1>
-<p>在<code>git clone</code>或<code>git push</code>时，实际上并不是直接向<code>github.com</code>发送请求，而是对<code>github.global.ssl.fastly.net</code>发送请求与通信，Fastly公司在中国有着众多的CDN节点，GitHub可能因为成本或者其他原因，并没有在中国搭设自己专属的CDN节点，我们可以通过修改<code>host</code>文件来加速对这个域名的访问。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># windows下修改C:\Windows\System32\drivers\etc\hosts</span><br><span class="line"># Linux/Mac下修改/etc/hosts</span><br><span class="line"># 在最后加上</span><br><span class="line"></span><br><span class="line">151.101.77.194  github.global.ssl.fastly.net</span><br><span class="line">13.229.188.59   github.com</span><br><span class="line">185.199.109.153 assets-cdn.github.com</span><br><span class="line">151.101.76.249  global-ssl.fastly.net</span><br></pre></td></tr></tbody></table></figure>
-<p>然后刷新DNS缓存。</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line"># windows</span><br><span class="line">ipconfig /flushdns</span><br><span class="line"># linux/mac</span><br><span class="line">sudo /etc/init.d/network-manager restart</span><br></pre></td></tr></tbody></table></figure>
-<p>如果网络没问题的话，修改后的速度一般都能达到<code>MB/s</code>的级别。</p>
-<h1 id="git-shallow-clone" class="heading-control"><a class="heading-anchor" href="#git-shallow-clone" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#git-shallow-clone"></a> git shallow clone</h1>
-<p><code>git clone</code>默认是将整个项目全须全尾地下载到本地，实际上我们大部分时候都只是想要最新的版本，下载整个项目是无用的且花费较大的，这时候我们可以使用：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">git clone --depth=1 https://github.com/leslievan/verilog.git</span><br></pre></td></tr></tbody></table></figure>
-<p>其中，<code>--depth=1</code>代表最新的版本，通过这一参数的限定可以大大减少下载的数据量，如果你的网速较慢且无法改变，无法开源那么不妨尝试节流。</p>
+<h1 id="安装" class="heading-control"><a class="heading-anchor" href="#安装" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#安装"></a> 安装</h1>
+<h2 id="ubuntu源" class="heading-control"><a class="heading-anchor" href="#ubuntu源" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#ubuntu源"></a> Ubuntu源</h2>
+<p><code>rustc</code>是Rust的软件包，默认已被收录，如果不需求最新版本，可以直接使用<code>apt</code>进行安装，前面已经有一篇文章介绍了<a href="/2019/03/apt-use-mirror/">如何加速apt</a>：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt-get install rustc cargo</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="rustup" class="heading-control"><a class="heading-anchor" href="#rustup" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#rustup"></a> Rustup</h2>
+<p>在终端里面输入：</p>
+<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">curl https://sh.rustup.rs -sSf | sh</span><br></pre></td></tr></tbody></table></figure>
+<p>之后跟随提示所有选项选择默认即可。</p>
+<h1 id="使用中科大源进行加速" class="heading-control"><a class="heading-anchor" href="#使用中科大源进行加速" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#使用中科大源进行加速"></a> 使用中科大源进行加速</h1>
+<p>在<code>~/.cargo/config</code>添加以下内容：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[registry]</span><br><span class="line">index = "git://mirrors.ustc.edu.cn/crates.io-index"</span><br></pre></td></tr></tbody></table></figure>
+<p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">index = "http://mirrors.ustc.edu.cn/crates.io-index"</span><br></pre></td></tr></tbody></table></figure>
+<p>如果 cargo 版本为 0.13.0 或以上, 需要更改<code>~/.cargo/config</code>为以下内容：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = "https://github.com/rust-lang/crates.io-index"</span><br><span class="line">replace-with = 'ustc'</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = "git://mirrors.ustc.edu.cn/crates.io-index"</span><br></pre></td></tr></tbody></table></figure>
 </body></html>]]></content>
       <categories>
         <category>教程</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>Software</tag>
-        <tag>Git</tag>
+        <tag>加速</tag>
+        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
@@ -337,6 +368,9 @@
 <li><a href="https://github.com/leslievan/Operator_System" target="_blank" rel="noopener">Lab5-Linux文件系统</a></li>
 </ul>
 <a id="more"></a>
+<a class="btn" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/files/Operate_System/Operator_System-1.0.zip" target="_blank" rel="noopener">
+            <i class="fa fa-"></i>点此下载源码
+          </a>
 <h2 id="hdu-os-lab1-linux内核编译及添加系统调用" class="heading-control"><a class="heading-anchor" href="#hdu-os-lab1-linux内核编译及添加系统调用" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#hdu-os-lab1-linux内核编译及添加系统调用"></a> HDU-OS-Lab1-Linux内核编译及添加系统调用</h2>
 <p>添加一个系统调用，实现对指定进程的nice值的修改或读取功能，并返回进程最新的nice值及优先级prio。</p>
 <blockquote>
@@ -362,7 +396,13 @@
 <p><a href="https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab3/Operator_System_Exp3_2" target="_blank" rel="noopener">https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab3/Operator_System_Exp3_2</a></p>
 </blockquote>
 <a href="/2019/04/os-lab-3-2/" title="阅读更多">阅读更多</a>
-</body></html>]]></content>
+<h2 id="hdu-os-lab3-linux进程管理三消息队列" class="heading-control"><a class="heading-anchor" href="#hdu-os-lab3-linux进程管理三消息队列" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#hdu-os-lab3-linux进程管理三消息队列"></a> HDU-OS-Lab3-Linux进程管理（三）消息队列</h2>
+<p>本实验是实验三的第三个部分，介绍了利用消息队列通信机制实现两个线程间通信的方法。</p>
+<blockquote>
+<p>源码地址：</p>
+<p><<a href="https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab3/Operator_System_Exp3_3" target="_blank" rel="noopener">https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab3/Operator_System_Exp3_3</a></p>
+</blockquote>
+<a href="/2019/04/os-lab-3-3/" title="阅读更多">阅读更多</a></body></html>]]></content>
       <categories>
         <category>笔记</category>
       </categories>
@@ -411,37 +451,6 @@
         <tag>Ubuntu</tag>
         <tag>DNS</tag>
         <tag>Network</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【教程】安装&amp;加速Rust</title>
-    <url>/2019/04/rust-cargo-use-mirror/</url>
-    <content><![CDATA[<html><head></head><body><p>和<code>apt</code>、<code>pip</code>等一样，<code>Rust</code>的源同样也在国外，被GFW拒之门外，速度实在难以言表，这里介绍安装过程以及如何使用中科大的源为<code>Rust</code>和<code>Cargo</code>加速。</p>
-<a id="more"></a>
-<h1 id="安装" class="heading-control"><a class="heading-anchor" href="#安装" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#安装"></a> 安装</h1>
-<h2 id="ubuntu源" class="heading-control"><a class="heading-anchor" href="#ubuntu源" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#ubuntu源"></a> Ubuntu源</h2>
-<p><code>rustc</code>是Rust的软件包，默认已被收录，如果不需求最新版本，可以直接使用<code>apt</code>进行安装，前面已经有一篇文章介绍了<a href="/2019/03/apt-use-mirror/">如何加速apt</a>：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">sudo apt-get install rustc cargo</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="rustup" class="heading-control"><a class="heading-anchor" href="#rustup" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#rustup"></a> Rustup</h2>
-<p>在终端里面输入：</p>
-<figure class="highlight shell"><table><tbody><tr><td class="code"><pre><span class="line">curl https://sh.rustup.rs -sSf | sh</span><br></pre></td></tr></tbody></table></figure>
-<p>之后跟随提示所有选项选择默认即可。</p>
-<h1 id="使用中科大源进行加速" class="heading-control"><a class="heading-anchor" href="#使用中科大源进行加速" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#使用中科大源进行加速"></a> 使用中科大源进行加速</h1>
-<p>在<code>~/.cargo/config</code>添加以下内容：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[registry]</span><br><span class="line">index = "git://mirrors.ustc.edu.cn/crates.io-index"</span><br></pre></td></tr></tbody></table></figure>
-<p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">index = "http://mirrors.ustc.edu.cn/crates.io-index"</span><br></pre></td></tr></tbody></table></figure>
-<p>如果 cargo 版本为 0.13.0 或以上, 需要更改<code>~/.cargo/config</code>为以下内容：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">[source.crates-io]</span><br><span class="line">registry = "https://github.com/rust-lang/crates.io-index"</span><br><span class="line">replace-with = 'ustc'</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = "git://mirrors.ustc.edu.cn/crates.io-index"</span><br></pre></td></tr></tbody></table></figure>
-</body></html>]]></content>
-      <categories>
-        <category>教程</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Software</tag>
-        <tag>加速</tag>
-        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
@@ -597,64 +606,6 @@
       </tags>
   </entry>
   <entry>
-    <title>【机器学习】PyTorch构建自己的数据集</title>
-    <url>/2019/12/pytorch-tutorial-01/</url>
-    <content><![CDATA[<html><head></head><body><p>Python和MATLAB是机器学习最常用的两种开发工具，相比于MATLAB，Python的优势在于其免费使用以及开源，普通学生难以负担MATLAB的昂贵费用。机器学习的快速发展，推动了各种机器学习框架的出现，常见的机器学习框架如<code>TensorFlow</code>（Google）、<code>PyTorch/Torch</code>（Facebook）、<code>Caffe</code>（UC Berkeley）等。</p>
-<p>PyTorch内置了诸如MNIST、cifar10等在内的一系列数据集，简单的几行代码就可以调用：</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets, transforms</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">    datasets.MNIST(<span class="string">'../data'</span>, train=<span class="literal">True</span>, download=<span class="literal">True</span>,</span><br><span class="line">                    transform=transforms.Compose([</span><br><span class="line">                        transforms.ToTensor(),</span><br><span class="line">                        transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))</span><br><span class="line">                    ])),</span><br><span class="line">    batch_size=batch_size, shuffle=<span class="literal">True</span>)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(</span><br><span class="line">    datasets.MNIST(<span class="string">'../data'</span>, train=<span class="literal">False</span>, transform=transforms.Compose([</span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">        transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))</span><br><span class="line">    ])),</span><br><span class="line">    batch_size=batch_size, shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></tbody></table></figure>
-<p>那么如何自定义数据集呢？</p>
-<a id="more"></a>
-<p>对PyTorch没有一点了解的可以先看这篇官方教程：<a href="https://pytorch.apachecn.org/" target="_blank" rel="noopener">Introduction · Pytorch 中文文档</a></p>
-<hr>
-<h2 id="摘要" class="heading-control"><a class="heading-anchor" href="#摘要" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2>
-<p>PyTorch内置抽象类<code>torch.utils.data.Dataset</code>，定义自己的数据集时，只需要继承该类，并重写其中的<code>__len__</code>和<code>__getitem__</code>。</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dataset</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""An abstract class representing a Dataset.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    All other datasets should subclass it. All subclasses should override</span></span><br><span class="line"><span class="string">    ``__len__``, that provides the size of the dataset, and ``__getitem__``,</span></span><br><span class="line"><span class="string">    supporting integer indexing in range from 0 to len(self) exclusive.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__add__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> ConcatDataset([self, other])</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="实现" class="heading-control"><a class="heading-anchor" href="#实现" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#实现"></a> 实现</h2>
-<p><strong>切分数据集</strong></p>
-<p>首先准备好自己的数据集，将测试集和训练集分别置于<code>data/train</code>和<code>data/test</code>中，组织文件结构如下：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── data</span><br><span class="line">│   ├── test</span><br><span class="line">│   │   ├── 1.jpg</span><br><span class="line">│   │   ├── 2.jpg</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   ├── test.txt</span><br><span class="line">│   ├── train</span><br><span class="line">│   │   ├── 1.jpg</span><br><span class="line">│   │   ├── 2.jpg</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   └── train.txt</span><br><span class="line">└── main.py</span><br></pre></td></tr></tbody></table></figure>
-<p>在<code>train.txt</code>和<code>test.txt</code>中存放标签：</p>
-<figure class="highlight plain"><figcaption><span>train.txt</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line">./data/train/1.jpg   1</span><br><span class="line">./data/train/2.jpg   1</span><br><span class="line">./data/train/3.jpg   2</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
-<figure class="highlight plain"><figcaption><span>test.txt</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line">./data/test/1.jpg   1</span><br><span class="line">./data/test/2.jpg   1</span><br><span class="line">./data/test/3.jpg   2</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
-<p><strong>重写抽象类</strong></p>
-<table>
-<thead>
-<tr>
-<th>method</th>
-<th>function</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>__init__</code></td>
-<td>初始化成员变量，读取txt文件中的图片路径、标签等信息</td>
-</tr>
-<tr>
-<td><code>__getitem__</code></td>
-<td>读取单个样本数据及标签</td>
-</tr>
-<tr>
-<td><code>__len__</code></td>
-<td>返回数据集大小</td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, txt_path, transform=None)</span>:</span></span><br><span class="line">        self.txt_path = txt_path</span><br><span class="line"></span><br><span class="line">        imgs = []</span><br><span class="line">        <span class="keyword">with</span> open(self.txt_path, <span class="string">'r'</span>) <span class="keyword">as</span> dp:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> dp.readlines():</span><br><span class="line">                line = line.rstrip()</span><br><span class="line">                words = line.split()</span><br><span class="line">                imgs.append((words[<span class="number">0</span>], int(words[<span class="number">1</span>])))</span><br><span class="line"></span><br><span class="line">        self.imgs = imgs</span><br><span class="line">        self.transform = transform</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        fn, label = self.imgs[index]</span><br><span class="line">        img = Image.open(fn)</span><br><span class="line">        img = np.array(img)</span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> img, label</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.imgs)</span><br></pre></td></tr></tbody></table></figure>
-<p>至此，一个简单的自定义数据集制作完成，调用方法与内置的数据集一般无二：</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets, transforms</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">transform = transforms.ToTensors()</span><br><span class="line">train_path = <span class="string">r'./data/train.txt'</span></span><br><span class="line">test_path = <span class="string">r'./data/test.txt'</span></span><br><span class="line">train_data = MyDataset(train_path, transform)</span><br><span class="line">test_data = MyDataset(test_path, transform)</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,</span><br><span class="line">    shuffle=<span class="literal">True</span>)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size,</span><br><span class="line">    shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="demo" class="heading-control"><a class="heading-anchor" href="#demo" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#demo"></a> demo</h2>
-<a class="btn" href="/404.html">
-            <i class="fa fa-"></i>Download demo.zip
-          </a></body></html>]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-        <tag>PyTorch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【LaTeX快速指南】（一）安装与配置中文环境</title>
     <url>/2019/11/latex-tutorial-01/</url>
     <content><![CDATA[<html><head></head><body><p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/11/2019-11-20-latex-tutorial-01-01.png!on_blog" alt></p>
@@ -730,6 +681,134 @@ TeX发行版和TeX编辑器的关系可以类比浏览器和Sublime/VSCode等编
       <tags>
         <tag>Software</tag>
         <tag>LaTeX</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【算法】大数加法</title>
+    <url>/2020/04/add-two-big-numbers/</url>
+    <content><![CDATA[<html><head></head><body><p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2020/04/2020-04-add-two-big-numbers-00.png!on_blog" alt></p>
+<p>大数加法即能够对超长位数的数字进行相加，比如一个100位数和一个80位数的数字相加。</p>
+<p>在这种情况下，数的大小已经超出了基本类型（int,long,double,float）能够表示的范围，直接加减只能得到错误的结果，想要得到正确的结果就需要使用其他数据结构存储这些数字，同时构建相应的相加函数，这里应该想到可以使用占用空间可选的字符串类型。</p>
+<a id="more"></a>
+<h2 id="问题抽象" class="heading-control"><a class="heading-anchor" href="#问题抽象" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#问题抽象"></a> 问题抽象</h2>
+<p>输入为(M,N):</p>
+<ul>
+<li>M: 字符串<code>string</code>存储的10进制整数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span></span></span></span></li>
+<li>N: 字符串<code>string</code>存储的10进制整数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></li>
+</ul>
+<p>输出为S:</p>
+<ul>
+<li>S: 字符串<code>string</code>存储的10进制大数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span></li>
+</ul>
+<h2 id="数学原理" class="heading-control"><a class="heading-anchor" href="#数学原理" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#数学原理"></a> 数学原理</h2>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2020/04/2020-04-add-two-big-numbers-01.gif!on_blog" alt></p>
+<p>写出计算一般数加法的步骤，如上图。可以看到，每一次循环涉及到两个加数当前位<code>a</code>,<code>b</code>、进位<code>carry</code>和结果位<code>result</code>，关系如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">carry = (a + b) // 10</span><br><span class="line">result = (a + b) % 10</span><br></pre></td></tr></tbody></table></figure>
+<p>循环至两个数结束，若其中一个数长度小于另外一个数，则该数当前位使用0进行计算。</p>
+<h2 id="代码实现" class="heading-control"><a class="heading-anchor" href="#代码实现" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h2>
+<p>这里给出C++的算法实现，使用了大量内置的STL，如不能使用STL库可自行实现相关类型。</p>
+<figure class="highlight c++"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by Leslie</span></span><br><span class="line"><span class="comment"> * 2020-03-28</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"string"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"algorithm"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Add two big decimal numbers</span></span><br><span class="line"><span class="comment"> * @param a string of a big number</span></span><br><span class="line"><span class="comment"> * @param b string of a big number</span></span><br><span class="line"><span class="comment"> * @return string of the result</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">AddTwoNumbers</span><span class="params">(<span class="built_in">string</span> a, <span class="built_in">string</span> b)</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> x, y, sum, carry = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">string</span> result;</span><br><span class="line">    <span class="keyword">auto</span> iter_a = a.rbegin(), iter_b = b.rbegin();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (iter_a != a.rend() || iter_b != b.rend()) {</span><br><span class="line">        <span class="comment">// 其中一个数长度小于另外一个数，则遍历该数不存在的高位时，用0替代</span></span><br><span class="line">        x = iter_a != a.rend() ? *iter_a - <span class="string">'0'</span> : <span class="number">0</span>;</span><br><span class="line">        y = iter_b != b.rend() ? *iter_b - <span class="string">'0'</span> : <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        sum = x + y + carry;</span><br><span class="line">        carry = sum / <span class="number">10</span>;</span><br><span class="line">        result += <span class="keyword">char</span>(sum % <span class="number">10</span> + <span class="string">'0'</span>);</span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 遍历到最后一位时，迭代器不再移动</span></span><br><span class="line">        <span class="keyword">if</span> (iter_a != a.rend()) {</span><br><span class="line">            iter_a++;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (iter_b != b.rend()) {</span><br><span class="line">            iter_b++;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 最高位存在进位</span></span><br><span class="line">    <span class="keyword">if</span> (carry == <span class="number">1</span>) {</span><br><span class="line">        result += <span class="keyword">char</span>(carry + <span class="string">'0'</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    reverse(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>这里的<code>string</code>类型完全可以使用<code>char*</code>替代，可以尝试使用C进行实现。</p>
+</body></html>]]></content>
+      <categories>
+        <category>问题</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>大数问题</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【算法】美团笔试解析(待续)</title>
+    <url>/2020/04/meituan-interview/</url>
+    <content><![CDATA[<html><head></head><body><p>五题分别为：</p>
+<ol>
+<li>已知当前星期，时，分，求指定分钟前的星期，时，分。（日期问题）</li>
+<li>有编号1-n的选手，给定出发排列顺序和到达排列顺序，只要存在一个人X，出发时X在Y前，到达时X在Y后，那么Y会受到嘉奖。求能受到嘉奖的总人数。（逆序对）</li>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow></munder><mo stretchy="false">⌊</mo><mfrac><mi>x</mi><msup><mi>k</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup></mfrac><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">f(x)=\sum\limits_{i=1}\lfloor{\frac{x}{k^{i-1}}}\rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.727674em;vertical-align:-0.977669em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.750005em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.977669em;"><span></span></span></span></span></span><span class="mopen">⌊</span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7570857142857143em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span><span class="mclose">⌋</span></span></span></span>，给定<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>n</mi><mo separator="true">,</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">f(x)=n,k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>，求出令该式成立的最小<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>值。</li>
+<li>给定4个顶点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mo separator="true">,</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mo separator="true">,</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">S,A,B,C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span></span></span></span>，任意两个顶点之间均有一条边，从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>点出发，经过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span></span></span></span>步最终到达<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>点的路径条数。（图论）</li>
+<li>给定一组字符串，三种操作：插入/删除编号为x的字符串，求指定字符串<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>和输入的字符串集合的匹配总次数。（字符串）</li>
+</ol>
+<a id="more"></a>
+<h2 id="日期问题" class="heading-control"><a class="heading-anchor" href="#日期问题" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#日期问题"></a> 日期问题</h2>
+<blockquote>
+<p>已知当前星期，时，分，求指定分钟前的星期，时，分。（日期问题）</p>
+<p>注：规定周二00:01前1分钟为周二00:00，周一23:59后1分钟为周二00:00.</p>
+<p>输入：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">2</span><br><span class="line">03:20</span><br><span class="line">180</span><br></pre></td></tr></tbody></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">2</span><br><span class="line">00:20</span><br></pre></td></tr></tbody></table></figure>
+</blockquote>
+<details>
+<summary>点击展开代码</summary>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @file 05_DateTranslate.cpp</span></span><br><span class="line"><span class="comment"> * @author leslie</span></span><br><span class="line"><span class="comment"> * @date 2020-04-12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __05_DateTranslate_MAIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __05_DateTranslate_MAIN</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> d, h, m;</span><br><span class="line">    <span class="keyword">int</span> minutes, now, before;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> per_minute = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> per_hour = <span class="number">60</span> * per_minute;</span><br><span class="line">    <span class="keyword">int</span> per_day = <span class="number">24</span> * per_hour;</span><br><span class="line">    <span class="keyword">int</span> per_week = <span class="number">7</span> * per_day;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Input day and time now */</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &d);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d:%d"</span>, &h, &m);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &minutes);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* The starting point is every Monday at 0:00.</span></span><br><span class="line"><span class="comment">     * Minutes longer than a week are meaningless.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    minutes %= per_week;</span><br><span class="line">    now = d * per_day + h * per_hour + m * per_minute;</span><br><span class="line">    before = now - minutes;</span><br><span class="line">    before = before < per_day ? before + per_week : before;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Output day and time before n minutes */</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\t%02d:%02d"</span>, (before / per_day) % <span class="number">7</span>, (before / per_hour) % <span class="number">24</span>, (before / per_minute) % <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</details>
+</body></html>]]></content>
+      <categories>
+        <category>问题</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>笔试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【机器学习】PyTorch构建自己的数据集</title>
+    <url>/2019/12/pytorch-tutorial-01/</url>
+    <content><![CDATA[<html><head></head><body><p>Python和MATLAB是机器学习最常用的两种开发工具，相比于MATLAB，Python的优势在于其免费使用以及开源，普通学生难以负担MATLAB的昂贵费用。机器学习的快速发展，推动了各种机器学习框架的出现，常见的机器学习框架如<code>TensorFlow</code>（Google）、<code>PyTorch/Torch</code>（Facebook）、<code>Caffe</code>（UC Berkeley）等。</p>
+<p>PyTorch内置了诸如MNIST、cifar10等在内的一系列数据集，简单的几行代码就可以调用：</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets, transforms</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">    datasets.MNIST(<span class="string">'../data'</span>, train=<span class="literal">True</span>, download=<span class="literal">True</span>,</span><br><span class="line">                    transform=transforms.Compose([</span><br><span class="line">                        transforms.ToTensor(),</span><br><span class="line">                        transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))</span><br><span class="line">                    ])),</span><br><span class="line">    batch_size=batch_size, shuffle=<span class="literal">True</span>)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(</span><br><span class="line">    datasets.MNIST(<span class="string">'../data'</span>, train=<span class="literal">False</span>, transform=transforms.Compose([</span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">        transforms.Normalize((<span class="number">0.1307</span>,), (<span class="number">0.3081</span>,))</span><br><span class="line">    ])),</span><br><span class="line">    batch_size=batch_size, shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></tbody></table></figure>
+<p>那么如何自定义数据集呢？</p>
+<a id="more"></a>
+<p>对PyTorch没有一点了解的可以先看这篇官方教程：<a href="https://pytorch.apachecn.org/" target="_blank" rel="noopener">Introduction · Pytorch 中文文档</a></p>
+<hr>
+<h2 id="摘要" class="heading-control"><a class="heading-anchor" href="#摘要" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#摘要"></a> 摘要</h2>
+<p>PyTorch内置抽象类<code>torch.utils.data.Dataset</code>，定义自己的数据集时，只需要继承该类，并重写其中的<code>__len__</code>和<code>__getitem__</code>。</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dataset</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""An abstract class representing a Dataset.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    All other datasets should subclass it. All subclasses should override</span></span><br><span class="line"><span class="string">    ``__len__``, that provides the size of the dataset, and ``__getitem__``,</span></span><br><span class="line"><span class="string">    supporting integer indexing in range from 0 to len(self) exclusive.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__add__</span><span class="params">(self, other)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> ConcatDataset([self, other])</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="实现" class="heading-control"><a class="heading-anchor" href="#实现" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#实现"></a> 实现</h2>
+<p><strong>切分数据集</strong></p>
+<p>首先准备好自己的数据集，将测试集和训练集分别置于<code>data/train</code>和<code>data/test</code>中，组织文件结构如下：</p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">.</span><br><span class="line">├── data</span><br><span class="line">│   ├── test</span><br><span class="line">│   │   ├── 1.jpg</span><br><span class="line">│   │   ├── 2.jpg</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   ├── test.txt</span><br><span class="line">│   ├── train</span><br><span class="line">│   │   ├── 1.jpg</span><br><span class="line">│   │   ├── 2.jpg</span><br><span class="line">│   │   └── ...</span><br><span class="line">│   └── train.txt</span><br><span class="line">└── main.py</span><br></pre></td></tr></tbody></table></figure>
+<p>在<code>train.txt</code>和<code>test.txt</code>中存放标签：</p>
+<figure class="highlight plain"><figcaption><span>train.txt</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line">./data/train/1.jpg   1</span><br><span class="line">./data/train/2.jpg   1</span><br><span class="line">./data/train/3.jpg   2</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plain"><figcaption><span>test.txt</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line">./data/test/1.jpg   1</span><br><span class="line">./data/test/2.jpg   1</span><br><span class="line">./data/test/3.jpg   2</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+<p><strong>重写抽象类</strong></p>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__init__</code></td>
+<td>初始化成员变量，读取txt文件中的图片路径、标签等信息</td>
+</tr>
+<tr>
+<td><code>__getitem__</code></td>
+<td>读取单个样本数据及标签</td>
+</tr>
+<tr>
+<td><code>__len__</code></td>
+<td>返回数据集大小</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, txt_path, transform=None)</span>:</span></span><br><span class="line">        self.txt_path = txt_path</span><br><span class="line"></span><br><span class="line">        imgs = []</span><br><span class="line">        <span class="keyword">with</span> open(self.txt_path, <span class="string">'r'</span>) <span class="keyword">as</span> dp:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> dp.readlines():</span><br><span class="line">                line = line.rstrip()</span><br><span class="line">                words = line.split()</span><br><span class="line">                imgs.append((words[<span class="number">0</span>], int(words[<span class="number">1</span>])))</span><br><span class="line"></span><br><span class="line">        self.imgs = imgs</span><br><span class="line">        self.transform = transform</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        fn, label = self.imgs[index]</span><br><span class="line">        img = Image.open(fn)</span><br><span class="line">        img = np.array(img)</span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> img, label</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.imgs)</span><br></pre></td></tr></tbody></table></figure>
+<p>至此，一个简单的自定义数据集制作完成，调用方法与内置的数据集一般无二：</p>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets, transforms</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">transform = transforms.ToTensors()</span><br><span class="line">train_path = <span class="string">r'./data/train.txt'</span></span><br><span class="line">test_path = <span class="string">r'./data/test.txt'</span></span><br><span class="line">train_data = MyDataset(train_path, transform)</span><br><span class="line">test_data = MyDataset(test_path, transform)</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,</span><br><span class="line">    shuffle=<span class="literal">True</span>)</span><br><span class="line">test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size,</span><br><span class="line">    shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="demo" class="heading-control"><a class="heading-anchor" href="#demo" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#demo"></a> demo</h2>
+<a class="btn" href="/404.html">
+            <i class="fa fa-"></i>Download demo.zip
+          </a></body></html>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>PyTorch</tag>
       </tags>
   </entry>
   <entry>
@@ -875,42 +954,6 @@ TeX发行版和TeX编辑器的关系可以类比浏览器和Sublime/VSCode等编
       </tags>
   </entry>
   <entry>
-    <title>【算法】大数加法</title>
-    <url>/2020/04/add-two-big-numbers/</url>
-    <content><![CDATA[<html><head></head><body><p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2020/04/2020-04-add-two-big-numbers-00.png!on_blog" alt></p>
-<p>大数加法即能够对超长位数的数字进行相加，比如一个100位数和一个80位数的数字相加。</p>
-<p>在这种情况下，数的大小已经超出了基本类型（int,long,double,float）能够表示的范围，直接加减只能得到错误的结果，想要得到正确的结果就需要使用其他数据结构存储这些数字，同时构建相应的相加函数，这里应该想到可以使用占用空间可选的字符串类型。</p>
-<a id="more"></a>
-<h2 id="问题抽象" class="heading-control"><a class="heading-anchor" href="#问题抽象" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#问题抽象"></a> 问题抽象</h2>
-<p>输入为(M,N):</p>
-<ul>
-<li>M: 字符串<code>string</code>存储的10进制整数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">M</span></span></span></span></li>
-<li>N: 字符串<code>string</code>存储的10进制整数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.10903em;">N</span></span></span></span></li>
-</ul>
-<p>输出为S:</p>
-<ul>
-<li>S: 字符串<code>string</code>存储的10进制大数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span></li>
-</ul>
-<h2 id="数学原理" class="heading-control"><a class="heading-anchor" href="#数学原理" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#数学原理"></a> 数学原理</h2>
-<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2020/04/2020-04-add-two-big-numbers-01.gif!on_blog" alt></p>
-<p>写出计算一般数加法的步骤，如上图。可以看到，每一次循环涉及到两个加数当前位<code>a</code>,<code>b</code>、进位<code>carry</code>和结果位<code>result</code>，关系如下：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">carry = (a + b) // 10</span><br><span class="line">result = (a + b) % 10</span><br></pre></td></tr></tbody></table></figure>
-<p>循环至两个数结束，若其中一个数长度小于另外一个数，则该数当前位使用0进行计算。</p>
-<h2 id="代码实现" class="heading-control"><a class="heading-anchor" href="#代码实现" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h2>
-<p>这里给出C++的算法实现，使用了大量内置的STL，如不能使用STL库可自行实现相关类型。</p>
-<figure class="highlight c++"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by Leslie</span></span><br><span class="line"><span class="comment"> * 2020-03-28</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"string"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"algorithm"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Add two big decimal numbers</span></span><br><span class="line"><span class="comment"> * @param a string of a big number</span></span><br><span class="line"><span class="comment"> * @param b string of a big number</span></span><br><span class="line"><span class="comment"> * @return string of the result</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">AddTwoNumbers</span><span class="params">(<span class="built_in">string</span> a, <span class="built_in">string</span> b)</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> x, y, sum, carry = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">string</span> result;</span><br><span class="line">    <span class="keyword">auto</span> iter_a = a.rbegin(), iter_b = b.rbegin();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (iter_a != a.rend() || iter_b != b.rend()) {</span><br><span class="line">        <span class="comment">// 其中一个数长度小于另外一个数，则遍历该数不存在的高位时，用0替代</span></span><br><span class="line">        x = iter_a != a.rend() ? *iter_a - <span class="string">'0'</span> : <span class="number">0</span>;</span><br><span class="line">        y = iter_b != b.rend() ? *iter_b - <span class="string">'0'</span> : <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        sum = x + y + carry;</span><br><span class="line">        carry = sum / <span class="number">10</span>;</span><br><span class="line">        result += <span class="keyword">char</span>(sum % <span class="number">10</span> + <span class="string">'0'</span>);</span><br><span class="line">		</span><br><span class="line">        <span class="comment">// 遍历到最后一位时，迭代器不再移动</span></span><br><span class="line">        <span class="keyword">if</span> (iter_a != a.rend()) {</span><br><span class="line">            iter_a++;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (iter_b != b.rend()) {</span><br><span class="line">            iter_b++;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 最高位存在进位</span></span><br><span class="line">    <span class="keyword">if</span> (carry == <span class="number">1</span>) {</span><br><span class="line">        result += <span class="keyword">char</span>(carry + <span class="string">'0'</span>);</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    reverse(result.<span class="built_in">begin</span>(), result.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>这里的<code>string</code>类型完全可以使用<code>char*</code>替代，可以尝试使用C进行实现。</p>
-</body></html>]]></content>
-      <categories>
-        <category>问题</category>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>大数问题</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【iOS】捷径分享-删除最近图片</title>
     <url>/2020/04/ios-shortcut-share-01/</url>
     <content><![CDATA[<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2020/04/2020-04-ios-shortcut-share-01-00.jpg?x-oss-process=style/on_blog" alt="题图" />经常碰到需要多次截屏，将图片发送给朋友的情况，发送完后每次都要打开相册将其清理掉，次数一多就觉麻烦，把捷径的widget放到了通知中心，这样每次发送万之后只需要下滑打开通知中心，点击<strong>删除最近图片</strong>就可以方便地连续删除。</p>
@@ -948,40 +991,6 @@ c2(no)->wh()</textarea><textarea id="flowchart-0-options" style="display: none">
         <tag>iOS</tag>
         <tag>快捷指令</tag>
         <tag>捷径</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【算法】美团笔试解析(待续)</title>
-    <url>/2020/04/meituan-interview/</url>
-    <content><![CDATA[<html><head></head><body><p>五题分别为：</p>
-<ol>
-<li>已知当前星期，时，分，求指定分钟前的星期，时，分。（日期问题）</li>
-<li>有编号1-n的选手，给定出发排列顺序和到达排列顺序，只要存在一个人X，出发时X在Y前，到达时X在Y后，那么Y会受到嘉奖。求能受到嘉奖的总人数。（逆序对）</li>
-<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow></munder><mo stretchy="false">⌊</mo><mfrac><mi>x</mi><msup><mi>k</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup></mfrac><mo stretchy="false">⌋</mo></mrow><annotation encoding="application/x-tex">f(x)=\sum\limits_{i=1}\lfloor{\frac{x}{k^{i-1}}}\rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.727674em;vertical-align:-0.977669em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.750005em;"><span style="top:-2.122331em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0000050000000003em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop op-symbol small-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.977669em;"><span></span></span></span></span></span><span class="mopen">⌊</span><span class="mord"><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7570857142857143em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span><span class="mclose">⌋</span></span></span></span>，给定<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>n</mi><mo separator="true">,</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">f(x)=n,k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">n</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span>，求出令该式成立的最小<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span>值。</li>
-<li>给定4个顶点<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mo separator="true">,</mo><mi>A</mi><mo separator="true">,</mo><mi>B</mi><mo separator="true">,</mo><mi>C</mi></mrow><annotation encoding="application/x-tex">S,A,B,C</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">A</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span></span></span></span>，任意两个顶点之间均有一条边，从<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>点出发，经过<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span></span></span></span>步最终到达<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>点的路径条数。（图论）</li>
-<li>给定一组字符串，三种操作：插入/删除编号为x的字符串，求指定字符串<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi></mrow><annotation encoding="application/x-tex">S</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>和输入的字符串集合的匹配总次数。（字符串）</li>
-</ol>
-<a id="more"></a>
-<h2 id="日期问题" class="heading-control"><a class="heading-anchor" href="#日期问题" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#日期问题"></a> 日期问题</h2>
-<blockquote>
-<p>已知当前星期，时，分，求指定分钟前的星期，时，分。（日期问题）</p>
-<p>注：规定周二00:01前1分钟为周二00:00，周一23:59后1分钟为周二00:00.</p>
-<p>输入：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">2</span><br><span class="line">03:20</span><br><span class="line">180</span><br></pre></td></tr></tbody></table></figure>
-<p>输出：</p>
-<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">2</span><br><span class="line">00:20</span><br></pre></td></tr></tbody></table></figure>
-</blockquote>
-<details>
-<summary>点击展开代码</summary>
-<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @file 05_DateTranslate.cpp</span></span><br><span class="line"><span class="comment"> * @author leslie</span></span><br><span class="line"><span class="comment"> * @date 2020-04-12</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __05_DateTranslate_MAIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __05_DateTranslate_MAIN</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string"><stdio.h></span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> d, h, m;</span><br><span class="line">    <span class="keyword">int</span> minutes, now, before;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> per_minute = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> per_hour = <span class="number">60</span> * per_minute;</span><br><span class="line">    <span class="keyword">int</span> per_day = <span class="number">24</span> * per_hour;</span><br><span class="line">    <span class="keyword">int</span> per_week = <span class="number">7</span> * per_day;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Input day and time now */</span></span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &d);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d:%d"</span>, &h, &m);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &minutes);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* The starting point is every Monday at 0:00.</span></span><br><span class="line"><span class="comment">     * Minutes longer than a week are meaningless.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    minutes %= per_week;</span><br><span class="line">    now = d * per_day + h * per_hour + m * per_minute;</span><br><span class="line">    before = now - minutes;</span><br><span class="line">    before = before < per_day ? before + per_week : before;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Output day and time before n minutes */</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\t%02d:%02d"</span>, (before / per_day) % <span class="number">7</span>, (before / per_hour) % <span class="number">24</span>, (before / per_minute) % <span class="number">60</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-</details>
-</body></html>]]></content>
-      <categories>
-        <category>问题</category>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>笔试</tag>
       </tags>
   </entry>
   <entry>
@@ -1122,7 +1131,10 @@ c2(no)->wh()</textarea><textarea id="flowchart-0-options" style="display: none">
 <a href="/2019/01/os-lab1/" title="【OS】HDU-OS-Lab1-Linux内核编译及添加系统调用">【OS】HDU-OS-Lab1-Linux内核编译及添加系统调用</a>
 </li>
 <li>
-<a href="/2019/04/os-lab-3-2/" title="【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信">【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信</a></li>
+<a href="/2019/04/os-lab-3-2/" title="【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信">【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信</a>
+</li>
+<li>
+<a href="/2019/04/os-lab-3-3/" title="【OS】HDU-OS-Lab3-Linux进程管理（三）进程通信">【OS】HDU-OS-Lab3-Linux进程管理（三）进程通信</a></li>
 </ul>
 </body></html>]]></content>
       <categories>
@@ -1530,6 +1542,104 @@ c2(no)->wh()</textarea><textarea id="flowchart-0-options" style="display: none">
 </li>
 <li>
 <a href="/2019/04/os-lab-3-2/" title="【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信">【OS】HDU-OS-Lab3-Linux进程管理（二）管道通信</a>
+</li>
+<li>
+<a href="/2019/04/os-lab-3-3/" title="【OS】HDU-OS-Lab3-Linux进程管理（三）进程通信">【OS】HDU-OS-Lab3-Linux进程管理（三）进程通信</a>
+</li>
+</ul>
+</body></html>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>HDU</tag>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【OS】HDU-OS-Lab3-Linux进程管理（三）消息队列</title>
+    <url>/2019/04/os-lab-3-3/</url>
+    <content><![CDATA[<html><head></head><body><p>实验三的知识点是进程通信，进程通信的方式多种多样，既包括锁机制、信号量机制在内的低级通信方式，低级在于其交换的信息量少且效率较低，又包括共享服务器、消息传递系统、管道通信以及客户-服务器系统通信在内的高级通信方式，本实验是实验三的第三个部分，介绍了利用消息队列通信机制实现两个线程间通信的方法。</p>
+<blockquote>
+<p>源码地址：</p>
+<p><a href="https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab3/Operator_System_Exp3_3" target="_blank" rel="noopener">https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab3/Operator_System_Exp3_3</a></p>
+</blockquote>
+<a id="more"></a>
+<a class="btn" href="https://leslie-cloud.oss-accelerate.aliyuncs.com/files/Operate_System/Operator_System_Lab1.tar.xz" target="_blank" rel="noopener">
+            <i class="fa fa-"></i>点此下载完整源码
+          </a>
+<h2 id="基本介绍" class="heading-control"><a class="heading-anchor" href="#基本介绍" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#基本介绍"></a> 基本介绍</h2>
+<p>消息缓冲队列通信机制是消息传递系统通信中直接通信方式的一种具体实现，基本思想为：通常由系统一管理一组用于通信的空闲消息缓冲区；某进程要发送消息时，首先在自己的地址空间中设置一个发送区，并把欲发送的消息填入其中形成消息，再申请一个消息缓冲区，把数据从发送区复制到消息缓冲区中，然后再把该消息缓冲区直接发送到接收进程的消息队列里；接收进程从自己的消息队列上取下消息缓冲区，并将其中的数据复制到自己的消息接收区中，最后释放消息缓冲区。</p>
+<h2 id="实验内容" class="heading-control"><a class="heading-anchor" href="#实验内容" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#实验内容"></a> 实验内容</h2>
+<blockquote>
+<p><strong>利用Linux的消息队列通信机制实现两个线程间的通信</strong></p>
+<p>编写程序创建三个线程：<code>sender1</code>线程、<code>sender2</code>线程和<code>receive</code>线程，三个线程的功能描述如下：</p>
+<ol>
+<li><code>sender1</code>线程：允许函数<code>sender1()</code>，它创建一个消息队列，然后等待用户通过终端输入一串字符，并将这串字符通过消息队列发送给<code>receiver</code>线程；可循环发送多个消息，直到用户输入“exit”为止，表示它不再发送消息，最后向<code>receiver</code>线程发送消息“end1”，并且等待 receiver的应答，等到应答消息后，接收到的应答信息显示在终端屏幕上，结束线程的运行。</li>
+<li><code>sender2</code>线程：运行函数<code>sender2()</code>，共享<code>sender1</code>创建的消息队列，等待用户通过终端输入一串字符，并将这串字符通过消息队列发送给<code>receiver</code>线程；可循环发送多个消息，直到用户输入“exit”为止，表示它不再发送消息，最后向<code>receiver</code>线程发送消息“end2“，并且等待 <code>receiver</code>的应答，等到应答消息后将接收到的应答信息显示在终端屏幕上，结束线程的运行。</li>
+<li><code>Receiver</code>线程：运行函数<code>receive()</code>，它通过消息队列接收来自<code>sender1</code>和<code>sender2</code>两个线程的消息，将消息显示在终端屏幕上，当收到内容为“end1”的消息时，就向<code>sender1</code>发送一个应答消息“over1”；当收到内容为“end2”的消息时，就向<code>sender2</code>发送一个应答消息“over2”；消息接收完成后删除消息队列，结束线程的运行。选择合适的信号量机制实现三个线程之间的同步与互斥。</li>
+</ol>
+</blockquote>
+<p>该实验主要难点在于消息队列的相关操作函数和对于三个线程之间的同步互斥关系。</p>
+<h3 id="消息队列" class="heading-control"><a class="heading-anchor" href="#消息队列" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#消息队列"></a> 消息队列</h3>
+<p>消息队列需要自定义一个消息缓冲区，这里设计一个只包含两个成员变量的结构体作为消息缓冲区：</p>
+<figure class="highlight c"><table><tbody><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg_st</span> {</span></span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">int</span> message_type;</span><br><span class="line">    <span class="keyword">char</span> <span class="built_in">buffer</span>[MAX_SIZE + <span class="number">1</span>];</span><br><span class="line">};</span><br></pre></td></tr></tbody></table></figure>
+<p>其中<code>message_type</code>为消息种类，<code>buffer</code>用来储存消息的数据段，最大可存储<code>MAX_SIZE</code>大小，<code>+1</code>操作为了给结尾留出<code>\0</code>。</p>
+<p>消息队列的相关操作有：</p>
+<ol>
+<li><code>int msgget(key_t key, int msgflg);</code>获得消息队列的特征标识符。<br>
+函数需要两个参数，<code>key</code>和<code>msgflg</code>。<br>
+<code>key</code>是该消息队列的全局唯一标识符，通过该标识符可以定位消息队列，对其进行相关操作。<br>
+<code>msgflg</code>为权限控制，决定对消息队列进行的操作，一般使用<code>0666 | IPC_CREAT</code>，熟悉文件系统的可以知道，<code>0666</code>表示文件所有者、同组用户和其他用户对于该消息队列的权限均为可读可写，后面对常量<code>IPC_CREAT</code>进行的位运算作用是“若该队列未被创建则创建它”。<em>（对于该函数可以简单理解为创建消息队列）</em></li>
+<li><code>ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg);</code>消息队列的接收操作。<br>
+函数需要五个参数，<code>msqid</code>，<code>msgp</code>，<code>msgsz</code>，<code>msgtyp</code>和<code>msgflg</code>。<br>
+<code>msqid</code>是函数<code>msgget</code>的返回值，用于表示对哪一个消息队列进行操作。<br>
+<code>msgp</code>是接收消息的指针，指向消息结构体<code>msg_st</code>。<br>
+<code>msgsz</code>是接收消息的大小，这里可以看作结构体<code>msg_st</code>中数据段的大小。<br>
+<code>msgtyp</code>是接收消息的类别，函数可以接收指定类别的消息，默认为0，忽视类别，接收队首消息，正值和负值有不同含义，详情查看<a href="#%E9%99%84%E5%BD%95">附录</a>。<br>
+<code>msgflg</code>同函数<code>msgget</code>中的<code>msgflg</code>，这里可以直接使用<code>0</code>。<br>
+函数的返回值为实际接收到的消息字节数。</li>
+<li><code>int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg);</code>消息队列的发送操作。<br>
+函数需要四个参数，<code>msqid</code>，<code>msgp</code>，<code>msgsz</code>和<code>msgflg</code>。<br>
+参数含义可参考函数<code>msgrcv</code>。</li>
+<li><code>int msgctl(int msqid, int cmd, struct msqid_ds *buf);</code>消息队列的控制操作。<br>
+函数需要三个参数，<code>msqid</code>，<code>cmd</code>和<code>buf</code>。<br>
+<code>msqid</code>同上。<br>
+<code>cmd</code>对消息队列的操作进行选择，需要用到的是<code>IPC_RMID</code>，用于移除<code>msqid</code>指向的消息队列，详情查看<a href="#%E9%99%84%E5%BD%95">附录</a>。<br>
+<code>buf</code>为消息队列进行操作的参数，这里不需用到，详情请查看<a href="#%E9%99%84%E5%BD%95">附录</a>。</li>
+</ol>
+<p><strong>这部分书上应该更详细，可以看书。</strong></p>
+<figure class="highlight c"><figcaption><span>demo</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> mq;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">msg_st</span> <span class="title">buf</span>;</span></span><br><span class="line"><span class="keyword">ssize_t</span> bytes_read, bytes_write;</span><br><span class="line"><span class="keyword">int</span> MAX_SIZE = <span class="number">128</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Create a queue / Get a queue </span></span><br><span class="line"><span class="comment"> * int msgget(key_t key, int msgflg)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">mq = msgget((<span class="keyword">key_t</span>) QUEUE_ID, <span class="number">0666</span> | IPC_CREAT);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Get message from queue, place the message to buf</span></span><br><span class="line"><span class="comment"> * ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">bytes_read = msgrcv(mq, (<span class="keyword">void</span> *) &buf, MAX_SIZE, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"><span class="comment">/* Get specific type message, such like 1 */</span></span><br><span class="line">bytes_read = msgrcv(mq, (<span class="keyword">void</span> *) &buf, MAX_SIZE, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Send message to queue with message in buf</span></span><br><span class="line"><span class="comment"> * int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">bytes_read = msgrcv(mq, (<span class="keyword">void</span> *) &buf, MAX_SIZE, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"><span class="comment">/* Send specific type message, suck like 1 */</span></span><br><span class="line">bytes_read = msgrcv(mq, (<span class="keyword">void</span> *) &buf, MAX_SIZE, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Remove(Destroy) the queue</span></span><br><span class="line"><span class="comment"> * int msgctl(int msqid, int cmd, struct msqid_ds *buf)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">msgctl(mq, IPC_RMID, &t);</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="同步互斥关系" class="heading-control"><a class="heading-anchor" href="#同步互斥关系" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#同步互斥关系"></a> 同步互斥关系</h3>
+<p><code>sender</code>和<code>receiver</code>之间的进程同步比较简单，临界资源为消息队列。是有：</p>
+<ol>
+<li><code>receiver</code>接收消息，<code>sender</code>发送消息，<code>receiver</code>和<code>sender</code>存在同步关系，使用<code>full=0</code>和<code>empty=1</code>进行约束；</li>
+<li><code>sender</code>之间存在互斥关系，两个发送线程不能同时工作 ，使用<code>w_mutex=1</code>进行约束；</li>
+<li><code>receiver</code>等待发送进程结束后，返回应答，<code>sender</code>收到应答后进行输出，<code>receiver</code>和<code>sender</code>存在同步关系，使用<code>over=0</code>进行约束；</li>
+<li>这里对于终端输出也进行了约束，使用<code>rcv_dp</code>和<code>snd_dp</code>进行约束，可以忽视这部分的处理，这一部分只是为了美观。</li>
+</ol>
+<h3 id="代码实现" class="heading-control"><a class="heading-anchor" href="#代码实现" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#代码实现"></a> 代码实现</h3>
+<h4 id="发送线程" class="heading-control"><a class="heading-anchor" href="#发送线程" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#发送线程"></a> 发送线程</h4>
+<figure class="highlight c"><figcaption><span>sender1</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">sender1</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="keyword">int</span> mq;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg_st</span> <span class="title">buf</span>;</span></span><br><span class="line">    <span class="keyword">ssize_t</span> bytes_read;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* open the mail queue */</span></span><br><span class="line">    mq = msgget((<span class="keyword">key_t</span>) QUEUE_ID, <span class="number">0666</span> | IPC_CREAT);</span><br><span class="line">    CHECK((<span class="keyword">key_t</span>) <span class="number">-1</span> != mq);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span> {</span><br><span class="line">        P(w_mutex);		<span class="comment">/* 进入互斥区 */</span></span><br><span class="line">        P(snd_dp);		<span class="comment">/* 这部分只是为了美观 */</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"sender1> "</span>);</span><br><span class="line">        V(rcv_dp);</span><br><span class="line">        fflush(<span class="built_in">stdout</span>);</span><br><span class="line">        </span><br><span class="line">        fgets(buf.<span class="built_in">buffer</span>, BUFSIZ, <span class="built_in">stdin</span>);	<span class="comment">/* 接收终端输入，置入buf.buffer */</span></span><br><span class="line">        buf.message_type = snd_to_rcv1;		<span class="comment">/* 设置消息类别，接收线程据此判断消息来源 */</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">/* send the message */</span></span><br><span class="line">        P(empty);		<span class="comment">/* 使用empty和full进行同步 */</span></span><br><span class="line">        CHECK(<span class="number">0</span> <= msgsnd(mq, (<span class="keyword">void</span>*)&buf, MAX_SIZE, <span class="number">0</span>));	<span class="comment">/* Check用于检测参数是否成立，不成立则报错，用于Debug，可忽视其实现，作为宏定义，定义在头文件中 */</span></span><br><span class="line">        V(full);</span><br><span class="line">        V(w_mutex);</span><br><span class="line">        <span class="comment">/* 换行为了使线程随机切换，勿随意删除 */</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">     } <span class="keyword">while</span> (<span class="built_in">strncmp</span>(buf.<span class="built_in">buffer</span>, MSG_STOP, <span class="built_in">strlen</span>(MSG_STOP)));	<span class="comment">/* Terminate when receive 'exit' */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* wait for response */</span></span><br><span class="line">    P(over);</span><br><span class="line">    bytes_read = msgrcv(mq, (<span class="keyword">void</span> *) &buf, MAX_SIZE, rcv_to_snd1, <span class="number">0</span>);</span><br><span class="line">    CHECK(bytes_read >= <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s"</span>, buf.<span class="built_in">buffer</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"--------------------------------------------\n"</span>);</span><br><span class="line">    V(snd_dp);</span><br><span class="line">    pthread_exit(<span class="literal">NULL</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h4 id="接收线程" class="heading-control"><a class="heading-anchor" href="#接收线程" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#接收线程"></a> 接收线程</h4>
+<figure class="highlight c"><figcaption><span>receiver</span></figcaption><table><tbody><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">receiver</span><span class="params">()</span> </span>{</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msg_st</span> <span class="title">buf</span>, <span class="title">over1</span>, <span class="title">over2</span>;</span></span><br><span class="line">    <span class="keyword">int</span> mq, must_stop = <span class="number">2</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">msqid_ds</span> <span class="title">t</span>;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* 定义两个结束信号 */</span></span><br><span class="line">    over1.message_type = <span class="number">3</span>;</span><br><span class="line">    <span class="built_in">strcpy</span>(over1.<span class="built_in">buffer</span>, <span class="string">"over1\n"</span>);</span><br><span class="line">    over2.message_type = <span class="number">4</span>;</span><br><span class="line">    <span class="built_in">strcpy</span>(over2.<span class="built_in">buffer</span>, <span class="string">"over2\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* open the mail queue */</span></span><br><span class="line">    mq = msgget((<span class="keyword">key_t</span>) QUEUE_ID, <span class="number">0666</span> | IPC_CREAT);</span><br><span class="line">    CHECK((<span class="keyword">key_t</span>) <span class="number">-1</span> != mq);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span> {</span><br><span class="line">        <span class="keyword">ssize_t</span> bytes_read, bytes_write;</span><br><span class="line">        <span class="comment">/* receive the message */</span></span><br><span class="line">        P(full);</span><br><span class="line">        bytes_read = msgrcv(mq, (<span class="keyword">void</span> *) &buf, MAX_SIZE, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        V(empty);</span><br><span class="line">        </span><br><span class="line">        CHECK(bytes_read >= <span class="number">0</span>);</span><br><span class="line">        <span class="comment">/* 接收到"exit"信号 */</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">strncmp</span>(buf.<span class="built_in">buffer</span>, MSG_STOP, <span class="built_in">strlen</span>(MSG_STOP))) {</span><br><span class="line">            <span class="keyword">if</span> (buf.message_type == <span class="number">1</span>) {</span><br><span class="line">                <span class="comment">/* 写入并发送退出消息 */</span></span><br><span class="line">                bytes_write = msgsnd(mq, (<span class="keyword">void</span> *) &over1, MAX_SIZE, <span class="number">0</span>);</span><br><span class="line">                CHECK(bytes_write >= <span class="number">0</span>);</span><br><span class="line">                V(over);</span><br><span class="line">                must_stop--;</span><br><span class="line">            } <span class="keyword">else</span> <span class="keyword">if</span> (buf.message_type == <span class="number">2</span>) {</span><br><span class="line">                <span class="comment">/* 写入并发送退出消息 */</span></span><br><span class="line">                bytes_write = msgsnd(mq, (<span class="keyword">void</span> *) &over2, MAX_SIZE, <span class="number">0</span>);</span><br><span class="line">                CHECK(bytes_write >= <span class="number">0</span>);</span><br><span class="line">                V(over);</span><br><span class="line">                must_stop--;</span><br><span class="line">            }</span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            <span class="comment">/* 正常处理消息 */</span></span><br><span class="line">            P(rcv_dp);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"Received%d: %s"</span>, buf.message_type, buf.<span class="built_in">buffer</span>);</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"--------------------------------------------\n"</span>);</span><br><span class="line">            V(snd_dp);</span><br><span class="line">        }</span><br><span class="line">    } <span class="keyword">while</span> (must_stop); <span class="comment">/* Terminate when no thread */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* cleanup */</span></span><br><span class="line">    P(snd_dp);</span><br><span class="line">    CHECK(!msgctl(mq, IPC_RMID, &t));</span><br><span class="line">    pthread_exit(<span class="literal">NULL</span>);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="实验结果" class="heading-control"><a class="heading-anchor" href="#实验结果" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#实验结果"></a> 实验结果</h2>
+<p>实验结果如下：</p>
+<p><img data-src="https://leslie-cloud.oss-accelerate.aliyuncs.com/2020/05/2019-04-os-lab-3-1.png?x-oss-process=style/on_blog" alt="Result"></p>
+<h2 id="附录" class="heading-control"><a class="heading-anchor" href="#附录" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#附录"></a> 附录</h2>
+<p><strong><code>msgrcv</code></strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">MSGRCV(3P)                   POSIX Programmer's Manual                   MSGRCV(3P)</span><br><span class="line"></span><br><span class="line">PROLOG</span><br><span class="line">       This manual page is part of the POSIX Programmer's Manual.  The Linux imple‐</span><br><span class="line">       mentation of this interface may differ (consult the corresponding Linux man‐</span><br><span class="line">       ual  page for details of Linux behavior), or the interface may not be imple‐</span><br><span class="line">       mented on Linux.</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">       msgrcv — XSI message receive operation</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       #include <sys/msg.h></span><br><span class="line"></span><br><span class="line">       ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,</span><br><span class="line">           int msgflg);</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">       The msgrcv() function operates on XSI message queues (see the  Base  Defini‐</span><br><span class="line">       tions volume of POSIX.1‐2008, Section 3.225, Message Queue).  It is unspeci‐</span><br><span class="line">       fied whether this function interoperates with the realtime interprocess com‐</span><br><span class="line">       munication facilities defined in Section 2.8, Realtime.</span><br><span class="line"></span><br><span class="line">       The  msgrcv()  function  shall read a message from the queue associated with</span><br><span class="line">       the message queue identifier specified by msqid and place it in the user-de‐</span><br><span class="line">       fined buffer pointed to by msgp.</span><br><span class="line"></span><br><span class="line">       The application shall ensure that the argument msgp points to a user-defined</span><br><span class="line">       buffer that contains first a field of type long specifying the type  of  the</span><br><span class="line">       message,  and  then a data portion that holds the data bytes of the message.</span><br><span class="line">       The structure below is an example of what  this  user-defined  buffer  might</span><br><span class="line">       look like:</span><br><span class="line"></span><br><span class="line">           struct mymsg {</span><br><span class="line">               long    mtype;     /* Message type. */</span><br><span class="line">               char    mtext[1];  /* Message text. */</span><br><span class="line">           }</span><br><span class="line"></span><br><span class="line">       The  structure  member  mtype is the received message's type as specified by</span><br><span class="line">       the sending process.</span><br><span class="line"></span><br><span class="line">       The structure member mtext is the text of the message.</span><br><span class="line"></span><br><span class="line">       The argument msgsz specifies the size in bytes of mtext.  The received  mes‐</span><br><span class="line">       sage  shall  be truncated to msgsz bytes if it is larger than msgsz and (ms‐</span><br><span class="line">       gflg & MSG_NOERROR) is non-zero.  The truncated part of the message shall be</span><br><span class="line">       lost  and  no  indication  of  the  truncation shall be given to the calling</span><br><span class="line">       process.</span><br><span class="line"></span><br><span class="line">       If the value of msgsz is greater than {SSIZE_MAX}, the result is implementa‐</span><br><span class="line">       tion-defined.</span><br><span class="line"></span><br><span class="line">       The argument msgtyp specifies the type of message requested as follows:</span><br><span class="line"></span><br><span class="line">        *  If msgtyp is 0, the first message on the queue shall be received.</span><br><span class="line"></span><br><span class="line">        *  If  msgtyp  is greater than 0, the first message of type msgtyp shall be</span><br><span class="line">           received.</span><br><span class="line"></span><br><span class="line">        *  If msgtyp is less than 0, the first message of the lowest type  that  is</span><br><span class="line">           less than or equal to the absolute value of msgtyp shall be received.</span><br><span class="line"></span><br><span class="line">       The argument msgflg specifies the action to be taken if a message of the de‐</span><br><span class="line">       sired type is not on the queue. These are as follows:</span><br><span class="line"></span><br><span class="line">        *  If (msgflg & IPC_NOWAIT) is non-zero, the calling  thread  shall  return</span><br><span class="line">           immediately with a return value of −1 and errno set to [ENOMSG].</span><br><span class="line"></span><br><span class="line">        *  If  (msgflg  & IPC_NOWAIT) is 0, the calling thread shall suspend execu‐</span><br><span class="line">           tion until one of the following occurs:</span><br><span class="line"></span><br><span class="line">           --  A message of the desired type is placed on the queue.</span><br><span class="line"></span><br><span class="line">           --  The message queue identifier msqid is removed from the system;  when</span><br><span class="line">               this occurs, errno shall be set to [EIDRM] and −1 shall be returned.</span><br><span class="line"></span><br><span class="line">           --  The  calling  thread receives a signal that is to be caught; in this</span><br><span class="line">               case a message is not received and the calling thread resumes execu‐</span><br><span class="line">               tion in the manner prescribed in sigaction().</span><br><span class="line"></span><br><span class="line">       Upon  successful completion, the following actions are taken with respect to</span><br><span class="line">       the data structure associated with msqid:</span><br><span class="line"></span><br><span class="line">        *  msg_qnum shall be decremented by 1.</span><br><span class="line"></span><br><span class="line">        *  msg_lrpid shall be set to the process ID of the calling process.</span><br><span class="line"></span><br><span class="line">        *  msg_rtime shall be set to the current  time,  as  described  in  Section</span><br><span class="line">           2.7.1, IPC General Description.</span><br><span class="line"></span><br><span class="line">RETURN VALUE</span><br><span class="line">       Upon  successful completion, msgrcv() shall return a value equal to the num‐</span><br><span class="line">       ber of bytes actually placed into the buffer mtext.  Otherwise,  no  message</span><br><span class="line">       shall be received, msgrcv() shall return −1, and errno shall be set to indi‐</span><br><span class="line">       cate the error.</span><br></pre></td></tr></tbody></table></figure>
+<p><strong><code>msgctl</code></strong></p>
+<figure class="highlight plain"><table><tbody><tr><td class="code"><pre><span class="line">MSGCTL(3P)                   POSIX Programmer's Manual                   MSGCTL(3P)</span><br><span class="line"></span><br><span class="line">PROLOG</span><br><span class="line">       This manual page is part of the POSIX Programmer's Manual.  The Linux imple‐</span><br><span class="line">       mentation of this interface may differ (consult the corresponding Linux man‐</span><br><span class="line">       ual  page for details of Linux behavior), or the interface may not be imple‐</span><br><span class="line">       mented on Linux.</span><br><span class="line"></span><br><span class="line">NAME</span><br><span class="line">       msgctl — XSI message control operations</span><br><span class="line"></span><br><span class="line">SYNOPSIS</span><br><span class="line">       #include <sys/msg.h></span><br><span class="line"></span><br><span class="line">       int msgctl(int msqid, int cmd, struct msqid_ds *buf);</span><br><span class="line"></span><br><span class="line">DESCRIPTION</span><br><span class="line">       The msgctl() function operates on XSI message queues (see the  Base  Defini‐</span><br><span class="line">       tions volume of POSIX.1‐2008, Section 3.225, Message Queue).  It is unspeci‐</span><br><span class="line">       fied whether this function interoperates with the realtime interprocess com‐</span><br><span class="line">       munication facilities defined in Section 2.8, Realtime.</span><br><span class="line"></span><br><span class="line">       The  msgctl() function shall provide message control operations as specified</span><br><span class="line">       by cmd.  The following values for cmd, and the  message  control  operations</span><br><span class="line">       they specify, are:</span><br><span class="line"></span><br><span class="line">       IPC_STAT    Place  the  current  value  of  each member of the msqid_ds data</span><br><span class="line">                   structure associated with msqid into the structure pointed to by</span><br><span class="line">                   buf.  The contents of this structure are defined in <sys/msg.h>.</span><br><span class="line"></span><br><span class="line">       IPC_SET     Set  the  value  of  the  following members of the msqid_ds data</span><br><span class="line">                   structure associated with msqid to the corresponding value found</span><br><span class="line">                   in the structure pointed to by buf:</span><br><span class="line"></span><br><span class="line">                       msg_perm.uid</span><br><span class="line">                       msg_perm.gid</span><br><span class="line">                       msg_perm.mode</span><br><span class="line">                       msg_qbytes</span><br><span class="line"></span><br><span class="line">                   Also,  the msg_ctime timestamp shall be set to the current time,</span><br><span class="line">                   as described in Section 2.7.1, IPC General Description.</span><br><span class="line"></span><br><span class="line">                   IPC_SET can only be executed by a process with appropriate priv‐</span><br><span class="line">                   ileges  or  that  has an effective user ID equal to the value of</span><br><span class="line">                   msg_perm.cuid or msg_perm.uid in the msqid_ds data structure as‐</span><br><span class="line">                   sociated with msqid.  Only a process with appropriate privileges</span><br><span class="line">                   can raise the value of msg_qbytes.</span><br><span class="line"></span><br><span class="line">       IPC_RMID    Remove the message queue identifier specified by msqid from  the</span><br><span class="line">                   system and destroy the message queue and msqid_ds data structure</span><br><span class="line">                   associated with it. IPC_RMD can only be executed  by  a  process</span><br><span class="line">                   with appropriate privileges or one that has an effective user ID</span><br><span class="line">                   equal to the value  of  msg_perm.cuid  or  msg_perm.uid  in  the</span><br><span class="line">                   msqid_ds data structure associated with msqid.</span><br><span class="line"></span><br><span class="line">RETURN VALUE</span><br><span class="line">       Upon successful completion, msgctl() shall return 0; otherwise, it shall re‐</span><br><span class="line">       turn −1 and set errno to indicate the error.</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="相关阅读" class="heading-control"><a class="heading-anchor" href="#相关阅读" aria-hidden="true"></a><a class="markdownIt-Anchor" href="#相关阅读"></a> 相关阅读</h2>
+<ul>
+<li>
+<a href="/2019/01/os-lab1/" title="【OS】HDU-OS-Lab1-Linux内核编译及添加系统调用">【OS】HDU-OS-Lab1-Linux内核编译及添加系统调用</a>
+</li>
+<li>
+<a href="/2019/03/os-lab2/" title="【OS】HDU-OS-Lab2-Linux内核模块编程">【OS】HDU-OS-Lab2-Linux内核模块编程</a>
+</li>
+<li>
 </li>
 </ul>
 </body></html>]]></content>
