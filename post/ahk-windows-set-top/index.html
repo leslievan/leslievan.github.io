@@ -1,0 +1,176 @@
+<!doctype html><html lang=zh-cn dir=auto>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>「AutoHotKey」快速切换窗口置顶 | Arch Ive</title>
+<meta name=keywords content="AutoHotKey">
+<meta name=description content="编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能">
+<meta name=author content>
+<link rel=canonical href=https://leslievan.github.io/post/ahk-windows-set-top/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.css rel="preload stylesheet" as=style>
+<link rel=preload href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/images/logo.png as=image>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.js onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/apple-touch-icon.png>
+<link rel=mask-icon href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/apple-touch-icon.png>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.89.0">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="「AutoHotKey」快速切换窗口置顶">
+<meta property="og:description" content="编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://leslievan.github.io/post/ahk-windows-set-top/"><meta property="article:section" content="post">
+<meta property="article:published_time" content="2021-11-03T20:43:06+08:00">
+<meta property="article:modified_time" content="2021-11-03T22:33:32+08:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="「AutoHotKey」快速切换窗口置顶">
+<meta name=twitter:description content="编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://leslievan.github.io/post/"},{"@type":"ListItem","position":3,"name":"「AutoHotKey」快速切换窗口置顶","item":"https://leslievan.github.io/post/ahk-windows-set-top/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"「AutoHotKey」快速切换窗口置顶","name":"「AutoHotKey」快速切换窗口置顶","description":"编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能","keywords":["AutoHotKey"],"articleBody":"编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能反而不太适应了，研究了下 AutoHotKey 发现使用它可以更加灵活地开关窗口置顶.\n使用方法 自主编译   安装 AutoHotKey v2.\n AutoHotKey 官网下载安装包，解压到指定的路径，如 D:\\AutoHotKey.    下载/编写 ahk 文件.\nwindowOnTop.ahk\n; # 表示 Win 键，#Space 表示使用 Win+Space 切换窗口置顶的功能 #Space:: { WinSetAlwaysOnTop -1, \"A\" Return }   使用 AutoHotKey32/64.exe 打开 windowOnTop.ahk 文件.\n  右键单击打开方式，如选择使用 D:\\AutoHotKey\\AutoHotKey64.exe 打开。\n  拖动 windowOnTop.ahk 到 AutoHotKey64.exe 上打开。\n  以上两种方式任选一种即可。\n  当看到托盘处出现 AutoHotKey 的图标即表示激活成功，使用 Win+空格 即可切换窗口是否置顶。\n使用 exe 文件   在 Release 中下载使用 Ahk2Exe 编译好的可执行文件。\n  执行 exe 文件。\n  当看到托盘处出现 AutoHotKey 的图标即表示激活成功，使用 Win+空格 即可切换窗口是否置顶。\n","wordCount":"334","inLanguage":"zh-cn","datePublished":"2021-11-03T20:43:06+08:00","dateModified":"2021-11-03T22:33:32+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://leslievan.github.io/post/ahk-windows-set-top/"},"publisher":{"@type":"Organization","name":"Arch Ive","logo":{"@type":"ImageObject","url":"https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://leslievan.github.io accesskey=h title="HOME (Alt + H)">
+<img src=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/images/logo.png alt=logo aria-label=logo height=" 30px">HOME</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://leslievan.github.io/ title=home>
+<span>home</span>
+</a>
+</li>
+<li>
+<a href=https://leslievan.github.io/archive/ title=archive>
+<span>archive</span>
+</a>
+</li>
+<li>
+<a href=https://leslievan.github.io/categories/ title=categories>
+<span>categories</span>
+</a>
+</li>
+<li>
+<a href=https://leslievan.github.io/tags/ title=tags>
+<span>tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<h1 class=post-title>
+「AutoHotKey」快速切换窗口置顶
+</h1>
+<div class=post-meta><span title="2021-11-03 20:43:06 +0800 +0800">2021-08-3</span>&nbsp;·&nbsp;1 min
+</div>
+</header> <div class=toc>
+<details open>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#%e4%bd%bf%e7%94%a8%e6%96%b9%e6%b3%95 aria-label=使用方法>使用方法</a><ul>
+<li>
+<a href=#%e8%87%aa%e4%b8%bb%e7%bc%96%e8%af%91 aria-label=自主编译>自主编译</a></li>
+<li>
+<a href=#%e4%bd%bf%e7%94%a8-exe-%e6%96%87%e4%bb%b6 aria-label="使用 exe 文件">使用 <code>exe</code> 文件</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><p>编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能反而不太适应了，研究了下 <code>AutoHotKey</code> 发现使用它可以更加灵活地开关窗口置顶.</p>
+<h2 id=使用方法>使用方法<a hidden class=anchor aria-hidden=true href=#使用方法>#</a></h2>
+<h3 id=自主编译>自主编译<a hidden class=anchor aria-hidden=true href=#自主编译>#</a></h3>
+<ol>
+<li>
+<p>安装 <code>AutoHotKey v2</code>.</p>
+<ul>
+<li><a href=https://www.autohotkey.com/>AutoHotKey</a> 官网下载安装包，解压到指定的路径，如 <code>D:\AutoHotKey</code>.</li>
+</ul>
+</li>
+<li>
+<p>下载/编写 <code>ahk</code> 文件.</p>
+<p><a href=https://github.com/leslievan/daily-script/raw/main/autoHotKey/windowOnTop.ahk>windowOnTop.ahk</a></p>
+<pre tabindex=0><code class=language-ahk data-lang=ahk>; # 表示 Win 键，#Space 表示使用 Win+Space 切换窗口置顶的功能
+#Space:: {
+    WinSetAlwaysOnTop -1, &quot;A&quot;
+    Return
+}
+</code></pre></li>
+<li>
+<p>使用 <code>AutoHotKey32/64.exe</code> 打开 <code>windowOnTop.ahk</code> 文件.</p>
+<ol>
+<li>
+<p>右键单击打开方式，如选择使用 <code>D:\AutoHotKey\AutoHotKey64.exe</code> 打开。</p>
+</li>
+<li>
+<p>拖动 <code>windowOnTop.ahk</code> 到 <code>AutoHotKey64.exe</code> 上打开。</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2021/11/985ccf896360.gif alt=launchAhk>
+</p>
+</li>
+</ol>
+<p>以上两种方式任选一种即可。</p>
+</li>
+</ol>
+<p>当看到托盘处出现 <code>AutoHotKey</code> 的图标即表示激活成功，使用 <code>Win+空格</code> 即可切换窗口是否置顶。</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2021/11/ce4bfaa09c2e.png alt=image-20211103213604859>
+</p>
+<h3 id=使用-exe-文件>使用 <code>exe</code> 文件<a hidden class=anchor aria-hidden=true href=#使用-exe-文件>#</a></h3>
+<ol>
+<li>
+<p>在 <a href=https://github.com/leslievan/daily-script/releases/tag/v0.0.1>Release</a> 中下载使用 <code>Ahk2Exe</code> 编译好的可执行文件。</p>
+</li>
+<li>
+<p>执行 <code>exe</code> 文件。</p>
+</li>
+</ol>
+<p>当看到托盘处出现 <code>AutoHotKey</code> 的图标即表示激活成功，使用 <code>Win+空格</code> 即可切换窗口是否置顶。</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/2021/11/ce4bfaa09c2e.png alt=image-20211103213604859>
+</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://leslievan.github.io/tags/autohotkey/>AutoHotKey</a></li>
+</ul>
+</footer><script src=//unpkg.com/valine/dist/Valine.min.js></script>
+<hr style="border:1px dashed #ccc">
+<div id=vcomments></div>
+<script>new Valine({el:'#vcomments',appId:'pMMeGvSgJkbkIklnGYzAKRXn-gzGzoHsz',appKey:'vMEYMAMjiA7pmdmNJS8Hm2zi'})</script>
+</article>
+</main>
+<footer class=footer>
+<span>© 2021 <strong><a href=https://leslievan.github.io>ArchIve</a></strong></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+<script>document.querySelectorAll('pre > code').forEach(b=>{const c=b.parentNode.parentNode,a=document.createElement('button');a.classList.add('copy-code'),a.innerText='copy';function d(){a.innerText='copied!',setTimeout(()=>{a.innerText='copy'},2e3)}a.addEventListener('click',e=>{if('clipboard'in navigator){navigator.clipboard.writeText(b.textContent),d();return}const a=document.createRange();a.selectNodeContents(b);const c=window.getSelection();c.removeAllRanges(),c.addRange(a);try{document.execCommand('copy'),d()}catch(a){}c.removeRange(a)}),c.classList.contains("highlight")?c.appendChild(a):c.parentNode.firstChild==c||(b.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?b.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(a):b.parentNode.appendChild(a))})</script>
+</body>
+</html>
