@@ -35,7 +35,7 @@
 <meta name=twitter:title content="「镜像」使用镜像源加速常用的软件">
 <meta name=twitter:description content="使用中科大镜像源加速 Conda 由于 Windows 文件系统限制，无法在资源管理器中直接创建名为 .condarc 的文件，可先执行 conda config --set show_channel_urls yes，该命令将在用户目录 $HOME 下生成 .condarc 文件。">
 <script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://leslievan.github.io/posts/"},{"@type":"ListItem","position":3,"name":"「镜像」使用镜像源加速常用的软件","item":"https://leslievan.github.io/2021/11/accelerate-all/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"「镜像」使用镜像源加速常用的软件","name":"「镜像」使用镜像源加速常用的软件","description":"使用中科大镜像源加速 Conda 由于 Windows 文件系统限制，无法在资源管理器中直接创建名为 .condarc 的文件，可先执行 conda config --set show_channel_urls yes，该命令将在用户目录 $HOME 下生成 .condarc 文件。","keywords":["工具","镜像"],"articleBody":"使用中科大镜像源加速 Conda 由于 Windows 文件系统限制，无法在资源管理器中直接创建名为 .condarc 的文件，可先执行 conda config --set show_channel_urls yes，该命令将在用户目录 $HOME 下生成 .condarc 文件。\n打开 $HOME/.condarc 文件，将内容修改为：\nssl_verify: false show_channel_urls: true channels: - https://mirrors.ustc.edu.cn/anaconda/pkgs/main - https://mirrors.ustc.edu.cn/anaconda/pkgs/r - https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2 - defaults  保存后重启终端配置即可生效，执行 conda clean -i 清理缓存。\n使用中科大镜像加速 pip 执行 pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple，该命令会生成 $HOME/AppData/Roaming/pip/pip.ini 文件，重启终端配置即可生效。\n pip install 安装包时提示 SSL 错误\n添加信任的主机，编辑 $HOME/AppData/Roaming/pip/pip.ini，替换为：\n[global] index-url = https://mirrors.ustc.edu.cn/pypi/web/simple trusted-host = pypi.python.org mirrors.ustc.edu.cn   ","wordCount":"268","inLanguage":"zh-cn","datePublished":"2021-11-15T22:07:54+08:00","dateModified":"2021-11-15T22:07:54+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://leslievan.github.io/2021/11/accelerate-all/"},"publisher":{"@type":"Organization","name":"Arch Ive","logo":{"@type":"ImageObject","url":"https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico"}}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"「镜像」使用镜像源加速常用的软件","name":"「镜像」使用镜像源加速常用的软件","description":"使用中科大镜像源加速 Conda 由于 Windows 文件系统限制，无法在资源管理器中直接创建名为 .condarc 的文件，可先执行 conda config --set show_channel_urls yes，该命令将在用户目录 $HOME 下生成 .condarc 文件。","keywords":["工具","镜像"],"articleBody":"使用中科大镜像源加速 Conda 由于 Windows 文件系统限制，无法在资源管理器中直接创建名为 .condarc 的文件，可先执行 conda config --set show_channel_urls yes，该命令将在用户目录 $HOME 下生成 .condarc 文件。\n打开 $HOME/.condarc 文件，将内容修改为：\n1 2 3 4 5 6 7  ssl_verify: false show_channel_urls: true channels: - https://mirrors.ustc.edu.cn/anaconda/pkgs/main - https://mirrors.ustc.edu.cn/anaconda/pkgs/r - https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2 - defaults   保存后重启终端配置即可生效，执行 conda clean -i 清理缓存。\n使用中科大镜像加速 pip 执行 pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple，该命令会生成 $HOME/AppData/Roaming/pip/pip.ini 文件，重启终端配置即可生效。\n pip install 安装包时提示 SSL 错误\n添加信任的主机，编辑 $HOME/AppData/Roaming/pip/pip.ini，替换为：\n1 2 3 4 5  [global] index-url = https://mirrors.ustc.edu.cn/pypi/web/simple trusted-host = pypi.python.org mirrors.ustc.edu.cn    ","wordCount":"280","inLanguage":"zh-cn","datePublished":"2021-11-15T22:07:54+08:00","dateModified":"2021-11-15T22:07:54+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://leslievan.github.io/2021/11/accelerate-all/"},"publisher":{"@type":"Organization","name":"Arch Ive","logo":{"@type":"ImageObject","url":"https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico"}}}</script>
 </head>
 <body id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
@@ -99,27 +99,49 @@
 <div class=post-content><h2 id=使用中科大镜像源加速-conda>使用中科大镜像源加速 Conda<a hidden class=anchor aria-hidden=true href=#使用中科大镜像源加速-conda>#</a></h2>
 <p>由于 Windows 文件系统限制，无法在资源管理器中直接创建名为 <code>.condarc</code> 的文件，可先执行 <code>conda config --set show_channel_urls yes</code>，该命令将在用户目录 <code>$HOME</code> 下生成 <code>.condarc</code> 文件。</p>
 <p>打开 <code>$HOME/.condarc</code> 文件，将内容修改为：</p>
-<pre><code class=language-yaml>ssl_verify: false
-show_channel_urls: true
-channels:
-  - https://mirrors.ustc.edu.cn/anaconda/pkgs/main
-  - https://mirrors.ustc.edu.cn/anaconda/pkgs/r
-  - https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2
-  - defaults
-</code></pre>
-<p>保存后重启终端配置即可生效，执行 <code>conda clean -i</code> 清理缓存。</p>
+<div class=highlight><div style=color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#5bc4bf>ssl_verify</span>: <span style=color:#815ba4>false</span>
+<span style=color:#5bc4bf>show_channel_urls</span>: <span style=color:#815ba4>true</span>
+<span style=color:#5bc4bf>channels</span>:
+  - <span style=color:#f99b15>https://mirrors.ustc.edu.cn/anaconda/pkgs/main</span>
+  - <span style=color:#f99b15>https://mirrors.ustc.edu.cn/anaconda/pkgs/r</span>
+  - <span style=color:#f99b15>https://mirrors.ustc.edu.cn/anaconda/pkgs/msys2</span>
+  - <span style=color:#f99b15>defaults</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>保存后重启终端配置即可生效，执行 <code>conda clean -i</code> 清理缓存。</p>
 <h2 id=使用中科大镜像加速-pip>使用中科大镜像加速 pip<a hidden class=anchor aria-hidden=true href=#使用中科大镜像加速-pip>#</a></h2>
 <p>执行 <code>pip config set global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple</code>，该命令会生成 <code>$HOME/AppData/Roaming/pip/pip.ini</code> 文件，重启终端配置即可生效。</p>
 <blockquote>
 <p><strong><code>pip install</code> 安装包时提示 SSL 错误</strong></p>
 <p>添加信任的主机，编辑 <code>$HOME/AppData/Roaming/pip/pip.ini</code>，替换为：</p>
-<pre><code class=language-ini>[global]
-index-url = https://mirrors.ustc.edu.cn/pypi/web/simple
+<div class=highlight><div style=color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#e7e9db;background-color:#2f1e2e;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ini data-lang=ini><span style=color:#815ba4>[global]</span>
+<span style=color:#06b6ef>index-url</span> <span style=color:#5bc4bf>=</span> <span style=color:#48b685>https://mirrors.ustc.edu.cn/pypi/web/simple</span>
 
-trusted-host = pypi.python.org
-               mirrors.ustc.edu.cn
-</code></pre>
-</blockquote>
+<span style=color:#06b6ef>trusted-host</span> <span style=color:#5bc4bf>=</span> <span style=color:#48b685>pypi.python.org
+</span><span style=color:#48b685>               mirrors.ustc.edu.cn</span>
+</code></pre></td></tr></table>
+</div>
+</div></blockquote>
 </div>
 <footer class=post-footer>
 <ul class=post-tags>
