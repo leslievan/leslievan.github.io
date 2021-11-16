@@ -1,0 +1,542 @@
+<!doctype html><html lang=zh-cn dir=auto>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZJ8L1JSQJH"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-ZJ8L1JSQJH')</script>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>【OS】HDU-OS-Lab1-Linux 内核编译及添加系统调用 | Arch Ive</title>
+<meta name=keywords content="操作系统,HDU,实验">
+<meta name=description content="添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。 视频教程地址： https://www.bilibili.com/video/av47274857 源码地址： https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab1 以下内容全部在 Ubuntu 18.04">
+<meta name=author content>
+<link rel=canonical href=https://leslievan.github.io/2019/01/os-lab1/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.css rel="preload stylesheet" as=style>
+<link rel=preload href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/images/logo.png as=image>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.js onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/apple-touch-icon.png>
+<link rel=mask-icon href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/apple-touch-icon.png>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.89.3">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="【OS】HDU-OS-Lab1-Linux 内核编译及添加系统调用">
+<meta property="og:description" content="添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。 视频教程地址： https://www.bilibili.com/video/av47274857 源码地址： https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab1 以下内容全部在 Ubuntu 18.04">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://leslievan.github.io/2019/01/os-lab1/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2019-01-29T21:42:56+08:00">
+<meta property="article:modified_time" content="2021-11-16T21:42:56+08:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="【OS】HDU-OS-Lab1-Linux 内核编译及添加系统调用">
+<meta name=twitter:description content="添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。 视频教程地址： https://www.bilibili.com/video/av47274857 源码地址： https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab1 以下内容全部在 Ubuntu 18.04">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://leslievan.github.io/posts/"},{"@type":"ListItem","position":3,"name":"【OS】HDU-OS-Lab1-Linux 内核编译及添加系统调用","item":"https://leslievan.github.io/2019/01/os-lab1/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"【OS】HDU-OS-Lab1-Linux 内核编译及添加系统调用","name":"【OS】HDU-OS-Lab1-Linux 内核编译及添加系统调用","description":"添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。 视频教程地址： https://www.bilibili.com/video/av47274857 源码地址： https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab1 以下内容全部在 Ubuntu 18.04","keywords":["操作系统","HDU","实验"],"articleBody":"添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。\n 视频教程地址：\nhttps://www.bilibili.com/video/av47274857\n源码地址：\nhttps://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab1\n 以下内容全部在 Ubuntu 18.04 下操作，使用其他发行版的同学可在此基础上自行修改。\n实验内容  添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。 写一个简单的应用程序测试添加的系统调用。 若程序中调用了 Linux 的内核函数，要求深入阅读相关函数源码。  准备工作 安装 Linux 虚拟机  为免于重装系统，建议你使用 VMware 创建一个 Linux 虚拟机，在虚拟机下进行内核编译与安装，坏处是虚拟机的性能远不如主机，使得编译时长可能翻倍，好处是不管你怎么折腾，都不会弄坏自己的主机系统。\n  安装 VMware，请查看这篇文章：Ubuntu 下配置 VMware Workstation 安装虚拟机，请查看这篇文章：在 VMware Workstation 中创建虚拟机  获取内核源码 从 The Linux Kernel Archives 获取 Linux 的内核源码，任意选择一个版本，建议使用 longterm 版本。\n戳这里下载 linux-4.19.113.tar.xz。\n解压内核源码 可以通过命令行或图形界面进行解压：\n  右键单击内核压缩包，点击解压\n  或在终端键入如下命令检查文件是否存在。（系统语言为中文的请将 Downloads 替换为下载）。\ncd ~/Downloads tar xvJf linux-4.19.25.tar.xz tar 命令参数解释参见附录 1-tar.\n  修改内核 修改系统调用表 根据上一步内核源码解压目录，定位系统调用表：\n# 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录 gedit ~/Downloads/linux-4.19.113/arch/x86/entry/syscalls/syscall_64.tbl 可以看到格式为：\"number\" \"abi\" \"name\" \"entry point\"。\n定位到 common/64 的最后一条：\n在下面添加：\n335\t64\tmysetnice\t__x64_sys_mysetnice 申明系统调用服务例程原型 根据内核源码解压目录，定位系统调用头文件：\n# 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录 gedit ~/Downloads/linux-4.19.113/include/linux/syscalls.h 定位到最后一行：\n在 endif 前面添加系统调用原型声明：\nasmlinkage long sys_mysetnice(pid_t pid, int flag, int nicevaluse, void __user* prio, v 实现系统调用服务例程 这一步与上一步的关系，就是 C 语言中头文件与实现文件的关系，上一步对函数进行了声明，这里给函数一个具体的实现。\n 需要实现的任务为：\n添加一个系统调用，对指定进程的 nice 值的修改及读取的功能，同时返回进程最新的 nice 值及优先级 prio。\n分解为四步：\n 根据进程号 pid 找到相应的进程控制块 PCB（因为进程控制块中记录了用于描述进程情况及控制进程运行所需要的全部信息，nice 值和优先级正是其中的一部分）； 根据 PCB 读取它的 nice 值和优先级 prio； 根据 PCB 对相应进程的 nice 值进行修改； 将得到的 nice 值和优先级 prio 进行返回。   根据内核源码解压目录，定位系统调用头文件：\n# 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录 gedit ~/Downloads/linux-4.19.113/include/linux/syscalls.h 定位到最后一行：\n在 endif 前面添加系统调用服务例程实现代码：\n// 置于sys.c的最末端（在‘#endif’之前 SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *, prio, void __user *, nice) { int cur_prio, cur_nice; struct pid *ppid; struct task_struct *pcb; // 通过进程PID号找到进程的PID结构体，如果ppid为空指针则代表不存在与进程号与pid相同的进程，此时返回EFAULT（  // 我编译的时候这个if判断并没有加进去，想做出上述判断的可以将注释删去，就逻辑本身而言没有问题-_-  // 但我无法保证最后是否会出问题，因为我没有自己尝试过  ppid = find_get_pid(pid); /* if (ppid == NULL) return EFAULT; */ // 通过进程的PID结构体，找到与之对应的进程控制块  pcb = pid_task(ppid, PIDTYPE_PID); // 如果flag=1则修改进程的nice值为nicevalue  if (flag == 1) { set_user_nice(pcb, nicevalue); } // flag既不为1也不为0的时候，即flag出错，此时返回EFAULT  else if (flag != 0) { return EFAULT; } // 获取进程当前的最新nice值和prio值  cur_prio = task_prio(pcb); cur_nice = task_nice(pcb); // 由于系统调用是在内核态下运行的，所有数据均为内核空间的数据，  // 利用copy_to_user()函数将内核空间的数据复制到用户空间  copy_to_user(prio, \u0026cur_prio, sizeof(cur_prio)); copy_to_user(nice, \u0026cur_nice, sizeof(cur_nice)); return 0; } 需要用到的几个内核函数：\n struct pid *find_get_pid(pid_t nr)：根据进程标识符号返回相应的进程标识符 struct task_struct *pid_task(struct pid *pid, enum pid_type type)：根据进程标识符和进程类型返回进程控制块 int task_prio(const struct task_struct *p)：返回该 PCB 的 prio 参数 static inline int task_nice(const struct task_struct *p)：返回该 PCB 的 nice 参数 void set_user_nice(struct task_struct *p, long nice)：修改 PCB 的 nice 参数 static __always_inline unsigned long __must_check copy_to_user(void __user *to, const void *from, unsigned long n)：将变量从内核空间复制到用户空间  内核函数具体实现见附录 2\n编译内核 修改好内核后，开始进行编译。\n安装依赖 以下是一些需要用到的包，用 apt/apt-get 进行安装，命令行输入：\nsudo apt-get install libncurses5-dev make openssl libssl-dev bison flex libelf-dev 参数确认 定位内核源码解压目录，命令行运行：\n# 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录 cd ~/Downloads/linux-4.19.113 命令行运行 make，开始编译前的参数确认：\nmake menuconfig 出现如下所示界面后，左右键移动下方光标选中 Save，按 Enter 结束。\n点击 Ok 和之后出现的 Exit。\n左右键移动光标，选中 Exit，Enter 键结束这一步。\n编译 编译内核需要耗费的时间较长，建议通电进行。\n定位内核源码解压目录，命令行运行：\nsudo make -j4 2 error.log -j4 表示使用四线程进行编译，这个过程大概持续一个小时，后面的重定向将错误信息输出到了 error.log 这个文件里面，方便之后进行错误排查。\n make 命令默认是指编译所有，包括内核和模块，所以不需要再重新使用 make modules 进行模块的编译（至少我并没有在这个地方受到困扰）。\n如果碰到问题请查阅附录 3。\n 安装内核 等待内核、模块均编译完成，开始安装内核，分为两步：\n  安装模块\n# 大约持续十几分钟到几十分钟不等 sudo make modules_install   替换内核\n# 大约持续几分钟到十几分钟不等 sudo make install   替换完成后重启你的电脑，准备下一步的测试，如果电脑打不开可以参考附录 3。\n测试 完成编译工作后，需要编写一个用户态程序，测试系统调用是否正常工作，这里直接给出 demo.c，请自行查阅理解。\ndemo.clink // demo.c #include \"unistd.h\"#include \"sys/syscall.h\"#include \"stdio.h\"#define _SYSCALL_MYSETNICE_ 335 #define EFALUT 14  int main() { int pid, flag, nicevalue; int prev_prio, prev_nice, cur_prio, cur_nice; int result; printf(\"Please input variable(pid, flag, nicevalue): \"); scanf(\"%d%d%d\", \u0026pid, \u0026flag, \u0026nicevalue); result = syscall(_SYSCALL_MYSETNICE_, pid, 0, nicevalue, \u0026prev_prio, \u0026prev_nice); if (result == EFALUT) { printf(\"ERROR!\"); return 1; } if (flag == 1) { syscall(_SYSCALL_MYSETNICE_, pid, 1, nicevalue, \u0026cur_prio, \u0026cur_nice); printf(\"Original priority is: [%d], original nice is [%d]\\n\", prev_prio, prev_nice); printf(\"Current priority is : [%d], current nice is [%d]\\n\", cur_prio, cur_nice); } else if (flag == 0) { printf(\"Current priority is : [%d], current nice is [%d]\\n\", prev_prio, prev_nice); } return 0; } 命令行使用 gcc 进行编译，根据提示信息输入 pid、flag 和 nicevalue 进行测试。\n# 将~/demo.c替换为你的demo.c所在位置 gcc ~/demo.c -o demo ./demo 附录 附录 1：tar tar xvJf linux-4.19.133.tar.bz tar 命令可以为 linux 的文件和目录创建档案，利用 tar 可以把一大堆的文件和目录全部打包成一个文件。\n -x 或–extract 或–get：从备份文件中还原文件，即解压 -v：显示操作过程，即显示进度 -j：支持 bzip2 解压文件，即解压 tar.bz 文件 -f  或–file=：指定备份文件，即解压对应路径的文件  附录 2：内核函数 find_get_pid() struct pid *find_get_pid(pid_t nr) { struct pid *pid; rcu_read_lock(); pid = get_pid(find_vpid(nr)); rcu_read_unlock(); return pid; } pid_task() struct task_struct *pid_task(struct pid *pid, enum pid_type type) { struct task_struct *result = NULL; if (pid) { struct hlist_node *first; first = rcu_dereference_check(hlist_first_rcu(\u0026pid-tasks[type]), lockdep_tasklist_lock_is_held()); if (first) result = hlist_entry(first, struct task_struct, pid_links[(type)]); } return result; } task_prio() int task_prio(const struct task_struct *p) { return p-prio - MAX_RT_PRIO; } task_nice() static inline int task_nice(const struct task_struct *p) { return PRIO_TO_NICE((p)-static_prio); } set_user_nice() void set_user_nice(struct task_struct *p, long nice) { bool queued, running; int old_prio, delta; struct rq_flags rf; struct rq *rq; if (task_nice(p) == nice || nice  MIN_NICE || nice  MAX_NICE) return; /* * We have to be careful, if called from sys_setpriority(), * the task might be in the middle of scheduling on another CPU. */ rq = task_rq_lock(p, \u0026rf); update_rq_clock(rq); /* * The RT priorities are set via sched_setscheduler(), but we still * allow the 'normal' nice value to be set - but as expected * it wont have any effect on scheduling until the task is * SCHED_DEADLINE, SCHED_FIFO or SCHED_RR: */ if (task_has_dl_policy(p) || task_has_rt_policy(p)) { p-static_prio = NICE_TO_PRIO(nice); goto out_unlock; } queued = task_on_rq_queued(p); running = task_current(rq, p); if (queued) dequeue_task(rq, p, DEQUEUE_SAVE | DEQUEUE_NOCLOCK); if (running) put_prev_task(rq, p); p-static_prio = NICE_TO_PRIO(nice); set_load_weight(p, true); old_prio = p-prio; p-prio = effective_prio(p); delta = p-prio - old_prio; if (queued) { enqueue_task(rq, p, ENQUEUE_RESTORE | ENQUEUE_NOCLOCK); /* * If the task increased its priority or is running and * lowered its priority, then reschedule its CPU: */ if (delta  0 || (delta  0 \u0026\u0026 task_running(rq, p))) resched_curr(rq); } if (running) set_curr_task(rq, p); out_unlock: task_rq_unlock(rq, p, \u0026rf); } copy_to_user() static __always_inline unsigned long __must_check copy_to_user(void __user *to, const void *from, unsigned long n) { if (likely(check_copy_size(from, n, true))) n = _copy_to_user(to, from, n); return n; } 附录 3：Q\u0026A  每次出现错误后都需要执行 sudo make clean 清除残余文件！ 每次出现错误后都需要执行 sudo make clean 清除残余文件！ 每次出现错误后都需要执行 sudo make clean 清除残余文件！\n Q1：在完成所有步骤重启系统时，提示：Kernel panic - not syncing: System is deadlocked on memory\nA1：原因是只给虚拟机分配了 2G 的内存，导致了系统在内存上的死锁，将虚拟机内存扩充至 4G 后解决。\nQ2：编译时提示 gcc: error: unrecognized command line option '-fno-plt'，如下所示：\nHOSTCC scripts/selinux/genheaders/genheaders HOSTCC scripts/selinux/mdp/mdp gcc: error: unrecognized command line option ‘-fno-plt’ gcc: error: unrecognized command line option ‘-fno-plt’ HOSTCC /root/linux52/linux-5.2.13/tools/objtool/fixdep.o HOSTLD /root/linux52/linux-5.2.13/tools/objtool/fixdep-in.o LINK /root/linux52/linux-5.2.13/tools/objtool/fixdep CC /root/linux52/linux-5.2.13/tools/objtool/arch/x86/decode.o gcc: error: unrecognized command line option ‘-fno-plt’ A2：原因是gcc版本过低，-fno-plt标志是gcc6才提出的，可以用命令gcc –version查看自己的版本。可以先尝试使用sudo apt-get install gcc6，但在部分系统中，并未收录gcc6，如果直接安装的方法无效，显示无法定位软件包的话，可以采用手动添加PPA的方法：\ncurl https://gist.githubusercontent.com/leslievan/3c2872d7b375c22a2df60c57dbf7bd27/raw/8ef3b032797b03dec824707ad6294aa43301ab8d/ubuntu-install-gcc-6 | bash Q3：编译时提示 /bin/sh: 1: bc: not found，如下所示：\nCALL scripts/atomic/check-atomics.sh /bin/sh: 1: bc: not found Kbuild:26: recipe for target 'include/generated/timeconst.h' failed make[1]: *** [include/generated/timeconst.h] Error 127 make[1]: *** 正在等待未完成的任务.... A3：原因是没有安装 bc，执行 sudo apt-get install bc 将它安装上即可，出现类似的 xxx: not found 的错误都可以尝试使用 sudo apt-get install xxx 安装后再次尝试。\n相关阅读  【OS】HDU-OS-Lab2-Linux 内核模块编程 【OS】HDU-OS-Lab3-Linux 进程管理（二）管道通信 【OS】HDU-OS-Lab3-Linux 进程管理（三）进程通信  ","wordCount":"3470","inLanguage":"zh-cn","datePublished":"2019-01-29T21:42:56+08:00","dateModified":"2021-11-16T21:42:56+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://leslievan.github.io/2019/01/os-lab1/"},"publisher":{"@type":"Organization","name":"Arch Ive","logo":{"@type":"ImageObject","url":"https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://leslievan.github.io accesskey=h title="HOME (Alt + H)">
+<img src=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/images/logo.png alt=logo aria-label=logo height=" 30px">HOME</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://leslievan.github.io/ title=home>
+<span>home</span>
+</a>
+</li>
+<li>
+<a href=https://leslievan.github.io/archive/ title=archive>
+<span>archive</span>
+</a>
+</li>
+<li>
+<a href=https://leslievan.github.io/categories/ title=categories>
+<span>categories</span>
+</a>
+</li>
+<li>
+<a href=https://leslievan.github.io/tags/ title=tags>
+<span>tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<h1 class=post-title>
+【OS】HDU-OS-Lab1-Linux 内核编译及添加系统调用
+</h1>
+<div class=post-meta><span title="2019-01-29 21:42:56 +0800 +0800">2019-01-29 21:42</span>&nbsp;·&nbsp;7 min
+</div>
+</header> <div class=toc>
+<details open>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#%e5%ae%9e%e9%aa%8c%e5%86%85%e5%ae%b9 aria-label=实验内容>实验内容</a></li>
+<li>
+<a href=#%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c aria-label=准备工作>准备工作</a><ul>
+<li>
+<a href=#%e5%ae%89%e8%a3%85-linux-%e8%99%9a%e6%8b%9f%e6%9c%ba aria-label="安装 Linux 虚拟机">安装 Linux 虚拟机</a></li>
+<li>
+<a href=#%e8%8e%b7%e5%8f%96%e5%86%85%e6%a0%b8%e6%ba%90%e7%a0%81 aria-label=获取内核源码>获取内核源码</a></li>
+<li>
+<a href=#%e8%a7%a3%e5%8e%8b%e5%86%85%e6%a0%b8%e6%ba%90%e7%a0%81 aria-label=解压内核源码>解压内核源码</a></li></ul>
+</li>
+<li>
+<a href=#%e4%bf%ae%e6%94%b9%e5%86%85%e6%a0%b8 aria-label=修改内核>修改内核</a><ul>
+<li>
+<a href=#%e4%bf%ae%e6%94%b9%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e8%a1%a8 aria-label=修改系统调用表>修改系统调用表</a></li>
+<li>
+<a href=#%e7%94%b3%e6%98%8e%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e6%9c%8d%e5%8a%a1%e4%be%8b%e7%a8%8b%e5%8e%9f%e5%9e%8b aria-label=申明系统调用服务例程原型>申明系统调用服务例程原型</a></li>
+<li>
+<a href=#%e5%ae%9e%e7%8e%b0%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e6%9c%8d%e5%8a%a1%e4%be%8b%e7%a8%8b aria-label=实现系统调用服务例程>实现系统调用服务例程</a></li></ul>
+</li>
+<li>
+<a href=#%e7%bc%96%e8%af%91%e5%86%85%e6%a0%b8 aria-label=编译内核>编译内核</a><ul>
+<li>
+<a href=#%e5%ae%89%e8%a3%85%e4%be%9d%e8%b5%96 aria-label=安装依赖>安装依赖</a></li>
+<li>
+<a href=#%e5%8f%82%e6%95%b0%e7%a1%ae%e8%ae%a4 aria-label=参数确认>参数确认</a></li>
+<li>
+<a href=#%e7%bc%96%e8%af%91 aria-label=编译>编译</a></li>
+<li>
+<a href=#%e5%ae%89%e8%a3%85%e5%86%85%e6%a0%b8 aria-label=安装内核>安装内核</a></li></ul>
+</li>
+<li>
+<a href=#%e6%b5%8b%e8%af%95 aria-label=测试>测试</a></li>
+<li>
+<a href=#%e9%99%84%e5%bd%95 aria-label=附录>附录</a><ul>
+<li>
+<a href=#%e9%99%84%e5%bd%95-1tar aria-label="附录 1：tar">附录 1：tar</a></li>
+<li>
+<a href=#%e9%99%84%e5%bd%95-2%e5%86%85%e6%a0%b8%e5%87%bd%e6%95%b0 aria-label="附录 2：内核函数">附录 2：内核函数</a><ul>
+<li>
+<a href=#find_get_pid aria-label=find_get_pid()>find_get_pid()</a></li>
+<li>
+<a href=#pid_task aria-label=pid_task()>pid_task()</a></li>
+<li>
+<a href=#task_prio aria-label=task_prio()>task_prio()</a></li>
+<li>
+<a href=#task_nice aria-label=task_nice()>task_nice()</a></li>
+<li>
+<a href=#set_user_nice aria-label=set_user_nice()>set_user_nice()</a></li>
+<li>
+<a href=#copy_to_user aria-label=copy_to_user()>copy_to_user()</a></li></ul>
+</li>
+<li>
+<a href=#%e9%99%84%e5%bd%95-3qa aria-label="附录 3：Q&amp;amp;A">附录 3：Q&A</a></li></ul>
+</li>
+<li>
+<a href=#%e7%9b%b8%e5%85%b3%e9%98%85%e8%af%bb aria-label=相关阅读>相关阅读</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><p>添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。</p>
+<blockquote>
+<p>视频教程地址：</p>
+<p><a href=https://www.bilibili.com/video/av47274857>https://www.bilibili.com/video/av47274857</a></p>
+<p>源码地址：</p>
+<p><a href=https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab1>https://github.com/leslievan/Operator_System/tree/master/Operator_System_Lab1</a></p>
+</blockquote>
+<p>以下内容全部在 <code>Ubuntu 18.04</code> 下操作，使用其他发行版的同学可在此基础上自行修改。</p>
+<h2 id=实验内容>实验内容<a hidden class=anchor aria-hidden=true href=#实验内容>#</a></h2>
+<ul>
+<li>添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。</li>
+<li>写一个简单的应用程序测试添加的系统调用。</li>
+<li>若程序中调用了 Linux 的内核函数，要求深入阅读相关函数源码。</li>
+</ul>
+<h2 id=准备工作>准备工作<a hidden class=anchor aria-hidden=true href=#准备工作>#</a></h2>
+<h3 id=安装-linux-虚拟机>安装 Linux 虚拟机<a hidden class=anchor aria-hidden=true href=#安装-linux-虚拟机>#</a></h3>
+<blockquote>
+<p>为免于重装系统，建议你使用 VMware 创建一个 Linux 虚拟机，在虚拟机下进行内核编译与安装，坏处是虚拟机的性能远不如主机，使得<strong>编译时长可能翻倍</strong>，好处是不管你怎么折腾，都<strong>不会弄坏自己的主机系统</strong>。</p>
+</blockquote>
+<ul>
+<li>安装 VMware，请查看这篇文章：<a href=http://localhost/2019/02/ubuntu-config-vmware/>Ubuntu 下配置 VMware Workstation</a></li>
+<li>安装虚拟机，请查看这篇文章：<a href=http://localhost/2019/03/vmware-create-vm/>在 VMware Workstation 中创建虚拟机</a></li>
+</ul>
+<h3 id=获取内核源码>获取内核源码<a hidden class=anchor aria-hidden=true href=#获取内核源码>#</a></h3>
+<p>从 <a href=https://www.kernel.org/>The Linux Kernel Archives</a> 获取 Linux 的内核源码，任意选择一个版本，建议使用 <code>longterm</code> 版本。</p>
+<p>戳<a href=https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.113.tar.xz>这里</a>下载 <code>linux-4.19.113.tar.xz</code>。</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/02/2019-01-29-62088c7-1.png!on_blog alt>
+</p>
+<h3 id=解压内核源码>解压内核源码<a hidden class=anchor aria-hidden=true href=#解压内核源码>#</a></h3>
+<p>可以通过命令行或图形界面进行解压：</p>
+<ul>
+<li>
+<p>右键单击内核压缩包，点击解压</p>
+</li>
+<li>
+<p>或在终端键入如下命令检查文件是否存在。（系统语言为中文的请将 <code>Downloads</code> 替换为<code>下载</code>）。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>cd ~/Downloads
+tar xvJf linux-4.19.25.tar.xz
+</code></pre></div><p><code>tar</code> 命令参数解释参见<a href=http://localhost/2019/01/os-lab1/#tar>附录 1-tar</a>.</p>
+</li>
+</ul>
+<h2 id=修改内核>修改内核<a hidden class=anchor aria-hidden=true href=#修改内核>#</a></h2>
+<h3 id=修改系统调用表>修改系统调用表<a hidden class=anchor aria-hidden=true href=#修改系统调用表>#</a></h3>
+<p>根据上一步内核源码解压目录，定位系统调用表：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#75715e># 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录</span>
+gedit ~/Downloads/linux-4.19.113/arch/x86/entry/syscalls/syscall_64.tbl
+</code></pre></div><p>可以看到格式为：<code>"number" "abi" "name" "entry point"</code>。</p>
+<p>定位到 <code>common/64</code> 的最后一条：</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-9.png!on_blog alt>
+</p>
+<p>在下面添加：</p>
+<pre tabindex=0><code>335	64	mysetnice		__x64_sys_mysetnice
+</code></pre><h3 id=申明系统调用服务例程原型>申明系统调用服务例程原型<a hidden class=anchor aria-hidden=true href=#申明系统调用服务例程原型>#</a></h3>
+<p>根据内核源码解压目录，定位系统调用头文件：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#75715e># 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录</span>
+gedit ~/Downloads/linux-4.19.113/include/linux/syscalls.h
+</code></pre></div><p>定位到最后一行：</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-10.png!on_blog alt=img>
+</p>
+<p>在 <code>endif</code> 前面添加系统调用原型声明：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>asmlinkage <span style=color:#66d9ef>long</span> sys_mysetnice(pid_t pid, <span style=color:#66d9ef>int</span> flag, <span style=color:#66d9ef>int</span> nicevaluse, <span style=color:#66d9ef>void</span> __user<span style=color:#f92672>*</span> prio, v
+</code></pre></div><h3 id=实现系统调用服务例程>实现系统调用服务例程<a hidden class=anchor aria-hidden=true href=#实现系统调用服务例程>#</a></h3>
+<p>这一步与上一步的关系，就是 C 语言中头文件与实现文件的关系，上一步对函数进行了声明，这里给函数一个具体的实现。</p>
+<blockquote>
+<p>需要实现的任务为：</p>
+<p>添加一个系统调用，对指定进程的 nice 值的修改及读取的功能，同时返回进程最新的 nice 值及优先级 prio。</p>
+<p>分解为四步：</p>
+<ol>
+<li>根据进程号 pid 找到相应的进程控制块 PCB（因为进程控制块中记录了<strong>用于描述进程情况及控制进程运行所需要的全部信息</strong>，nice 值和优先级正是其中的一部分）；</li>
+<li>根据 PCB 读取它的 nice 值和优先级 prio；</li>
+<li>根据 PCB 对相应进程的 nice 值进行修改；</li>
+<li>将得到的 nice 值和优先级 prio 进行返回。</li>
+</ol>
+</blockquote>
+<p>根据内核源码解压目录，定位系统调用头文件：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#75715e># 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录</span>
+gedit ~/Downloads/linux-4.19.113/include/linux/syscalls.h
+</code></pre></div><p>定位到最后一行：</p>
+<p><a href=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-12.png!on_blog><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-12.png!on_blog alt=img>
+</a>在 <code>endif</code> 前面添加系统调用服务例程实现代码：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>// 置于sys.c的最末端（在‘#endif’之前
+</span><span style=color:#75715e></span>SYSCALL_DEFINE5(mysetnice, pid_t, pid, <span style=color:#66d9ef>int</span>, flag, <span style=color:#66d9ef>int</span>, nicevalue, <span style=color:#66d9ef>void</span> __user <span style=color:#f92672>*</span>,
+                prio, <span style=color:#66d9ef>void</span> __user <span style=color:#f92672>*</span>, nice) {
+    <span style=color:#66d9ef>int</span> cur_prio, cur_nice;
+    <span style=color:#66d9ef>struct</span> pid <span style=color:#f92672>*</span>ppid;
+    <span style=color:#66d9ef>struct</span> task_struct <span style=color:#f92672>*</span>pcb;
+
+    <span style=color:#75715e>// 通过进程PID号找到进程的PID结构体，如果ppid为空指针则代表不存在与进程号与pid相同的进程，此时返回EFAULT（
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// 我编译的时候这个if判断并没有加进去，想做出上述判断的可以将注释删去，就逻辑本身而言没有问题-_-
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// 但我无法保证最后是否会出问题，因为我没有自己尝试过
+</span><span style=color:#75715e></span>    ppid <span style=color:#f92672>=</span> find_get_pid(pid);
+    <span style=color:#75715e>/*
+</span><span style=color:#75715e>    if (ppid == NULL)
+</span><span style=color:#75715e>        return EFAULT;
+</span><span style=color:#75715e>    */</span>
+
+    <span style=color:#75715e>// 通过进程的PID结构体，找到与之对应的进程控制块
+</span><span style=color:#75715e></span>    pcb <span style=color:#f92672>=</span> pid_task(ppid, PIDTYPE_PID);
+
+    <span style=color:#75715e>// 如果flag=1则修改进程的nice值为nicevalue
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span> (flag <span style=color:#f92672>==</span> <span style=color:#ae81ff>1</span>) {
+        set_user_nice(pcb, nicevalue);
+    }  <span style=color:#75715e>// flag既不为1也不为0的时候，即flag出错，此时返回EFAULT
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (flag <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span>) {
+        <span style=color:#66d9ef>return</span> EFAULT;
+    }
+
+    <span style=color:#75715e>// 获取进程当前的最新nice值和prio值
+</span><span style=color:#75715e></span>    cur_prio <span style=color:#f92672>=</span> task_prio(pcb);
+    cur_nice <span style=color:#f92672>=</span> task_nice(pcb);
+
+    <span style=color:#75715e>// 由于系统调用是在内核态下运行的，所有数据均为内核空间的数据，
+</span><span style=color:#75715e></span>    <span style=color:#75715e>// 利用copy_to_user()函数将内核空间的数据复制到用户空间
+</span><span style=color:#75715e></span>    copy_to_user(prio, <span style=color:#f92672>&amp;</span>cur_prio, <span style=color:#66d9ef>sizeof</span>(cur_prio));
+    copy_to_user(nice, <span style=color:#f92672>&amp;</span>cur_nice, <span style=color:#66d9ef>sizeof</span>(cur_nice));
+
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+}
+</code></pre></div><p>需要用到的几个内核函数：</p>
+<ul>
+<li><code>struct pid *find_get_pid(pid_t nr)</code>：根据进程标识符号返回相应的进程标识符</li>
+<li><code>struct task_struct *pid_task(struct pid *pid, enum pid_type type)</code>：根据进程标识符和进程类型返回进程控制块</li>
+<li><code>int task_prio(const struct task_struct *p)</code>：返回该 PCB 的 prio 参数</li>
+<li><code>static inline int task_nice(const struct task_struct *p)</code>：返回该 PCB 的 nice 参数</li>
+<li><code>void set_user_nice(struct task_struct *p, long nice)</code>：修改 PCB 的 nice 参数</li>
+<li><code>static __always_inline unsigned long __must_check copy_to_user(void __user *to, const void *from, unsigned long n)</code>：将变量从内核空间复制到用户空间</li>
+</ul>
+<p>内核函数具体实现见<a href=http://localhost/2019/01/os-lab1/#kfunc>附录 2</a></p>
+<h2 id=编译内核>编译内核<a hidden class=anchor aria-hidden=true href=#编译内核>#</a></h2>
+<p>修改好内核后，开始进行编译。</p>
+<h3 id=安装依赖>安装依赖<a hidden class=anchor aria-hidden=true href=#安装依赖>#</a></h3>
+<p>以下是一些需要用到的包，用 apt/apt-get 进行安装，命令行输入：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>sudo apt-get install libncurses5-dev make openssl libssl-dev bison flex libelf-dev
+</code></pre></div><h3 id=参数确认>参数确认<a hidden class=anchor aria-hidden=true href=#参数确认>#</a></h3>
+<p>定位内核源码解压目录，命令行运行：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#75715e># 将~/Downloads/linux-4.19.113替换为你的内核源码解压目录</span>
+cd ~/Downloads/linux-4.19.113
+</code></pre></div><p>命令行运行 <code>make</code>，开始编译前的参数确认：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>make menuconfig
+</code></pre></div><p>出现如下所示界面后，左右键移动下方光标选中 <code>Save</code>，按 <code>Enter</code> 结束。</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-5.png!on_blog alt=img>
+</p>
+<p>点击 <code>Ok</code> 和之后出现的 <code>Exit</code>。</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-6.png!on_blog alt=img>
+</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-7.png!on_blog alt=img>
+</p>
+<p>左右键移动光标，选中 <code>Exit</code>，<code>Enter</code> 键结束这一步。</p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-8.png!on_blog alt=img>
+</p>
+<h3 id=编译>编译<a hidden class=anchor aria-hidden=true href=#编译>#</a></h3>
+<p>编译内核需要耗费的时间较长，建议通电进行。</p>
+<p>定位内核源码解压目录，命令行运行：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>sudo make -j4 2&gt; error.log
+</code></pre></div><p><code>-j4</code> 表示使用四线程进行编译，这个过程大概持续一个小时，后面的重定向将错误信息输出到了 <code>error.log</code> 这个文件里面，方便之后进行错误排查。</p>
+<blockquote>
+<p><code>make</code> 命令默认是指编译所有，包括内核和模块，所以不需要再重新使用 <code>make modules</code> 进行模块的编译（至少我并没有在这个地方受到困扰）。</p>
+<p>如果碰到问题请查阅<a href=http://localhost/2019/01/os-lab1/#qa>附录 3</a>。</p>
+</blockquote>
+<h3 id=安装内核>安装内核<a hidden class=anchor aria-hidden=true href=#安装内核>#</a></h3>
+<p>等待内核、模块均编译完成，开始安装内核，分为两步：</p>
+<ul>
+<li>
+<p><strong>安装模块</strong></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#75715e># 大约持续十几分钟到几十分钟不等</span>
+sudo make modules_install
+</code></pre></div></li>
+<li>
+<p><strong>替换内核</strong></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#75715e># 大约持续几分钟到十几分钟不等</span>
+sudo make install
+</code></pre></div></li>
+</ul>
+<p>替换完成后重启你的电脑，准备下一步的测试，如果电脑打不开可以参考<a href=http://localhost/2019/01/os-lab1/#q-a>附录 3</a>。</p>
+<h2 id=测试>测试<a hidden class=anchor aria-hidden=true href=#测试>#</a></h2>
+<p>完成编译工作后，需要编写一个用户态程序，测试系统调用是否正常工作，这里直接给出 <code>demo.c</code>，请自行查阅理解。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>demo.clink
+<span style=color:#75715e>// demo.c
+</span><span style=color:#75715e></span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;unistd.h&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;sys/syscall.h&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;stdio.h&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#define _SYSCALL_MYSETNICE_ 335
+</span><span style=color:#75715e>#define EFALUT 14
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>int</span> main()
+{
+    <span style=color:#66d9ef>int</span> pid, flag, nicevalue;
+    <span style=color:#66d9ef>int</span> prev_prio, prev_nice, cur_prio, cur_nice;
+    <span style=color:#66d9ef>int</span> result;
+
+    printf(<span style=color:#e6db74>&#34;Please input variable(pid, flag, nicevalue): &#34;</span>);
+    scanf(<span style=color:#e6db74>&#34;%d%d%d&#34;</span>, <span style=color:#f92672>&amp;</span>pid, <span style=color:#f92672>&amp;</span>flag, <span style=color:#f92672>&amp;</span>nicevalue);
+    
+    result <span style=color:#f92672>=</span> syscall(_SYSCALL_MYSETNICE_, pid, <span style=color:#ae81ff>0</span>, nicevalue, <span style=color:#f92672>&amp;</span>prev_prio,
+                     <span style=color:#f92672>&amp;</span>prev_nice);
+    <span style=color:#66d9ef>if</span> (result <span style=color:#f92672>==</span> EFALUT)
+    {
+        printf(<span style=color:#e6db74>&#34;ERROR!&#34;</span>);
+        <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>1</span>;
+    }
+    
+    <span style=color:#66d9ef>if</span> (flag <span style=color:#f92672>==</span> <span style=color:#ae81ff>1</span>)
+    {
+        syscall(_SYSCALL_MYSETNICE_, pid, <span style=color:#ae81ff>1</span>, nicevalue, <span style=color:#f92672>&amp;</span>cur_prio, <span style=color:#f92672>&amp;</span>cur_nice);
+        printf(<span style=color:#e6db74>&#34;Original priority is: [%d], original nice is [%d]</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, prev_prio,
+               prev_nice);
+        printf(<span style=color:#e6db74>&#34;Current priority is : [%d], current nice is [%d]</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, cur_prio,
+               cur_nice);
+    }
+    <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (flag <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>)
+    {
+        printf(<span style=color:#e6db74>&#34;Current priority is : [%d], current nice is [%d]</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, prev_prio,
+               prev_nice);
+    }
+    
+    <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+}
+</code></pre></div><p>命令行使用 <code>gcc</code> 进行编译，根据提示信息输入 <code>pid</code>、<code>flag</code> 和 <code>nicevalue</code> 进行测试。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#75715e># 将~/demo.c替换为你的demo.c所在位置</span>
+gcc ~/demo.c -o demo
+./demo
+</code></pre></div><h2 id=附录>附录<a hidden class=anchor aria-hidden=true href=#附录>#</a></h2>
+<h3 id=附录-1tar>附录 1：tar<a hidden class=anchor aria-hidden=true href=#附录-1tar>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>tar xvJf linux-4.19.133.tar.bz
+</code></pre></div><p>tar 命令可以为 linux 的文件和目录创建档案，利用 tar 可以把一大堆的文件和目录全部打包成一个文件。</p>
+<ul>
+<li>-x 或–extract 或–get：从备份文件中还原文件，即解压</li>
+<li>-v：显示操作过程，即显示进度</li>
+<li>-j：支持 bzip2 解压文件，即解压 tar.bz 文件</li>
+<li>-f &lt;备份文件> 或–file=&lt; 备份文件 >：指定备份文件，即解压对应路径的文件</li>
+</ul>
+<h3 id=附录-2内核函数>附录 2：内核函数<a hidden class=anchor aria-hidden=true href=#附录-2内核函数>#</a></h3>
+<h4 id=find_get_pid>find_get_pid()<a hidden class=anchor aria-hidden=true href=#find_get_pid>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>struct</span> pid <span style=color:#f92672>*</span><span style=color:#a6e22e>find_get_pid</span>(pid_t nr)
+{
+	<span style=color:#66d9ef>struct</span> pid <span style=color:#f92672>*</span>pid;
+
+	rcu_read_lock();
+	pid <span style=color:#f92672>=</span> get_pid(find_vpid(nr));
+	rcu_read_unlock();
+
+	<span style=color:#66d9ef>return</span> pid;
+}
+</code></pre></div><h4 id=pid_task>pid_task()<a hidden class=anchor aria-hidden=true href=#pid_task>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>struct</span> task_struct <span style=color:#f92672>*</span><span style=color:#a6e22e>pid_task</span>(<span style=color:#66d9ef>struct</span> pid <span style=color:#f92672>*</span>pid, <span style=color:#66d9ef>enum</span> pid_type type)
+{
+	<span style=color:#66d9ef>struct</span> task_struct <span style=color:#f92672>*</span>result <span style=color:#f92672>=</span> NULL;
+	<span style=color:#66d9ef>if</span> (pid) {
+		<span style=color:#66d9ef>struct</span> hlist_node <span style=color:#f92672>*</span>first;
+		first <span style=color:#f92672>=</span> rcu_dereference_check(hlist_first_rcu(<span style=color:#f92672>&amp;</span>pid<span style=color:#f92672>-&gt;</span>tasks[type]),
+					      lockdep_tasklist_lock_is_held());
+		<span style=color:#66d9ef>if</span> (first)
+			result <span style=color:#f92672>=</span> hlist_entry(first, <span style=color:#66d9ef>struct</span> task_struct, pid_links[(type)]);
+	}
+	<span style=color:#66d9ef>return</span> result;
+}
+</code></pre></div><h4 id=task_prio>task_prio()<a hidden class=anchor aria-hidden=true href=#task_prio>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>task_prio</span>(<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>struct</span> task_struct <span style=color:#f92672>*</span>p)
+{
+	<span style=color:#66d9ef>return</span> p<span style=color:#f92672>-&gt;</span>prio <span style=color:#f92672>-</span> MAX_RT_PRIO;
+}
+</code></pre></div><h4 id=task_nice>task_nice()<a hidden class=anchor aria-hidden=true href=#task_nice>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>static</span> <span style=color:#66d9ef>inline</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>task_nice</span>(<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>struct</span> task_struct <span style=color:#f92672>*</span>p)
+{
+	<span style=color:#66d9ef>return</span> PRIO_TO_NICE((p)<span style=color:#f92672>-&gt;</span>static_prio);
+}
+</code></pre></div><h4 id=set_user_nice>set_user_nice()<a hidden class=anchor aria-hidden=true href=#set_user_nice>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>void</span> <span style=color:#a6e22e>set_user_nice</span>(<span style=color:#66d9ef>struct</span> task_struct <span style=color:#f92672>*</span>p, <span style=color:#66d9ef>long</span> nice)
+{
+	<span style=color:#66d9ef>bool</span> queued, running;
+	<span style=color:#66d9ef>int</span> old_prio, delta;
+	<span style=color:#66d9ef>struct</span> rq_flags rf;
+	<span style=color:#66d9ef>struct</span> rq <span style=color:#f92672>*</span>rq;
+
+	<span style=color:#66d9ef>if</span> (task_nice(p) <span style=color:#f92672>==</span> nice <span style=color:#f92672>||</span> nice <span style=color:#f92672>&lt;</span> MIN_NICE <span style=color:#f92672>||</span> nice <span style=color:#f92672>&gt;</span> MAX_NICE)
+		<span style=color:#66d9ef>return</span>;
+	<span style=color:#75715e>/*
+</span><span style=color:#75715e>	 * We have to be careful, if called from sys_setpriority(),
+</span><span style=color:#75715e>	 * the task might be in the middle of scheduling on another CPU.
+</span><span style=color:#75715e>	 */</span>
+	rq <span style=color:#f92672>=</span> task_rq_lock(p, <span style=color:#f92672>&amp;</span>rf);
+	update_rq_clock(rq);
+
+	<span style=color:#75715e>/*
+</span><span style=color:#75715e>	 * The RT priorities are set via sched_setscheduler(), but we still
+</span><span style=color:#75715e>	 * allow the &#39;normal&#39; nice value to be set - but as expected
+</span><span style=color:#75715e>	 * it wont have any effect on scheduling until the task is
+</span><span style=color:#75715e>	 * SCHED_DEADLINE, SCHED_FIFO or SCHED_RR:
+</span><span style=color:#75715e>	 */</span>
+	<span style=color:#66d9ef>if</span> (task_has_dl_policy(p) <span style=color:#f92672>||</span> task_has_rt_policy(p)) {
+		p<span style=color:#f92672>-&gt;</span>static_prio <span style=color:#f92672>=</span> NICE_TO_PRIO(nice);
+		<span style=color:#66d9ef>goto</span> out_unlock;
+	}
+	queued <span style=color:#f92672>=</span> task_on_rq_queued(p);
+	running <span style=color:#f92672>=</span> task_current(rq, p);
+	<span style=color:#66d9ef>if</span> (queued)
+		dequeue_task(rq, p, DEQUEUE_SAVE <span style=color:#f92672>|</span> DEQUEUE_NOCLOCK);
+	<span style=color:#66d9ef>if</span> (running)
+		put_prev_task(rq, p);
+
+	p<span style=color:#f92672>-&gt;</span>static_prio <span style=color:#f92672>=</span> NICE_TO_PRIO(nice);
+	set_load_weight(p, true);
+	old_prio <span style=color:#f92672>=</span> p<span style=color:#f92672>-&gt;</span>prio;
+	p<span style=color:#f92672>-&gt;</span>prio <span style=color:#f92672>=</span> effective_prio(p);
+	delta <span style=color:#f92672>=</span> p<span style=color:#f92672>-&gt;</span>prio <span style=color:#f92672>-</span> old_prio;
+
+	<span style=color:#66d9ef>if</span> (queued) {
+		enqueue_task(rq, p, ENQUEUE_RESTORE <span style=color:#f92672>|</span> ENQUEUE_NOCLOCK);
+		<span style=color:#75715e>/*
+</span><span style=color:#75715e>		 * If the task increased its priority or is running and
+</span><span style=color:#75715e>		 * lowered its priority, then reschedule its CPU:
+</span><span style=color:#75715e>		 */</span>
+		<span style=color:#66d9ef>if</span> (delta <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>||</span> (delta <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>&amp;&amp;</span> task_running(rq, p)))
+			resched_curr(rq);
+	}
+	<span style=color:#66d9ef>if</span> (running)
+		set_curr_task(rq, p);
+out_unlock:
+	task_rq_unlock(rq, p, <span style=color:#f92672>&amp;</span>rf);
+}
+</code></pre></div><h4 id=copy_to_user>copy_to_user()<a hidden class=anchor aria-hidden=true href=#copy_to_user>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>static</span> __always_inline <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>long</span> __must_check <span style=color:#a6e22e>copy_to_user</span>(<span style=color:#66d9ef>void</span> __user <span style=color:#f92672>*</span>to, <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>void</span> <span style=color:#f92672>*</span>from, <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>long</span> n)
+{
+	<span style=color:#66d9ef>if</span> (likely(check_copy_size(from, n, true)))
+		n <span style=color:#f92672>=</span> _copy_to_user(to, from, n);
+	<span style=color:#66d9ef>return</span> n;
+}
+</code></pre></div><h3 id=附录-3qa>附录 3：Q&A<a hidden class=anchor aria-hidden=true href=#附录-3qa>#</a></h3>
+<blockquote>
+<p>每次出现错误后都需要执行 <code>sudo make clean</code> 清除残余文件！
+每次出现错误后都需要执行 <code>sudo make clean</code> 清除残余文件！
+每次出现错误后都需要执行 <code>sudo make clean</code> 清除残余文件！</p>
+</blockquote>
+<p><strong>Q1：在完成所有步骤重启系统时，提示：<code>Kernel panic - not syncing: System is deadlocked on memory</code></strong></p>
+<p><img loading=lazy src=https://leslie-cloud.oss-accelerate.aliyuncs.com/2019/03/2019-01-29-62088c7-2.png!on_blog alt=ERROR1>
+</p>
+<p>A1：原因是只给虚拟机分配了 2G 的内存，导致了系统在内存上的死锁，<strong>将虚拟机内存扩充至 4G</strong> 后解决。</p>
+<p><strong>Q2：编译时提示 <code>gcc: error: unrecognized command line option '-fno-plt'</code>，如下所示：</strong></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>HOSTCC scripts/selinux/genheaders/genheaders
+HOSTCC scripts/selinux/mdp/mdp
+gcc: error: unrecognized command line option ‘-fno-plt’
+gcc: error: unrecognized command line option ‘-fno-plt’
+HOSTCC /root/linux52/linux-5.2.13/tools/objtool/fixdep.o
+HOSTLD /root/linux52/linux-5.2.13/tools/objtool/fixdep-in.o
+LINK /root/linux52/linux-5.2.13/tools/objtool/fixdep
+CC /root/linux52/linux-5.2.13/tools/objtool/arch/x86/decode.o
+gcc: error: unrecognized command line option ‘-fno-plt’
+</code></pre></div><p>A2：原因是gcc版本过低，-fno-plt标志是gcc6才提出的，可以用命令gcc &ndash;version查看自己的版本。可以先尝试使用sudo apt-get install gcc6，但在部分系统中，并未收录gcc6，如果直接安装的方法无效，显示无法定位软件包的话，可以采用手动添加PPA的方法：</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>curl https://gist.githubusercontent.com/leslievan/3c2872d7b375c22a2df60c57dbf7bd27/raw/8ef3b032797b03dec824707ad6294aa43301ab8d/ubuntu-install-gcc-6 | bash
+</code></pre></div><p><strong>Q3：编译时提示 <code>/bin/sh: 1: bc: not found</code>，如下所示：</strong></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell> CALL    scripts/atomic/check-atomics.sh
+/bin/sh: 1: bc: not found
+Kbuild:26: recipe <span style=color:#66d9ef>for</span> target <span style=color:#e6db74>&#39;include/generated/timeconst.h&#39;</span> failed
+make<span style=color:#f92672>[</span>1<span style=color:#f92672>]</span>: *** <span style=color:#f92672>[</span>include/generated/timeconst.h<span style=color:#f92672>]</span> Error <span style=color:#ae81ff>127</span>
+make<span style=color:#f92672>[</span>1<span style=color:#f92672>]</span>: *** 正在等待未完成的任务....
+</code></pre></div><p>A3：原因是没有安装 <code>bc</code>，执行 <code>sudo apt-get install bc</code> 将它安装上即可，出现类似的 <code>xxx: not found</code> 的错误都可以尝试使用 <code>sudo apt-get install xxx</code> 安装后再次尝试。</p>
+<h2 id=相关阅读>相关阅读<a hidden class=anchor aria-hidden=true href=#相关阅读>#</a></h2>
+<ul>
+<li><a href=/2019/03/os-lab2/>【OS】HDU-OS-Lab2-Linux 内核模块编程</a></li>
+<li><a href=/2019/04/os-lab-3-2/>【OS】HDU-OS-Lab3-Linux 进程管理（二）管道通信</a></li>
+<li><a href=/2019/04/os-lab-3-3/>【OS】HDU-OS-Lab3-Linux 进程管理（三）进程通信</a></li>
+</ul>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://leslievan.github.io/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/>操作系统</a></li>
+<li><a href=https://leslievan.github.io/tags/hdu/>HDU</a></li>
+<li><a href=https://leslievan.github.io/tags/%E5%AE%9E%E9%AA%8C/>实验</a></li>
+</ul>
+</footer><script src=//unpkg.com/valine/dist/Valine.min.js></script>
+<hr style="border:1px dashed #ccc">
+<div id=vcomments></div>
+<script>new Valine({el:'#vcomments',appId:'pMMeGvSgJkbkIklnGYzAKRXn-gzGzoHsz',appKey:'vMEYMAMjiA7pmdmNJS8Hm2zi'})</script>
+</article>
+</main>
+<footer class=footer>
+<span>© 2021 <strong><a href=https://leslievan.github.io>ArchIve</a></strong></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+<script>document.querySelectorAll('pre > code').forEach(b=>{const c=b.parentNode.parentNode,a=document.createElement('button');a.classList.add('copy-code'),a.innerText='copy';function d(){a.innerText='copied!',setTimeout(()=>{a.innerText='copy'},2e3)}a.addEventListener('click',e=>{if('clipboard'in navigator){navigator.clipboard.writeText(b.textContent),d();return}const a=document.createRange();a.selectNodeContents(b);const c=window.getSelection();c.removeAllRanges(),c.addRange(a);try{document.execCommand('copy'),d()}catch(a){}c.removeRange(a)}),c.classList.contains("highlight")?c.appendChild(a):c.parentNode.firstChild==c||(b.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?b.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(a):b.parentNode.appendChild(a))})</script>
+</body>
+</html>
