@@ -10,7 +10,7 @@
 <meta name=keywords content="AutoHotKey">
 <meta name=description content="编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能">
 <meta name=author content>
-<link rel=canonical href=https://leslievan.github.io/post/ahk-windows-set-top/>
+<link rel=canonical href=https://leslievan.github.io/posts/ahk-windows-set-top/>
 <link crossorigin=anonymous href=/assets/css/stylesheet.min.css rel="preload stylesheet" as=style>
 <link rel=preload href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/images/logo.png as=image>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.js onload=hljs.initHighlightingOnLoad()></script>
@@ -21,21 +21,21 @@
 <link rel=mask-icon href=https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/apple-touch-icon.png>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.89.2">
+<meta name=generator content="Hugo 0.89.3">
 <noscript>
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
 </noscript><meta property="og:title" content="「AutoHotKey」快速切换窗口置顶">
 <meta property="og:description" content="编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://leslievan.github.io/post/ahk-windows-set-top/"><meta property="article:section" content="post">
+<meta property="og:url" content="https://leslievan.github.io/posts/ahk-windows-set-top/"><meta property="article:section" content="posts">
 <meta property="article:published_time" content="2021-11-03T20:43:06+08:00">
 <meta property="article:modified_time" content="2021-11-03T22:33:32+08:00">
 <meta name=twitter:card content="summary">
 <meta name=twitter:title content="「AutoHotKey」快速切换窗口置顶">
 <meta name=twitter:description content="编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://leslievan.github.io/post/"},{"@type":"ListItem","position":3,"name":"「AutoHotKey」快速切换窗口置顶","item":"https://leslievan.github.io/post/ahk-windows-set-top/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"「AutoHotKey」快速切换窗口置顶","name":"「AutoHotKey」快速切换窗口置顶","description":"编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能","keywords":["AutoHotKey"],"articleBody":"编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能反而不太适应了，研究了下 AutoHotKey 发现使用它可以更加灵活地开关窗口置顶.\n使用方法 自主编译   安装 AutoHotKey v2.\n AutoHotKey 官网下载安装包，解压到指定的路径，如 D:\\AutoHotKey.    下载/编写 ahk 文件.\nwindowOnTop.ahk\n; # 表示 Win 键，#Space 表示使用 Win+Space 切换窗口置顶的功能 #Space:: { WinSetAlwaysOnTop -1, \"A\" Return }   使用 AutoHotKey32/64.exe 打开 windowOnTop.ahk 文件.\n  右键单击打开方式，如选择使用 D:\\AutoHotKey\\AutoHotKey64.exe 打开。\n  拖动 windowOnTop.ahk 到 AutoHotKey64.exe 上打开。\n  以上两种方式任选一种即可。\n  当看到托盘处出现 AutoHotKey 的图标即表示激活成功，使用 Win+空格 即可切换窗口是否置顶。\n使用 exe 文件   在 Release 中下载使用 Ahk2Exe 编译好的可执行文件。\n  执行 exe 文件。\n  当看到托盘处出现 AutoHotKey 的图标即表示激活成功，使用 Win+空格 即可切换窗口是否置顶。\n","wordCount":"334","inLanguage":"zh-cn","datePublished":"2021-11-03T20:43:06+08:00","dateModified":"2021-11-03T22:33:32+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://leslievan.github.io/post/ahk-windows-set-top/"},"publisher":{"@type":"Organization","name":"Arch Ive","logo":{"@type":"ImageObject","url":"https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico"}}}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://leslievan.github.io/posts/"},{"@type":"ListItem","position":3,"name":"「AutoHotKey」快速切换窗口置顶","item":"https://leslievan.github.io/posts/ahk-windows-set-top/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"「AutoHotKey」快速切换窗口置顶","name":"「AutoHotKey」快速切换窗口置顶","description":"编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能","keywords":["AutoHotKey"],"articleBody":"编码中经常有让某个窗口置顶的需求，之前使用 Linux 时，GNOME 之类的桌面环境大多都可以通过右键单击标题栏来开启该窗口的置顶，换到 Windows 下面没这个功能反而不太适应了，研究了下 AutoHotKey 发现使用它可以更加灵活地开关窗口置顶.\n使用方法 自主编译   安装 AutoHotKey v2.\n AutoHotKey 官网下载安装包，解压到指定的路径，如 D:\\AutoHotKey.    下载/编写 ahk 文件.\nwindowOnTop.ahk\n; # 表示 Win 键，#Space 表示使用 Win+Space 切换窗口置顶的功能 #Space:: { WinSetAlwaysOnTop -1, \"A\" Return }   使用 AutoHotKey32/64.exe 打开 windowOnTop.ahk 文件.\n  右键单击打开方式，如选择使用 D:\\AutoHotKey\\AutoHotKey64.exe 打开。\n  拖动 windowOnTop.ahk 到 AutoHotKey64.exe 上打开。\n  以上两种方式任选一种即可。\n  当看到托盘处出现 AutoHotKey 的图标即表示激活成功，使用 Win+空格 即可切换窗口是否置顶。\n使用 exe 文件   在 Release 中下载使用 Ahk2Exe 编译好的可执行文件。\n  执行 exe 文件。\n  当看到托盘处出现 AutoHotKey 的图标即表示激活成功，使用 Win+空格 即可切换窗口是否置顶。\n","wordCount":"334","inLanguage":"zh-cn","datePublished":"2021-11-03T20:43:06+08:00","dateModified":"2021-11-03T22:33:32+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://leslievan.github.io/posts/ahk-windows-set-top/"},"publisher":{"@type":"Organization","name":"Arch Ive","logo":{"@type":"ImageObject","url":"https://leslie-cloud.oss-cn-beijing.aliyuncs.com/blogsite/images/favicon.ico"}}}</script>
 </head>
 <body id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
